@@ -1,0 +1,57 @@
+name: CI
+
+env:
+  CI: true
+
+on:
+  push:
+    branches: "*"
+  pull_request:
+    branches: "*"
+
+jobs:
+  lint:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v3
+      - name: Set up environment
+        uses: ./.github/actions/setup
+      - name: Lint
+        run: yarn lint
+      - name: Notify discord
+        uses: ./.github/actions/notify-discord
+        with:
+          discord-webhook: ${{ secrets.DISCORD_WEBHOOK }}
+
+  test-fork:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v3
+      - name: Set up environment
+        uses: ./.github/actions/setup
+      - name: Set up hardhat config
+        run: .github/scripts/setup-hardhat-config.sh ${{secrets.GOERLI_RPC}} ${{secrets.MUMBAI_RPC}} ${{secrets.MAINNET_RPC}} ${{secrets.POLYGON_RPC}} ${{secrets.OPTIMISM_RPC}} ${{secrets.ARBITRUM_RPC}} ${{secrets.GNOSIS_RPC}}
+      - name: Fork tests
+        run: yarn test:fork
+      - name: Notify discord
+        uses: ./.github/actions/notify-discord
+        with:
+          discord-webhook: ${{ secrets.DISCORD_WEBHOOK }}
+
+  test-deployed:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v3
+      - name: Set up environment
+        uses: ./.github/actions/setup
+      - name: Set up hardhat config
+        run: .github/scripts/setup-hardhat-config.sh ${{secrets.GOERLI_RPC}} ${{secrets.MUMBAI_RPC}} ${{secrets.MAINNET_RPC}} ${{secrets.POLYGON_RPC}} ${{secrets.OPTIMISM_RPC}} ${{secrets.ARBITRUM_RPC}} ${{secrets.GNOSIS_RPC}}
+      - name: Deployed tests
+        run: yarn test:deployed
+      - name: Notify discord
+        uses: ./.github/actions/notify-discord
+        with:
+          discord-webhook: ${{ secrets.DISCORD_WEBHOOK }}
