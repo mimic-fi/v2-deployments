@@ -1424,6 +1424,18 @@
     "@types/bn.js" "*"
     "@types/underscore" "*"
 
+"@types/yargs-parser@*":
+  version "21.0.0"
+  resolved "https://registry.yarnpkg.com/@types/yargs-parser/-/yargs-parser-21.0.0.tgz#0c60e537fa790f5f9472ed2776c2b71ec117351b"
+  integrity sha512-iO9ZQHkZxHn4mSakYV0vFHAVDyEOIJQrV2uZ06HxEPcx+mt8swXoZHIbaaJ2crJYFfErySgktuTZ3BeLz+XmFA==
+
+"@types/yargs@^17.0.19":
+  version "17.0.19"
+  resolved "https://registry.yarnpkg.com/@types/yargs/-/yargs-17.0.19.tgz#8dbecdc9ab48bee0cb74f6e3327de3fa0d0c98ae"
+  integrity sha512-cAx3qamwaYX9R0fzOIZAlFpo4A+1uBVCxqpKz9D26uTF4srRXaGTTsikQmaotCtNdbhzyUH7ft6p9ktz9s6UNQ==
+  dependencies:
+    "@types/yargs-parser" "*"
+
 "@typescript-eslint/eslint-plugin@^4.1.1":
   version "4.33.0"
   resolved "https://registry.yarnpkg.com/@typescript-eslint/eslint-plugin/-/eslint-plugin-4.33.0.tgz#c24dc7c8069c7706bc40d99f6fa87edcb2005276"
@@ -2975,6 +2987,15 @@ cliui@^7.0.2:
   dependencies:
     string-width "^4.2.0"
     strip-ansi "^6.0.0"
+    wrap-ansi "^7.0.0"
+
+cliui@^8.0.1:
+  version "8.0.1"
+  resolved "https://registry.yarnpkg.com/cliui/-/cliui-8.0.1.tgz#0c04b075db02cbfe60dc8e6cf2f5486b1a3608aa"
+  integrity sha512-BSeNnyus75C4//NQ9gQt1/csTXyo/8Sb+afLAkzAptFuMsod9HFokGNudZpi/oQV73hnVK+sR+5PVRMd+Dr7YQ==
+  dependencies:
+    string-width "^4.2.0"
+    strip-ansi "^6.0.1"
     wrap-ansi "^7.0.0"
 
 clone-response@^1.0.2:
@@ -8725,10 +8746,10 @@ typedarray@^0.0.6:
   resolved "https://registry.yarnpkg.com/typedarray/-/typedarray-0.0.6.tgz#867ac74e3864187b1d3d47d996a78ec5c8830777"
   integrity sha512-/aCDEGatGvZ2BIk+HmLf4ifCJFwvKFNb9/JeZPMulfgFracn9QFcAf5GO8B/mweUjSoblS5In0cWhqpfs/5PQA==
 
-typescript@^4.3.4:
-  version "4.9.4"
-  resolved "https://registry.yarnpkg.com/typescript/-/typescript-4.9.4.tgz#a2a3d2756c079abda241d75f149df9d561091e78"
-  integrity sha512-Uz+dTXYzxXXbsFpM86Wh3dKCxrQqUcVMxwU54orwlJjOpO3ao8L7j5lH+dWfTwgCwIuM9GQ2kvVotzYJMXTBZg==
+typescript@~4.3.4:
+  version "4.3.5"
+  resolved "https://registry.yarnpkg.com/typescript/-/typescript-4.3.5.tgz#4d1c37cc16e893973c45a06886b7113234f119f4"
+  integrity sha512-DqQgihaQ9cUrskJo9kIyW/+g0Vxsk8cDtZ52a3NGh0YNTfpUSArXSohyUGnvbPazEPLu398C0UxmKSOrPumUzA==
 
 typewise-core@^1.2, typewise-core@^1.2.0:
   version "1.2.0"
@@ -9473,6 +9494,11 @@ yargs-parser@^20.2.2:
   resolved "https://registry.yarnpkg.com/yargs-parser/-/yargs-parser-20.2.9.tgz#2eb7dc3b0289718fc295f362753845c41a0c94ee"
   integrity sha512-y11nGElTIV+CT3Zv9t7VKl+Q3hTQoT9a1Qzezhhl6Rp21gJ/IVTW7Z3y9EWXhuUBC2Shnf+DX0antecpAwSP8w==
 
+yargs-parser@^21.1.1:
+  version "21.1.1"
+  resolved "https://registry.yarnpkg.com/yargs-parser/-/yargs-parser-21.1.1.tgz#9096bceebf990d21bb31fa9516e0ede294a77d35"
+  integrity sha512-tVpsJW7DdjecAiFpbIB1e3qxIQsE6NoPc5/eTdrbbIC4h0LVsWhnoa3g+m2HclBIujHzsxZ4VJVA+GUuc2/LBw==
+
 yargs-unparser@1.6.0:
   version "1.6.0"
   resolved "https://registry.yarnpkg.com/yargs-unparser/-/yargs-unparser-1.6.0.tgz#ef25c2c769ff6bd09e4b0f9d7c605fb27846ea9f"
@@ -9520,6 +9546,19 @@ yargs@16.2.0:
     string-width "^4.2.0"
     y18n "^5.0.5"
     yargs-parser "^20.2.2"
+
+yargs@^17.6.2:
+  version "17.6.2"
+  resolved "https://registry.yarnpkg.com/yargs/-/yargs-17.6.2.tgz#2e23f2944e976339a1ee00f18c77fedee8332541"
+  integrity sha512-1/9UrdHjDZc0eOU0HxOHoS78C69UD3JRMvzlJ7S79S2nTaWRA/whGCTV8o9e/N/1Va9YIV7Q4sOxD8VV4pCWOw==
+  dependencies:
+    cliui "^8.0.1"
+    escalade "^3.1.1"
+    get-caller-file "^2.0.5"
+    require-directory "^2.1.1"
+    string-width "^4.2.3"
+    y18n "^5.0.5"
+    yargs-parser "^21.1.1"
 
 yargs@^4.7.1:
   version "4.8.1"
