@@ -1,0 +1,10 @@
+{
+  "fork": {
+    "goerli":  8042820,
+    "mainnet": 16084060
+  },
+  "deployed": {
+    "goerli": 0,
+    "mainnet": 0
+  }
+}
