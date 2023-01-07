@@ -1,0 +1,7 @@
+{
+  "SmartVaultDeployer": "0xf060ac1f9ee8fc5dfb0c24b67729e59ddcdb4373",
+  "DEXSwapper": "0x369e29b1c4beafd547cec8e909f136a118e867a6",
+  "OTCSwapper": "0x9971203dee36a4dcc46257dd8d71f22229678eaf",
+  "Withdrawer": "0x50dabb21895ed7e11c9e7cb6daa98d4bf9fb6929",
+  "SmartVault": "0xDAB8c0126102Db3B5d678475E7f5fF6fbd390a54"
+}
