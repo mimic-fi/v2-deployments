@@ -1,0 +1,8 @@
+{
+  "SmartVaultDeployer": "0x867c153910bd934eb399b23d729378750093e0d5",
+  "ERC20Claimer": "0x57ab1eac673584968d57a6ce5fb9186663f529ab",
+  "NativeClaimer": "0xfd8b5e5556d5b662d23ae08c0a7795721c9810b1",
+  "Withdrawer": "0x0c5e2299f9c3b4e3af2ce0056cba01fe470176a0",
+  "SwapFeeSetter": "0xb13ac071f700062623b188b7f46c5c420dbd3c0f",
+  "SmartVault": "0x20F77a12494D70BD80670f5f79099af60DF9ea9d"
+}
