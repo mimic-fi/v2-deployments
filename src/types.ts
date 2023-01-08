@@ -53,3 +53,17 @@ export type Artifact = {
     }
   }
 }
+
+export type DeploymentMetadata = {
+  namespace: string
+  contractName: string
+  version: string
+  from: string
+  Create3Factory: string
+}
+
+export type MimicDeployment = DeploymentMetadata & {
+  admin: string
+  stateless: boolean
+  Registry: string
+}
