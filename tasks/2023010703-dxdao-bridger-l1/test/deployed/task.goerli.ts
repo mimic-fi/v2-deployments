@@ -2,7 +2,7 @@ import { getForkedNetwork } from '@mimic-fi/v2-helpers'
 import hre from 'hardhat'
 
 import Task from '../../../../src/task'
-import { itDeploysDxDaoBridgerCorrectly } from '../behavior'
+import { itDeploysDxDaoBridgerCorrectly } from '../behavior.goerli'
 
 describe('L1 DXdao bridger v1 - goerli', function () {
   before('load task', async function () {

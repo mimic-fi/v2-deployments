@@ -1,5 +1,6 @@
 import { BigNumberish } from '@mimic-fi/v2-helpers'
 
+import { DEPLOYER_1 } from '../../constants/mimic'
 import Task from '../../src/task'
 import mainnet from './input.mainnet'
 
@@ -111,7 +112,7 @@ export type ParaswapFeeRedistributorDeployment = {
 }
 
 export default {
-  from: '0x43eedc7ff3fcae6af5a8f75ff8ed75c2c9e67b68',
+  from: DEPLOYER_1,
   namespace: 'mimic-v2.paraswap-sv1',
   Create3Factory,
   Deployer,
