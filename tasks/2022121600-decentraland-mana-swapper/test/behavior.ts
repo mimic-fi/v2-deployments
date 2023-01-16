@@ -181,7 +181,7 @@ export function itDeploysDecentralandManaSwapperCorrectly(): void {
 
       const source = 1 // uniswap v3
       const amountIn = fp(200)
-      const slippage = fp(0.02) // 2 %
+      const slippage = fp(0.05) // 5 %
       const data = defaultAbiCoder.encode(['address[]', 'uint24[]'], [[WETH], [3000, 500]])
 
       before('allow larger slippage', async function () {
@@ -287,7 +287,7 @@ export function itDeploysDecentralandManaSwapperCorrectly(): void {
       let expectedAmountOut: BigNumber
       let mana: Contract, dai: Contract, whale: SignerWithAddress
 
-      const amountIn = fp(50)
+      const amountIn = fp(500)
 
       before('load accounts', async function () {
         dai = await this.task.instanceAt('IERC20', DAI)

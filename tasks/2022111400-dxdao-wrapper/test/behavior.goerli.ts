@@ -158,7 +158,7 @@ export function itDeploysDxDaoWrapperCorrectly(): void {
     })
 
     it('can wrap WETH when passing the threshold', async function () {
-      const bot = await impersonate(relayers[0], fp(3))
+      const bot = await impersonate(relayers[0], fp(10))
       const weth = await this.task.instanceAt('IERC20', WETH)
       const previousOwnerBalance = await weth.balanceOf(owner)
       const previousFeeCollectorBalance = await weth.balanceOf(feeCollector)
