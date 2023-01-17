@@ -1,3 +1,4 @@
+import { DEPLOYER_1 } from '../../constants/mimic'
 import Task from '../../src/task'
 
 export type DXDaoWrapperReceiverDeployment = {
@@ -14,7 +15,7 @@ const DXDaoWrapper = new Task('2022111400-dxdao-wrapper')
 
 export default {
   namespace: 'mimic-v2.dxdao-sv1',
-  from: '0x43eedc7ff3fcae6af5a8f75ff8ed75c2c9e67b68',
+  from: DEPLOYER_1,
   Create3Factory,
   SmartVault: DXDaoWrapper,
 }

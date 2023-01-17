@@ -1,5 +1,6 @@
 import { BigNumberish } from '@mimic-fi/v2-helpers'
 
+import { DEPLOYER_1 } from '../../constants/mimic'
 import Task from '../../src/task'
 import goerli from './input.goerli'
 import mainnet from './input.mainnet'
@@ -58,7 +59,7 @@ export type DxDaoWrapperDeployment = {
 /* eslint-disable no-secrets/no-secrets */
 
 export default {
-  from: '0x43eedc7ff3fcae6af5a8f75ff8ed75c2c9e67b68',
+  from: DEPLOYER_1,
   namespace: 'mimic-v2.dxdao-sv1',
   Create3Factory,
   Deployer,

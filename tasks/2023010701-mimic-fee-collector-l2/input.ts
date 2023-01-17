@@ -1,5 +1,6 @@
 import { BigNumberish } from '@mimic-fi/v2-helpers'
 
+import { DEPLOYER_2 } from '../../constants/mimic'
 import Task from '../../src/task'
 import mumbai from './input.mumbai'
 
@@ -88,7 +89,7 @@ const SmartVaultsFactory = new Task('2023010607-smart-vaults-factory-v1')
 export default {
   namespace: 'mimic-v2.mimic-fee-collector',
   version: 'v3',
-  from: '0x55fb751f3022D56888fb3249002C1004579753C7',
+  from: DEPLOYER_2,
   Create3Factory,
   Deployer,
   Registry,

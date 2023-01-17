@@ -1,6 +1,5 @@
 import {
   advanceTime,
-  assertAlmostEqual,
   bn,
   currentTimestamp,
   fp,
@@ -27,6 +26,7 @@ import { ParaswapFeeRedistributorDeployment } from '../input'
 const USDC = '0xA0b86991c6218b36c1d19D4a2e9Eb0cE3606eB48'
 const WETH = '0xC02aaA39b223FE8D0A0e5C4F27eAD9083C756Cc2'
 const WHALE = '0x075e72a5edf65f0a5f44699c7654c1a76941ddc8'
+const CHAINLINK_ORACLE_USDC_ETH = '0x986b5E1e1755e3C2440e960477f25201B0a8bbD4'
 
 export function itDeploysParaswapFeeRedistributorCorrectly(): void {
   let input: ParaswapFeeRedistributorDeployment
@@ -128,12 +128,7 @@ export function itDeploysParaswapFeeRedistributorCorrectly(): void {
     })
 
     it('sets a price feed for WETH-USDC', async function () {
-      expect(await smartVault.getPriceFeed(USDC, WETH)).not.to.be.equal(ZERO_ADDRESS)
-
-      const usdc = await this.task.instanceAt('IERC20Metadata', USDC)
-      const weth = await this.task.instanceAt('IERC20Metadata', WETH)
-      const { minAmountOut: price } = await getParaswapSwapData(1, smartVault, weth, usdc, fp(1), 0.001)
-      assertAlmostEqual(await smartVault.getPrice(WETH, USDC), price, 0.1)
+      expect(await smartVault.getPriceFeed(USDC, WETH)).to.be.equal(CHAINLINK_ORACLE_USDC_ETH)
     })
   })
 

@@ -1,15 +1,14 @@
 import { bn, fp, ZERO_ADDRESS } from '@mimic-fi/v2-helpers'
 
+import { BOT, FEE_COLLECTOR_EOA } from '../../constants/mimic'
+import * as tokens from '../../constants/tokens/goerli'
 import Task from '../../src/task'
 
 /* eslint-disable no-secrets/no-secrets */
 
-const WETH = '0xB4FBF271143F4FBf7B91A5ded31805e42b2208d6'
-
 const owner = '0x519b70055af55A007110B4Ff99b0eA33071c720a' // DXdao
 const managers: string[] = []
-const relayers = ['0xB3AfB6DB38a8E72905165c1fBB96772e63560790'] // Mimic bot
-const feeCollector = '0x27751A0Fe3bd6EBfeB04B359D97B0cf199f20D22' // Mimic EOA
+const relayers = [BOT]
 
 const Registry = new Task('2022111102-registry-v1')
 const SmartVault = new Task('2022111103-smart-vault-v1')
@@ -20,14 +19,14 @@ export default {
     owner,
     relayers,
     managers,
-    feeCollector,
+    feeCollector: FEE_COLLECTOR_EOA,
   },
   params: {
     registry: Registry,
     smartVaultParams: {
       impl: SmartVault,
       admin: owner,
-      feeCollector,
+      feeCollector: FEE_COLLECTOR_EOA,
       strategies: [],
       priceFeedParams: [],
       priceOracle: PriceOracle,
@@ -44,11 +43,11 @@ export default {
         relayers,
         gasPriceLimit: bn(100e9),
         totalCostLimit: 0,
-        payingGasToken: WETH,
+        payingGasToken: tokens.WETH,
       },
       tokenThresholdActionParams: {
         amount: fp(0.5),
-        token: WETH,
+        token: tokens.WETH,
       },
       withdrawalActionParams: {
         recipient: owner,

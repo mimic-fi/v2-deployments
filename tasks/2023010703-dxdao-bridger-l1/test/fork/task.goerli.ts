@@ -3,7 +3,7 @@ import hre from 'hardhat'
 
 import Task from '../../../../src/task'
 import { DxDaoBridgerDeployment } from '../../input'
-import { itDeploysDxDaoBridgerCorrectly } from '../behavior'
+import { itDeploysDxDaoBridgerCorrectly } from '../behavior.goerli'
 
 describe('L1 DXdao bridger v1 - goerli', function () {
   before('load task', function () {

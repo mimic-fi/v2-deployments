@@ -3,7 +3,7 @@ import hre from 'hardhat'
 
 import Task from '../../../../src/task'
 import { MimicFeeCollectorDeployment } from '../../input'
-import { itDeploysMimicFeeCollectorCorrectly } from '../behavior'
+import { itDeploysMimicFeeCollectorCorrectly } from '../behavior.mumbai'
 
 describe('L2 Mimic fee collector v1 - mumbai', function () {
   before('load task', function () {

@@ -1,5 +1,6 @@
 import { ZERO_ADDRESS } from '@mimic-fi/v2-helpers'
 
+import { ADMIN_EOA, DEPLOYER_1 } from '../../constants/mimic'
 import Task from '../../src/task'
 
 export type SwapConnectorDeployment = {
@@ -23,8 +24,8 @@ const SwapConnector = new Task('2022111105-swap-connector-v1')
 
 export default {
   namespace: 'mimic-v2.@mimic-fi/v2-swap-connector/artifacts/contracts/SwapConnector.sol/SwapConnector.v2',
-  from: '0x43eedc7ff3fcae6af5a8f75ff8ed75c2c9e67b68',
-  admin: '0x82109Cc00922A515D5FA14eE05a6880c6FAB5E19',
+  from: DEPLOYER_1,
+  admin: ADMIN_EOA,
   Create3Factory,
   Registry,
   SwapConnector,
