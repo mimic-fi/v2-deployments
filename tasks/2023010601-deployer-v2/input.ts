@@ -15,6 +15,18 @@ export default {
   mainnet: {
     version: 'v2',
   },
+  polygon: {
+    version: 'v2',
+  },
+  optimism: {
+    version: 'v2',
+  },
+  arbitrum: {
+    version: 'v2',
+  },
+  gnosis: {
+    version: 'v2',
+  },
   goerli: {
     version: 'v4',
   },
