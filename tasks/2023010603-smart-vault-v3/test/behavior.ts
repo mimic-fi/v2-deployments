@@ -10,6 +10,10 @@ export function itDeploysSmartVaultCorrectly(): void {
     smartVault = await this.task.deployedInstance('SmartVault')
   })
 
+  it('has the expected address', async function () {
+    expect(smartVault.address).to.be.equal('0x3E88C9b0e3BE6817973a6E629211E702d12C577F')
+  })
+
   it('sets the smart vault correctly', async function () {
     const { wrappedNativeToken, Registry } = this.task.input() as SmartVaultDeployment
 
