@@ -2,6 +2,8 @@ import { expect } from 'chai'
 import { Contract } from 'ethers'
 import { ethers } from 'hardhat'
 
+/* eslint-disable no-secrets/no-secrets */
+
 export function itBehavesLikeCreate3Factory(): void {
   let factory: Contract
 
@@ -21,6 +23,10 @@ export function itBehavesLikeCreate3Factory(): void {
     const creationCode = `0x63${size.toString(16).padStart(8, '0')}80600E6000396000F3${bytecode.slice(2)}`
     return { creationCode, bytecode }
   }
+
+  it('has the expected address', async function () {
+    expect(factory.address).to.be.equal('0xd7a96c80ef97EdA106aad53802b07B86beEfAa71')
+  })
 
   context('when the salt was not used', () => {
     it('creates contract', async function () {
