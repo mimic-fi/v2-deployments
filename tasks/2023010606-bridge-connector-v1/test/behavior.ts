@@ -11,6 +11,10 @@ export function itDeploysBridgeConnectorCorrectly(): void {
     bridgeConnector = await this.task.deployedInstance('BridgeConnector')
   })
 
+  it('has the expected address', async function () {
+    expect(bridgeConnector.address).to.be.equal('0xBC6628f3164ff943E49BE07Ff6B4c9c116be4971')
+  })
+
   it('registers the BridgeConnector under the expected namespace', async function () {
     const factory = await this.task.inputDeployedInstance('Create3Factory')
 

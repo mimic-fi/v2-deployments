@@ -2,11 +2,19 @@
   "fork": {
     "goerli": 8271676,
     "mumbai": 30659455,
-    "mainnet": 0
+    "mainnet": 0,
+    "polygon": 	38251440,
+    "optimism": 69048318,
+    "arbitrum": 54000380,
+    "gnosis": 26035096
   },
   "deployed": {
     "goerli": 0,
     "mumbai": 0,
-    "mainnet": 0
+    "mainnet": 0,
+    "polygon": 0,
+    "optimism": 0,
+    "arbitrum": 0,
+    "gnosis": 26035100
   }
 }
