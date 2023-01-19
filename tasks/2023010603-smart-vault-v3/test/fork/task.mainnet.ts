@@ -5,7 +5,7 @@ import Task from '../../../../src/task'
 import { SmartVaultDeployment } from '../../input'
 import { itDeploysSmartVaultCorrectly } from '../behavior'
 
-describe.skip('SmartVault v3 - mainnet', function () {
+describe('SmartVault v3 - mainnet', function () {
   before('load task', function () {
     this.task = Task.forTest('2023010603-smart-vault-v3', getForkedNetwork(hre))
   })
@@ -13,7 +13,7 @@ describe.skip('SmartVault v3 - mainnet', function () {
   before('impersonate sender and admin', async function () {
     const { from, admin } = this.task.input() as SmartVaultDeployment
     await impersonate(from)
-    await impersonate(admin, fp(1))
+    await impersonate(admin, fp(2))
   })
 
   before('deploy task', async function () {

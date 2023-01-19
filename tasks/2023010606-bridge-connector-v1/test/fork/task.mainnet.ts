@@ -5,7 +5,7 @@ import Task from '../../../../src/task'
 import { BridgeConnectorDeployment } from '../../input'
 import { itDeploysBridgeConnectorCorrectly } from '../behavior'
 
-describe.skip('BridgeConnector v1 - mainnet', function () {
+describe('BridgeConnector v1 - mainnet', function () {
   before('load task', function () {
     this.task = Task.forTest('2023010606-bridge-connector-v1', getForkedNetwork(hre))
   })
@@ -13,7 +13,7 @@ describe.skip('BridgeConnector v1 - mainnet', function () {
   before('impersonate sender and admin', async function () {
     const { from, admin } = this.task.input() as BridgeConnectorDeployment
     await impersonate(from, fp(10))
-    await impersonate(admin, fp(1))
+    await impersonate(admin, fp(2))
   })
 
   before('deploy task', async function () {
