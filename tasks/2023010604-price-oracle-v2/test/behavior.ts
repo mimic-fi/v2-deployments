@@ -4,11 +4,17 @@ import { ethers } from 'hardhat'
 
 import { PriceOracleDeployment } from '../input'
 
+/* eslint-disable no-secrets/no-secrets */
+
 export function itDeploysPriceOracleCorrectly(): void {
   let priceOracle: Contract
 
   before('load price oracle', async function () {
     priceOracle = await this.task.deployedInstance('PriceOracle')
+  })
+
+  it('has the expected address', async function () {
+    expect(priceOracle.address).to.be.equal('0xA36cAEe7B277630890F8ef5F30BB712E9D15cd6B')
   })
 
   it('registers the PriceOracle under the expected namespace', async function () {

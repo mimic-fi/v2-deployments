@@ -1,3 +1,4 @@
+import { USD } from '../../constants/chainlink/denominations'
 import { ADMIN_EOA, DEPLOYER_2 } from '../../constants/mimic'
 import * as tokens from '../../constants/tokens'
 import Task from '../../src/task'
@@ -22,6 +23,18 @@ export default {
 
   mainnet: {
     pivot: tokens.mainnet.WETH,
+  },
+  polygon: {
+    pivot: USD,
+  },
+  optimism: {
+    pivot: USD,
+  },
+  arbitrum: {
+    pivot: USD,
+  },
+  gnosis: {
+    pivot: USD,
   },
   goerli: {
     pivot: tokens.goerli.WETH,
