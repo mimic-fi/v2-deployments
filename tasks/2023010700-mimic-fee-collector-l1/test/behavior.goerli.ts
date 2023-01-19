@@ -141,6 +141,7 @@ export function itDeploysMimicFeeCollectorCorrectly(): void {
             'authorize',
             'unauthorize',
             'setSmartVault',
+            'setTokenIn',
             'setMaxSlippage',
             'setBalanceLimits',
             'setRecipient',

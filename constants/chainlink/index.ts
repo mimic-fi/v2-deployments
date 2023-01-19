@@ -1,4 +1,8 @@
+export * as arbitrum from './arbitrum'
 export * as denominations from './denominations'
+export * as gnosis from './gnosis'
 export * as goerli from './goerli'
 export * as mainnet from './mainnet'
 export * as mumbai from './mumbai'
+export * as optimism from './optimism'
+export * as polygon from './polygon'
