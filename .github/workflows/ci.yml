@@ -35,8 +35,18 @@ jobs:
         uses: ./.github/actions/setup
       - name: Set up hardhat config
         run: .github/scripts/setup-hardhat-config.sh ${{secrets.GOERLI_RPC}} ${{secrets.MUMBAI_RPC}} ${{secrets.MAINNET_RPC}} ${{secrets.POLYGON_RPC}} ${{secrets.OPTIMISM_RPC}} ${{secrets.ARBITRUM_RPC}} ${{secrets.GNOSIS_RPC}}
+      - name: List changed tasks
+        id: changed-tasks
+        uses: tj-actions/changed-files@v35
+        with:
+          files: tasks/**
+          dir_names: "true"
       - name: Fork tests
-        run: yarn test:fork
+        if: steps.changed-tasks.outputs.any_changed == 'true'
+        run: |
+          TASKS=$(echo ${{ steps.changed-tasks.outputs.all_changed_files }} | tr -s ' '  '\n' | grep -oP '(?<=tasks/).*(?=/.*)' | sort --unique | paste -sd ' ')
+          echo "Tasks: $TASKS"
+          yarn test:fork --task $TASKS
       - name: Notify discord
         uses: ./.github/actions/notify-discord
         with:
@@ -53,8 +63,18 @@ jobs:
         uses: ./.github/actions/setup
       - name: Set up hardhat config
         run: .github/scripts/setup-hardhat-config.sh ${{secrets.GOERLI_RPC}} ${{secrets.MUMBAI_RPC}} ${{secrets.MAINNET_RPC}} ${{secrets.POLYGON_RPC}} ${{secrets.OPTIMISM_RPC}} ${{secrets.ARBITRUM_RPC}} ${{secrets.GNOSIS_RPC}}
+      - name: List changed tasks
+        id: changed-tasks
+        uses: tj-actions/changed-files@v35
+        with:
+          files: tasks/**
+          dir_names: "true"
       - name: Deployed tests
-        run: yarn test:deployed
+        if: steps.changed-tasks.outputs.any_changed == 'true'
+        run: |
+          TASKS=$(echo ${{ steps.changed-tasks.outputs.all_changed_files }} | tr -s ' '  '\n' | grep -oP '(?<=tasks/).*(?=/.*)' | sort --unique | paste -sd ' ')
+          echo "Tasks: $TASKS"
+          yarn test:deployed --task $TASKS
       - name: Notify discord
         uses: ./.github/actions/notify-discord
         with:

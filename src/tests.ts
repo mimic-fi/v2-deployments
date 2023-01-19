@@ -5,7 +5,6 @@ import yargs from 'yargs'
 
 import { NETWORKS } from './types'
 
-const ALL = 'all'
 const TASKS_DIRECTORY = path.resolve(__dirname, '../tasks')
 const TASKS_IDS = fs.readdirSync(TASKS_DIRECTORY)
 
@@ -17,15 +16,15 @@ async function tests(): Promise<void> {
     .option('fork', { type: 'boolean', description: 'Run fork tests' })
     .option('deployed', { type: 'boolean', description: 'Run deployed tests' })
     .option('network', { type: 'string', description: 'Optional network name or all if not given' })
-    .option('task', { type: 'string', description: 'Optional task ID or all if not given', default: ALL })
+    .option('task', { type: 'array', description: 'Optional task ID(s) or all if not given', default: [] })
 
   const { fork, deployed, network, task } = await yargsParser.argv
 
   if (fork && deployed) throw Error('Pick either --fork or --deployed but not both')
   if (network && !NETWORKS.includes(network)) throw Error(`Unknown network ${network}`)
 
-  if (fork) await runTests(task, true, network)
-  else if (deployed) await runTests(task, false, network)
+  if (fork) await runTests(task as string[], true, network)
+  else if (deployed) await runTests(task as string[], false, network)
   else throw Error('You must tell either --fork or --deployed tests')
 }
 
@@ -43,10 +42,10 @@ function getConfigsPerTaskId(fork: boolean) {
   }, {})
 }
 
-async function runTests(runTaskId: string, fork: boolean, network?: string) {
+async function runTests(taskIds: string[], fork: boolean, network?: string) {
   const configs = getConfigsPerTaskId(fork)
   for (const taskId of Object.keys(configs)) {
-    if (runTaskId === ALL || runTaskId === taskId) {
+    if (taskIds.length === 0 || taskIds.includes(taskId)) {
       const tests = `./tasks/${taskId}/test/${fork ? 'fork' : 'deployed'}/${network ? `*.${network}.ts` : '*.ts'}`
 
       if (network) {
