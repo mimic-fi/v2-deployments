@@ -4,11 +4,17 @@ import { ethers } from 'hardhat'
 
 import { SmartVaultsFactoryDeployment } from '../input'
 
+/* eslint-disable no-secrets/no-secrets */
+
 export function itDeploysSmartVaultsFactoryCorrectly(): void {
   let smartVaultsFactory: Contract
 
   before('load factory', async function () {
     smartVaultsFactory = await this.task.deployedInstance('SmartVaultsFactory')
+  })
+
+  it('has the expected address', async function () {
+    expect(smartVaultsFactory.address).to.be.equal('0x8373c68629191EF10f654CE8e32bbfe3c7A1D743')
   })
 
   it('registers the SwapConnector under the expected namespace', async function () {
