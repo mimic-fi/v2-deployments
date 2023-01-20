@@ -23,6 +23,27 @@ export default {
   mainnet: {
     wrappedNativeToken: tokens.mainnet.WETH,
   },
+  polygon: {
+    wrappedNativeToken: tokens.polygon.WMATIC,
+  },
+  optimism: {
+    wrappedNativeToken: tokens.optimism.WETH,
+  },
+  arbitrum: {
+    wrappedNativeToken: tokens.arbitrum.WETH,
+  },
+  gnosis: {
+    wrappedNativeToken: tokens.gnosis.WXDAI,
+  },
+  avalanche: {
+    wrappedNativeToken: tokens.avalanche.WAVAX,
+  },
+  bsc: {
+    wrappedNativeToken: tokens.bsc.WBNB,
+  },
+  fantom: {
+    wrappedNativeToken: tokens.fantom.WFTM,
+  },
   goerli: {
     wrappedNativeToken: tokens.goerli.WETH,
   },

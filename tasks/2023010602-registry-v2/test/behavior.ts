@@ -4,11 +4,17 @@ import { ethers } from 'hardhat'
 
 import { RegistryDeployment } from '../input'
 
+/* eslint-disable no-secrets/no-secrets */
+
 export function itDeploysRegistryCorrectly(): void {
   let registry: Contract
 
   before('load registry', async function () {
     registry = await this.task.deployedInstance('Registry')
+  })
+
+  it('has the expected address', async function () {
+    expect(registry.address).to.be.equal('0xde6D4872c0C8167fB4F405C7854FD2fED7edca21')
   })
 
   it('registers the Registry under the expected namespace', async function () {

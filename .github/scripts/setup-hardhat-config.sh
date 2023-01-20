@@ -6,6 +6,9 @@ POLYGON_URL="$4"
 OPTIMISM_URL="$5"
 ARBITRUM_URL="$6"
 GNOSIS_URL="$7"
+AVALANCHE_URL="$8"
+BSC_URL="$9"
+FANTOM_URL="${10}"
 
 set -o errexit
 
@@ -20,7 +23,10 @@ echo "
     \"polygon\": { \"url\": \"${POLYGON_URL}\" },
     \"optimism\": { \"url\": \"${OPTIMISM_URL}\" },
     \"arbitrum\": { \"url\": \"${ARBITRUM_URL}\" },
-    \"gnosis\": { \"url\": \"${GNOSIS_URL}\" }
+    \"gnosis\": { \"url\": \"${GNOSIS_URL}\" },
+    \"avalanche\": { \"url\": \"${AVALANCHE_URL}\" },
+    \"bsc\": { \"url\": \"${BSC_URL}\" },
+    \"fantom\": { \"url\": \"${FANTOM_URL}\" }
   }
 }
 " > $HOME/.hardhat/networks.mimic.json

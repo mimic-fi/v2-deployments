@@ -4,11 +4,17 @@ import { ethers } from 'hardhat'
 
 import { SwapConnectorDeployment } from '../input'
 
+/* eslint-disable no-secrets/no-secrets */
+
 export function itDeploysSwapConnectorCorrectly(): void {
   let swapConnector: Contract
 
   before('load swap connector', async function () {
     swapConnector = await this.task.deployedInstance('SwapConnector')
+  })
+
+  it('has the expected address', async function () {
+    expect(swapConnector.address).to.be.equal('0xEBe080c88F6D65Fd055AaF0EDe7B431eb284450d')
   })
 
   it('registers the SwapConnector under the expected namespace', async function () {
