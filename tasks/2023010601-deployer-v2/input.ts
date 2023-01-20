@@ -27,6 +27,15 @@ export default {
   gnosis: {
     version: 'v2',
   },
+  avalanche: {
+    version: 'v2',
+  },
+  bsc: {
+    version: 'v2',
+  },
+  fantom: {
+    version: 'v2',
+  },
   goerli: {
     version: 'v4',
   },

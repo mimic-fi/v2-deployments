@@ -15,6 +15,9 @@
     "test:fork:optimism": "ts-node ./src/tests.ts --fork --network optimism",
     "test:fork:arbitrum": "ts-node ./src/tests.ts --fork --network arbitrum",
     "test:fork:gnosis": "ts-node ./src/tests.ts --fork --network gnosis",
+    "test:fork:avalanche": "ts-node ./src/tests.ts --fork --network avalanche",
+    "test:fork:bsc": "ts-node ./src/tests.ts --fork --network bsc",
+    "test:fork:fantom": "ts-node ./src/tests.ts --fork --network fantom",
     "test:deployed": "ts-node ./src/tests.ts --deployed",
     "test:deployed:goerli": "ts-node ./src/tests.ts --deployed --network goerli",
     "test:deployed:mumbai": "ts-node ./src/tests.ts --deployed --network mumbai",
@@ -22,7 +25,10 @@
     "test:deployed:polygon": "ts-node ./src/tests.ts --deployed --network polygon",
     "test:deployed:optimism": "ts-node ./src/tests.ts --deployed --network optimism",
     "test:deployed:arbitrum": "ts-node ./src/tests.ts --deployed --network arbitrum",
-    "test:deployed:gnosis": "ts-node ./src/tests.ts --deployed --network gnosis"
+    "test:deployed:gnosis": "ts-node ./src/tests.ts --deployed --network gnosis",
+    "test:deployed:avalanche": "ts-node ./src/tests.ts --deployed --network avalanche",
+    "test:deployed:bsc": "ts-node ./src/tests.ts --deployed --network bsc",
+    "test:deployed:fantom": "ts-node ./src/tests.ts --deployed --network fantom"
   },
   "dependencies": {
     "@mimic-fi/v2-helpers": "0.1.0-rc.3",

@@ -35,6 +35,15 @@ export default {
   gnosis: {
     wrappedNativeToken: tokens.gnosis.WXDAI,
   },
+  avalanche: {
+    wrappedNativeToken: tokens.avalanche.WAVAX,
+  },
+  bsc: {
+    wrappedNativeToken: tokens.bsc.WBNB,
+  },
+  fantom: {
+    wrappedNativeToken: tokens.fantom.WFTM,
+  },
   goerli: {
     wrappedNativeToken: tokens.goerli.WETH,
   },

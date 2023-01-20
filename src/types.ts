@@ -4,7 +4,19 @@ import { CompilerOutputBytecode } from 'hardhat/types'
 
 import Task from './task'
 
-export const NETWORKS = ['hardhat', 'goerli', 'mumbai', 'mainnet', 'polygon', 'optimism', 'arbitrum', 'gnosis']
+export const NETWORKS = [
+  'hardhat',
+  'goerli',
+  'mumbai',
+  'mainnet',
+  'polygon',
+  'optimism',
+  'arbitrum',
+  'gnosis',
+  'avalanche',
+  'bsc',
+  'fantom',
+]
 
 export type Network = typeof NETWORKS[number]
 

@@ -1,4 +1,7 @@
 export * as arbitrum from './arbitrum'
+export * as avalanche from './avalanche'
+export * as bsc from './bsc'
+export * as fantom from './fantom'
 export * as gnosis from './gnosis'
 export * as goerli from './goerli'
 export * as mainnet from './mainnet'

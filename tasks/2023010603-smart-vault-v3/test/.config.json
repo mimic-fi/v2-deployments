@@ -6,7 +6,10 @@
     "polygon": 38243540,
     "optimism": 69013228,
     "arbitrum": 53969463,
-    "gnosis": 	26033892
+    "gnosis": 	26033892,
+    "avalanche": 25184800,
+    "bsc": 24950550,
+    "fantom": 54076811
   },
   "deployed": {
     "goerli": 0,
@@ -15,6 +18,9 @@
     "polygon": 0,
     "optimism": 0,
     "arbitrum": 0,
-    "gnosis": 0
+    "gnosis": 0,
+    "avalanche": 0,
+    "bsc": 0,
+    "fantom": 0
   }
 }

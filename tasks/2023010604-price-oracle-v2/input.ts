@@ -36,6 +36,15 @@ export default {
   gnosis: {
     pivot: USD,
   },
+  avalanche: {
+    pivot: USD,
+  },
+  bsc: {
+    pivot: USD,
+  },
+  fantom: {
+    pivot: USD,
+  },
   goerli: {
     pivot: tokens.goerli.WETH,
   },
