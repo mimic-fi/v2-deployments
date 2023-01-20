@@ -1,8 +1,16 @@
 {
   "fork": {
-    "mumbai": 30699046
+    "mumbai": 30699046,
+    "polygon": 38319621,
+    "optimism": 69342271,
+    "arbitrum": 54341839,
+    "gnosis": 26063421
   },
   "deployed": {
-    "mumbai": 0
+    "mumbai": 0,
+    "polygon": 0,
+    "optimism": 0,
+    "arbitrum": 0,
+    "gnosis": 0
   }
 }

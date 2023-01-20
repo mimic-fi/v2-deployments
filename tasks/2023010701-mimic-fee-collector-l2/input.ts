@@ -2,7 +2,11 @@ import { BigNumberish } from '@mimic-fi/v2-helpers'
 
 import { DEPLOYER_2 } from '../../constants/mimic'
 import Task from '../../src/task'
+import arbitrum from './input.arbitrum'
+import gnosis from './input.gnosis'
 import mumbai from './input.mumbai'
+import optimism from './input.optimism'
+import polygon from './input.polygon'
 
 export type MimicFeeCollectorDeployment = {
   namespace: string
@@ -88,11 +92,15 @@ const SmartVaultsFactory = new Task('2023010607-smart-vaults-factory-v1')
 
 export default {
   namespace: 'mimic-v2.mimic-fee-collector',
-  version: 'v3',
+  version: 'v4',
   from: DEPLOYER_2,
   Create3Factory,
   Deployer,
   Registry,
   SmartVaultsFactory,
   mumbai,
+  polygon,
+  optimism,
+  arbitrum,
+  gnosis,
 }

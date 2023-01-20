@@ -3,6 +3,7 @@ import { BigNumberish } from '@mimic-fi/v2-helpers'
 import { DEPLOYER_2 } from '../../constants/mimic'
 import Task from '../../src/task'
 import goerli from './input.goerli'
+import mainnet from './input.mainnet'
 
 export type MimicFeeCollectorDeployment = {
   namespace: string
@@ -39,6 +40,7 @@ export type MimicFeeCollectorDeployment = {
       impl: string
       admin: string
       managers: string[]
+      tokenIn: string
       minBalance: BigNumberish
       maxBalance: BigNumberish
       maxSlippage: BigNumberish
@@ -50,8 +52,8 @@ export type MimicFeeCollectorDeployment = {
       impl: string
       admin: string
       managers: string[]
-      maxSlippage: BigNumberish
       tokenOut: string
+      maxSlippage: BigNumberish
       tokenThresholdActionParams: {
         amount: BigNumberish
         token: string
@@ -67,8 +69,8 @@ export type MimicFeeCollectorDeployment = {
       allowedChainIds: BigNumberish[]
       hopBridgeParams: { token: string; bridge: string }[]
       tokenThresholdActionParams: {
-        amount: BigNumberish
         token: string
+        amount: BigNumberish
       }
     }
   }
@@ -81,11 +83,11 @@ const SmartVaultsFactory = new Task('2023010607-smart-vaults-factory-v1')
 
 export default {
   namespace: 'mimic-v2.mimic-fee-collector',
-  version: 'v3',
   from: DEPLOYER_2,
   Create3Factory,
   Deployer,
   Registry,
   SmartVaultsFactory,
   goerli,
+  mainnet,
 }

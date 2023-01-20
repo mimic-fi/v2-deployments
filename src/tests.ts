@@ -54,9 +54,11 @@ async function runTests(taskIds: string[], networks: string[], fork: boolean) {
     const networksToRun = networks.length === 0 ? Object.keys(configs[taskId]) : networks
 
     for (const network of networksToRun) {
-      const blockNumber = configs[taskId][network]
-      const tests = `./tasks/${taskId}/test/${fork ? 'fork' : 'deployed'}/*.${network}.ts`
-      await runTest(`hardhat test ${tests} --fork ${network} ${blockNumber ? `--block-number ${blockNumber}` : ''}`)
+      if (configs[taskId][network] !== undefined) {
+        const blockNumber = configs[taskId][network]
+        const tests = `./tasks/${taskId}/test/${fork ? 'fork' : 'deployed'}/*.${network}.ts`
+        await runTest(`hardhat test ${tests} --fork ${network} ${blockNumber ? `--block-number ${blockNumber}` : ''}`)
+      }
     }
   }
 }
@@ -64,14 +66,12 @@ async function runTests(taskIds: string[], networks: string[], fork: boolean) {
 async function runTest(command: string, intent = 1) {
   console.log(`Running test try #${intent}`)
   const args: string[] = command.split(' ')
-
   const child = spawn('yarn', args, { stdio: 'inherit', shell: true })
-  if (child.stdout) for await (const chunk of child.stdout) console.log('' + chunk)
-  if (child.stderr) for await (const chunk of child.stderr) console.error('' + chunk)
-
   const exitCode = await new Promise((resolve) => child.on('close', resolve))
+
   if (exitCode) {
-    if (intent >= RETRIES) throw new Error(`subprocess error exit ${exitCode}`)
+    if (intent >= RETRIES) throw new Error(`Subprocess error exit ${exitCode}`)
+    console.log(`Subprocess error exit ${exitCode}, waiting ${RETRIES_INTERVAL} seconds before retrying`)
     await sleep(RETRIES_INTERVAL)
     await runTest(command, intent + 1)
   }

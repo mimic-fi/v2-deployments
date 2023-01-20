@@ -8,6 +8,8 @@ import Task from '../../src/task'
 import { Param, TaskRunOptions } from '../../src/types'
 import { MimicFeeCollectorDeployment } from './input'
 
+/* eslint-disable no-secrets/no-secrets */
+
 export default async (task: Task, { force, from }: TaskRunOptions = {}): Promise<void> => {
   const input = task.input() as MimicFeeCollectorDeployment
   const { params, namespace, version, Deployer, Registry } = input
@@ -15,7 +17,7 @@ export default async (task: Task, { force, from }: TaskRunOptions = {}): Promise
 
   const smartVaultDeployer = await create3IfNecessary(
     task,
-    'L2SmartVaultDeployer',
+    'L2BridgingSmartVaultDeployer',
     [],
     from,
     force,
