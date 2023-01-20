@@ -169,6 +169,7 @@ export function itDeploysMimicFeeCollectorCorrectly(): void {
         },
         { name: 'funder', account: funder, roles: [] },
         { name: 'holder', account: holder, roles: [] },
+        { name: 'swapper', account: swapper, roles: [] },
         { name: 'bridger', account: bridger, roles: [] },
         { name: 'managers', account: managers, roles: ['call'] },
       ])
@@ -179,8 +180,8 @@ export function itDeploysMimicFeeCollectorCorrectly(): void {
     })
 
     it('sets the expected token balance limits', async function () {
-      expect(await funder.minBalance()).to.be.equal(fp(0.3))
-      expect(await funder.maxBalance()).to.be.equal(fp(2))
+      expect(await funder.minBalance()).to.be.equal(fp(0.015))
+      expect(await funder.maxBalance()).to.be.equal(fp(0.15))
     })
 
     it('sets the requested max slippage', async function () {
@@ -202,6 +203,7 @@ export function itDeploysMimicFeeCollectorCorrectly(): void {
         },
         { name: 'funder', account: funder, roles: [] },
         { name: 'holder', account: holder, roles: [] },
+        { name: 'swapper', account: swapper, roles: [] },
         { name: 'bridger', account: bridger, roles: [] },
         { name: 'managers', account: managers, roles: ['call'] },
       ])
@@ -290,7 +292,7 @@ export function itDeploysMimicFeeCollectorCorrectly(): void {
 
     it('sets the expected token threshold params', async function () {
       expect(await bridger.thresholdToken()).to.be.equal(USDC)
-      expect(await bridger.thresholdAmount()).to.be.equal(toUSDC(100))
+      expect(await bridger.thresholdAmount()).to.be.equal(toUSDC(50))
     })
 
     it('allows the requested chains', async function () {

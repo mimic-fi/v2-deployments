@@ -4,7 +4,7 @@ import hre from 'hardhat'
 import Task from '../../../../src/task'
 import { itDeploysMimicFeeCollectorCorrectly } from '../behavior.optimism'
 
-describe.skip('L2 Mimic fee collector v1 - optimism', function () {
+describe('L2 Mimic fee collector v1 - optimism', function () {
   before('load task', async function () {
     this.task = Task.forTest('2023010701-mimic-fee-collector-l2', getForkedNetwork(hre), getForkedNetwork(hre))
   })

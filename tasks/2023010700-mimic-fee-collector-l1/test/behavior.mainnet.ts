@@ -39,6 +39,10 @@ export function itDeploysMimicFeeCollectorCorrectly(): void {
   })
 
   describe('smart vault', () => {
+    it('has the same address as the L1 smart vault', async function () {
+      expect(smartVault.address).to.be.equal('0x4629C578a9e49Ef4AaABFeE03F238cB11625F78B')
+    })
+
     it('uses the correct implementation', async function () {
       const smartVaultsFactory = await this.task.inputDeployedInstance('SmartVaultsFactory')
       const implementation = await smartVaultsFactory.implementationOf(smartVault.address)
@@ -208,7 +212,7 @@ export function itDeploysMimicFeeCollectorCorrectly(): void {
 
     it('sets the expected token threshold params', async function () {
       expect(await holder.thresholdToken()).to.be.equal(USDC)
-      expect(await holder.thresholdAmount()).to.be.equal(toUSDC(50))
+      expect(await holder.thresholdAmount()).to.be.equal(toUSDC(200))
     })
 
     it('sets the requested token out', async function () {
@@ -252,7 +256,7 @@ export function itDeploysMimicFeeCollectorCorrectly(): void {
 
     it('sets the expected token threshold params', async function () {
       expect(await bridger.thresholdToken()).to.be.equal(USDC)
-      expect(await bridger.thresholdAmount()).to.be.equal(toUSDC(100))
+      expect(await bridger.thresholdAmount()).to.be.equal(toUSDC(50))
     })
 
     it('allows the requested chains', async function () {

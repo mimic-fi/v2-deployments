@@ -12,7 +12,7 @@ describe('L2 Mimic fee collector v1 - polygon', function () {
 
   before('impersonate sender and admin', async function () {
     const { from } = this.task.input() as MimicFeeCollectorDeployment
-    await impersonate(from, fp(5))
+    await impersonate(from, fp(50))
   })
 
   before('deploy task', async function () {

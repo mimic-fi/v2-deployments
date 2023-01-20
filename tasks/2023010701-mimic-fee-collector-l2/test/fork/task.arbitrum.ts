@@ -12,7 +12,7 @@ describe('L2 Mimic fee collector v1 - arbitrum', function () {
 
   before('impersonate sender and admin', async function () {
     const { from } = this.task.input() as MimicFeeCollectorDeployment
-    await impersonate(from, fp(5))
+    await impersonate(from, fp(10))
   })
 
   before('deploy task', async function () {

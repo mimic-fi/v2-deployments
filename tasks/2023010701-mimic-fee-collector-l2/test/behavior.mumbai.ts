@@ -33,10 +33,6 @@ export function itDeploysMimicFeeCollectorCorrectly(): void {
   })
 
   describe('smart vault', () => {
-    it('has the same address as the L1 smart vault', async function () {
-      expect(smartVault.address).to.be.equal(this.l1Task.output()['SmartVault'])
-    })
-
     it('uses the correct implementation', async function () {
       const smartVaultsFactory = await this.task.inputDeployedInstance('SmartVaultsFactory')
       const implementation = await smartVaultsFactory.implementationOf(smartVault.address)
@@ -157,6 +153,7 @@ export function itDeploysMimicFeeCollectorCorrectly(): void {
         },
         { name: 'funder', account: funder, roles: [] },
         { name: 'holder', account: holder, roles: [] },
+        { name: 'swapper', account: swapper, roles: [] },
         { name: 'bridger', account: bridger, roles: [] },
         { name: 'managers', account: managers, roles: ['call'] },
       ])
@@ -190,6 +187,7 @@ export function itDeploysMimicFeeCollectorCorrectly(): void {
         },
         { name: 'funder', account: funder, roles: [] },
         { name: 'holder', account: holder, roles: [] },
+        { name: 'swapper', account: swapper, roles: [] },
         { name: 'bridger', account: bridger, roles: [] },
         { name: 'managers', account: managers, roles: ['call'] },
       ])

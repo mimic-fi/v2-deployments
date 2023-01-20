@@ -49,7 +49,7 @@ export default {
       swapConnector: SwapConnector,
       bridgeConnector: BridgeConnector,
       swapFee: { pct: 0, cap: 0, token: ZERO_ADDRESS, period: 0 },
-      bridgeFee: { pct: fp(0), cap: 0, token: ZERO_ADDRESS, period: 0 },
+      bridgeFee: { pct: 0, cap: 0, token: ZERO_ADDRESS, period: 0 },
       withdrawFee: { pct: 0, cap: 0, token: ZERO_ADDRESS, period: 0 },
       performanceFee: { pct: 0, cap: 0, token: ZERO_ADDRESS, period: 0 },
     },
@@ -58,8 +58,8 @@ export default {
       admin: OWNER_EOA,
       managers,
       tokenIn: tokens.USDC,
-      minBalance: fp(5), // 5 MATIC
-      maxBalance: fp(50), // 50 MATIC
+      minBalance: fp(2), // 2 MATIC
+      maxBalance: fp(20), // 20 MATIC
       maxSlippage: fp(0.001), // 0.1 %
       withdrawalActionParams: {
         recipient: BOT,
@@ -104,7 +104,7 @@ export default {
       ],
       tokenThresholdActionParams: {
         token: tokens.USDC,
-        amount: toUSDC(100),
+        amount: toUSDC(50),
       },
     },
   },

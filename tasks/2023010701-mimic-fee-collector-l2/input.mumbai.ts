@@ -2,7 +2,7 @@ import { fp, HOUR, toUSDC, ZERO_ADDRESS } from '@mimic-fi/v2-helpers'
 
 import * as chainlink from '../../constants/chainlink/mumbai'
 import * as hop from '../../constants/hop/mumbai'
-import { BOT, OWNER_EOA } from '../../constants/mimic'
+import { BOT, TESTING_EOA } from '../../constants/mimic'
 import * as tokens from '../../constants/tokens/mumbai'
 import Task from '../../src/task'
 
@@ -24,7 +24,7 @@ const SmartVaultsFactory = new Task('2023010607-smart-vaults-factory-v1')
 export default {
   version: 'v3',
   accounts: {
-    owner: OWNER_EOA,
+    owner: TESTING_EOA,
     bot: BOT,
     managers,
   },
@@ -32,7 +32,7 @@ export default {
     registry: Registry,
     smartVaultParams: {
       impl: SmartVault,
-      admin: OWNER_EOA,
+      admin: TESTING_EOA,
       salt: undefined,
       factory: SmartVaultsFactory,
       feeCollector: ZERO_ADDRESS,
@@ -42,13 +42,13 @@ export default {
       swapConnector: SwapConnector,
       bridgeConnector: BridgeConnector,
       swapFee: { pct: 0, cap: 0, token: ZERO_ADDRESS, period: 0 },
-      bridgeFee: { pct: fp(0), cap: 0, token: ZERO_ADDRESS, period: 0 },
+      bridgeFee: { pct: 0, cap: 0, token: ZERO_ADDRESS, period: 0 },
       withdrawFee: { pct: 0, cap: 0, token: ZERO_ADDRESS, period: 0 },
       performanceFee: { pct: 0, cap: 0, token: ZERO_ADDRESS, period: 0 },
     },
     funderActionParams: {
       impl: undefined,
-      admin: OWNER_EOA,
+      admin: TESTING_EOA,
       managers,
       tokenIn: tokens.USDC,
       minBalance: fp(0.3),
@@ -60,7 +60,7 @@ export default {
     },
     holderActionParams: {
       impl: undefined,
-      admin: OWNER_EOA,
+      admin: TESTING_EOA,
       managers,
       tokenOut: tokens.USDC,
       maxSlippage: fp(0.002),
@@ -71,7 +71,7 @@ export default {
     },
     l2HopSwapperActionParams: {
       impl: undefined,
-      admin: OWNER_EOA,
+      admin: TESTING_EOA,
       managers,
       maxSlippage: fp(0.002), // 0.2 %
       hopAmmParams: [
@@ -81,7 +81,7 @@ export default {
     },
     l2HopBridgerActionParams: {
       impl: undefined,
-      admin: OWNER_EOA,
+      admin: TESTING_EOA,
       managers,
       maxDeadline: 2 * HOUR,
       maxSlippage: fp(0.002), // 0.2 %

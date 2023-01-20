@@ -48,7 +48,7 @@ export default {
       swapConnector: SwapConnector,
       bridgeConnector: BridgeConnector,
       swapFee: { pct: 0, cap: 0, token: ZERO_ADDRESS, period: 0 },
-      bridgeFee: { pct: fp(0), cap: 0, token: ZERO_ADDRESS, period: 0 },
+      bridgeFee: { pct: 0, cap: 0, token: ZERO_ADDRESS, period: 0 },
       withdrawFee: { pct: 0, cap: 0, token: ZERO_ADDRESS, period: 0 },
       performanceFee: { pct: 0, cap: 0, token: ZERO_ADDRESS, period: 0 },
     },
@@ -57,8 +57,8 @@ export default {
       admin: OWNER_EOA,
       managers,
       tokenIn: tokens.USDC,
-      minBalance: fp(10), // 10 XDAI
-      maxBalance: fp(100), // 100 XDAI
+      minBalance: fp(0.04), // 0.04 XDAI
+      maxBalance: fp(0.4), // 0.4 XDAI
       maxSlippage: fp(0.001), // 0.1 %
       withdrawalActionParams: {
         recipient: BOT,
@@ -84,7 +84,7 @@ export default {
         { token: tokens.WXDAI, amm: hop.DAI_AMM },
         { token: tokens.USDC, amm: hop.USDC_AMM },
         { token: tokens.USDT, amm: hop.USDT_AMM },
-        { token: tokens.WETH, amm: hop.ETH_AMM },
+        { token: tokens.WETH, amm: hop.WETH_AMM },
       ],
     },
     l2HopBridgerActionParams: {
@@ -99,11 +99,11 @@ export default {
         { token: tokens.WXDAI, amm: hop.DAI_AMM },
         { token: tokens.USDC, amm: hop.USDC_AMM },
         { token: tokens.USDT, amm: hop.USDT_AMM },
-        { token: tokens.WETH, amm: hop.ETH_AMM },
+        { token: tokens.WETH, amm: hop.WETH_AMM },
       ],
       tokenThresholdActionParams: {
         token: tokens.USDC,
-        amount: toUSDC(100),
+        amount: toUSDC(50),
       },
     },
   },
