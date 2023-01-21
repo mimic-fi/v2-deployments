@@ -3,6 +3,7 @@ import { BigNumberish } from '@mimic-fi/v2-helpers'
 import { DEPLOYER_2 } from '../../constants/mimic'
 import Task from '../../src/task'
 import goerli from './input.goerli'
+import mainnet from './input.mainnet'
 
 export type DxDaoBridgerDeployment = {
   namespace: string
@@ -16,6 +17,7 @@ export type DxDaoBridgerDeployment = {
     owner: string
     managers: string[]
     relayers: string[]
+    mimicAdmin: string
     feeCollector: string
   }
   params: {
@@ -42,12 +44,12 @@ export type DxDaoBridgerDeployment = {
       managers: string[]
       maxDeadline: BigNumberish
       maxSlippage: BigNumberish
-      hopRelayerParams: { relayer: string; maxFeePct: BigNumberish }[]
       destinationChainId: BigNumberish
       hopBridgeParams: { token: string; bridge: string }[]
+      hopRelayerParams: { relayer: string; maxFeePct: BigNumberish }[]
       tokenThresholdActionParams: {
-        token: BigNumberish
-        amount: string
+        token: string
+        amount: BigNumberish
       }
       relayedActionParams: {
         relayers: string[]
@@ -56,6 +58,26 @@ export type DxDaoBridgerDeployment = {
         payingGasToken: string
         permissiveModeAdmin: string
         setPermissiveMode: boolean
+      }
+    }
+    withdrawerActionParams: {
+      impl: string
+      admin: string
+      managers: string[]
+      withdrawalActionParams: {
+        recipient: string
+      }
+      tokenThresholdActionParams: {
+        token: string
+        amount: BigNumberish
+      }
+      relayedActionParams: {
+        relayers: string[]
+        gasPriceLimit: BigNumberish
+        totalCostLimit: BigNumberish
+        payingGasToken: string
+        permissiveModeAdmin: string
+        isPermissiveModeActive: boolean
       }
     }
   }
@@ -68,11 +90,11 @@ const SmartVaultsFactory = new Task('2023010607-smart-vaults-factory-v1')
 
 export default {
   namespace: 'mimic-v2.dxdao-bridger',
-  version: 'v1',
   from: DEPLOYER_2,
   Create3Factory,
   Deployer,
   Registry,
   SmartVaultsFactory,
   goerli,
+  mainnet,
 }

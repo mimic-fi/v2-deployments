@@ -2,7 +2,7 @@ import { bn, fp, HOUR, toUSDC, ZERO_ADDRESS } from '@mimic-fi/v2-helpers'
 
 import * as chainlink from '../../constants/chainlink/goerli'
 import * as hop from '../../constants/hop/goerli'
-import { BOT, FEE_COLLECTOR_EOA } from '../../constants/mimic'
+import { BOT, FEE_COLLECTOR_EOA, OWNER_EOA } from '../../constants/mimic'
 import * as tokens from '../../constants/tokens/goerli'
 import Task from '../../src/task'
 
@@ -20,10 +20,12 @@ const BridgeConnector = new Task('2023010606-bridge-connector-v1')
 const SmartVaultsFactory = new Task('2023010607-smart-vaults-factory-v1')
 
 export default {
+  version: 'v2',
   accounts: {
     owner,
     managers,
     relayers,
+    mimicAdmin: OWNER_EOA,
     feeCollector: FEE_COLLECTOR_EOA,
   },
   params: {
@@ -56,8 +58,28 @@ export default {
         { token: tokens.WETH, bridge: hop.ETH_BRIDGE },
       ],
       tokenThresholdActionParams: {
-        amount: toUSDC(0.5),
         token: tokens.USDC,
+        amount: toUSDC(0.5),
+      },
+      relayedActionParams: {
+        relayers,
+        gasPriceLimit: bn(100e9),
+        totalCostLimit: 0,
+        payingGasToken: tokens.USDC,
+        permissiveModeAdmin: FEE_COLLECTOR_EOA,
+        setPermissiveMode: false,
+      },
+    },
+    withdrawerActionParams: {
+      impl: undefined,
+      admin: owner,
+      managers,
+      withdrawalActionParams: {
+        recipient: owner,
+      },
+      tokenThresholdActionParams: {
+        token: tokens.USDC,
+        amount: toUSDC(10),
       },
       relayedActionParams: {
         relayers,

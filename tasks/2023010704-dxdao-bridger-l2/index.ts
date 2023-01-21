@@ -27,11 +27,13 @@ export default async (task: Task, { force, from }: TaskRunOptions = {}): Promise
 
   const bridger = await create3IfNecessary(task, 'L2HopBridger', [smartVaultDeployer.address, Registry], from, force)
   const swapper = await create3IfNecessary(task, 'L2HopSwapper', [smartVaultDeployer.address, Registry], from, force)
+  const withdrawer = await create3IfNecessary(task, 'Withdrawer', [smartVaultDeployer.address, Registry], from, force)
 
   const output = task.output({ ensure: false })
   if (force || !output['SmartVault']) {
     params.l2HopBridgerActionParams.impl = bridger.address
     params.l2HopSwapperActionParams.impl = swapper.address
+    params.withdrawerActionParams.impl = withdrawer.address
     params.smartVaultParams.salt = ethers.utils.solidityKeccak256(['string'], [`${namespace}.SmartVault.${version}`])
 
     logger.info(`Deploying SmartVault ${version}...`)

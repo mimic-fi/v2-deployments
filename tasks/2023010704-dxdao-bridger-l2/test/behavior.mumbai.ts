@@ -9,12 +9,16 @@ import { DxDaoBridgerDeployment } from '../input'
 
 const USDC = '0x6D4dd09982853F08d9966aC3cA4Eb5885F16f2b2'
 const WETH = '0xA6FA4fB5f76172d178d61B04b0ecd319C5d1C0aa'
+const WMATIC = '0x9c3c9283d3e44854697cd22d3faa240cfb032889'
+
 const HOP_USDC_AMM = '0xa81D244A1814468C734E5b4101F7b9c0c577a8fC'
 const HOP_WETH_AMM = '0x0e0E3d2C5c292161999474247956EF542caBF8dd'
 
+const CHAINLINK_ORACLE_MATIC_USD = '0xd0D5e3DB44DE05E9F294BB0a3bEEaF030DE24Ada'
+
 export function itDeploysDxDaoBridgerCorrectly(): void {
   let input: DxDaoBridgerDeployment
-  let smartVault: Contract, bridger: Contract, swapper: Contract
+  let smartVault: Contract, bridger: Contract, swapper: Contract, withdrawer: Contract
   let owner: string, relayers: string[], managers: string[], feeCollector: string
 
   before('load accounts', async function () {
@@ -25,12 +29,13 @@ export function itDeploysDxDaoBridgerCorrectly(): void {
   before('load instances', async function () {
     bridger = await this.task.deployedInstance('L2HopBridger')
     swapper = await this.task.deployedInstance('L2HopSwapper')
+    withdrawer = await this.task.deployedInstance('Withdrawer')
     smartVault = await this.task.deployedInstance('SmartVault')
   })
 
   describe('smart vault', () => {
-    it('has the same address as the L1 smart vault', async function () {
-      expect(smartVault.address).to.be.equal(this.l1Task.output()['SmartVault'])
+    it('has the expected address', async function () {
+      expect(smartVault.address).to.be.equal('0xF3bE9dd75ef36a76f2829293d970364f8d351130')
     })
 
     it('uses the correct implementation', async function () {
@@ -70,7 +75,8 @@ export function itDeploysDxDaoBridgerCorrectly(): void {
         },
         { name: 'mimic', account: feeCollector, roles: ['setFeeCollector'] },
         { name: 'swapper', account: swapper, roles: ['swap', 'withdraw'] },
-        { name: 'bridger', account: bridger, roles: ['bridge', 'withdraw'] },
+        { name: 'bridger', account: bridger, roles: ['bridge', 'wrap', 'withdraw'] },
+        { name: 'withdrawer', account: withdrawer, roles: ['wrap', 'withdraw'] },
         { name: 'managers', account: managers, roles: [] },
         { name: 'relayers', account: relayers, roles: [] },
       ])
@@ -127,6 +133,10 @@ export function itDeploysDxDaoBridgerCorrectly(): void {
     it('sets a bridge connector', async function () {
       expect(await smartVault.bridgeConnector()).to.be.equal(input.params.smartVaultParams.bridgeConnector)
     })
+
+    it('sets the expected price feeds', async function () {
+      expect(await smartVault.getPriceFeed(WMATIC, USDC)).to.be.equal(CHAINLINK_ORACLE_MATIC_USD)
+    })
   })
 
   describe('swapper', () => {
@@ -149,6 +159,7 @@ export function itDeploysDxDaoBridgerCorrectly(): void {
         { name: 'mimic', account: feeCollector, roles: ['setPermissiveMode'] },
         { name: 'swapper', account: swapper, roles: [] },
         { name: 'bridger', account: bridger, roles: [] },
+        { name: 'withdrawer', account: withdrawer, roles: [] },
         { name: 'managers', account: managers, roles: ['call'] },
         { name: 'relayers', account: relayers, roles: ['call'] },
       ])
@@ -212,6 +223,7 @@ export function itDeploysDxDaoBridgerCorrectly(): void {
         { name: 'mimic', account: feeCollector, roles: ['setPermissiveMode'] },
         { name: 'swapper', account: swapper, roles: [] },
         { name: 'bridger', account: bridger, roles: [] },
+        { name: 'withdrawer', account: withdrawer, roles: [] },
         { name: 'managers', account: managers, roles: ['call'] },
         { name: 'relayers', account: relayers, roles: ['call'] },
       ])
@@ -257,6 +269,68 @@ export function itDeploysDxDaoBridgerCorrectly(): void {
     it('does not whitelist managers as relayers', async function () {
       for (const manager of managers) {
         expect(await bridger.isRelayer(manager)).to.be.false
+      }
+    })
+  })
+
+  describe('withdrawer', () => {
+    it('has set its permissions correctly', async () => {
+      await assertPermissions(withdrawer, [
+        {
+          name: 'owner',
+          account: owner,
+          roles: [
+            'authorize',
+            'unauthorize',
+            'setSmartVault',
+            'setLimits',
+            'setRelayer',
+            'setThreshold',
+            'setRecipient',
+            'call',
+          ],
+        },
+        { name: 'mimic', account: feeCollector, roles: ['setPermissiveMode'] },
+        { name: 'swapper', account: swapper, roles: [] },
+        { name: 'bridger', account: bridger, roles: [] },
+        { name: 'withdrawer', account: withdrawer, roles: [] },
+        { name: 'managers', account: managers, roles: ['call'] },
+        { name: 'relayers', account: relayers, roles: ['call'] },
+      ])
+    })
+
+    it('has the proper smart vault set', async () => {
+      expect(await withdrawer.smartVault()).to.be.equal(smartVault.address)
+    })
+
+    it('sets the owner as the recipient', async () => {
+      expect(await withdrawer.recipient()).to.be.equal(owner)
+    })
+
+    it('sets the expected token threshold params', async () => {
+      expect(await withdrawer.thresholdToken()).to.be.equal(USDC)
+      expect(await withdrawer.thresholdAmount()).to.be.equal(toUSDC(10))
+    })
+
+    it('sets the expected gas limits', async () => {
+      expect(await withdrawer.gasPriceLimit()).to.be.equal(100e9)
+      expect(await withdrawer.totalCostLimit()).to.be.equal(0)
+      expect(await withdrawer.payingGasToken()).to.be.equal(USDC)
+    })
+
+    it('does not allow relayed permissive mode', async () => {
+      expect(await withdrawer.isPermissiveModeActive()).to.be.false
+    })
+
+    it('whitelists the requested relayers', async () => {
+      for (const relayer of relayers) {
+        expect(await withdrawer.isRelayer(relayer)).to.be.true
+      }
+    })
+
+    it('does not whitelist managers as relayers', async () => {
+      for (const manager of managers) {
+        expect(await withdrawer.isRelayer(manager)).to.be.false
       }
     })
   })

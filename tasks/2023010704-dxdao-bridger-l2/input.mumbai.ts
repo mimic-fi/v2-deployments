@@ -20,6 +20,7 @@ const BridgeConnector = new Task('2023010606-bridge-connector-v1')
 const SmartVaultsFactory = new Task('2023010607-smart-vaults-factory-v1')
 
 export default {
+  version: 'v2',
   accounts: {
     owner,
     managers,
@@ -76,6 +77,26 @@ export default {
       tokenThresholdActionParams: {
         amount: toUSDC(0.5),
         token: tokens.USDC,
+      },
+      relayedActionParams: {
+        relayers,
+        gasPriceLimit: bn(100e9),
+        totalCostLimit: 0,
+        payingGasToken: tokens.USDC,
+        permissiveModeAdmin: FEE_COLLECTOR_EOA,
+        setPermissiveMode: false,
+      },
+    },
+    withdrawerActionParams: {
+      impl: undefined,
+      admin: owner,
+      managers,
+      withdrawalActionParams: {
+        recipient: owner,
+      },
+      tokenThresholdActionParams: {
+        token: tokens.USDC,
+        amount: toUSDC(10),
       },
       relayedActionParams: {
         relayers,

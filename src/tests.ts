@@ -54,11 +54,10 @@ async function runTests(taskIds: string[], networks: string[], fork: boolean) {
     const networksToRun = networks.length === 0 ? Object.keys(configs[taskId]) : networks
 
     for (const network of networksToRun) {
-      if (configs[taskId][network] !== undefined) {
-        const blockNumber = configs[taskId][network]
-        const tests = `./tasks/${taskId}/test/${fork ? 'fork' : 'deployed'}/*.${network}.ts`
-        await runTest(`hardhat test ${tests} --fork ${network} ${blockNumber ? `--block-number ${blockNumber}` : ''}`)
-      }
+      if (!configs[taskId]) throw Error(`Unknown task "${taskId}"`)
+      const blockNumber = configs[taskId][network]
+      const tests = `./tasks/${taskId}/test/${fork ? 'fork' : 'deployed'}/*.${network}.ts`
+      await runTest(`hardhat test ${tests} --fork ${network} ${blockNumber ? `--block-number ${blockNumber}` : ''}`)
     }
   }
 }

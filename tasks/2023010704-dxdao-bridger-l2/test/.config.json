@@ -1,8 +1,10 @@
 {
   "fork": {
-    "mumbai": 30699046
+    "mumbai": 0,
+    "gnosis": 0
   },
   "deployed": {
-    "mumbai": 30740226
+    "mumbai": 0,
+    "gnosis": 0
   }
 }
