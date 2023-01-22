@@ -44,10 +44,8 @@ export type ParaswapFeeRedistributorDeployment = {
     owner: string
     managers: string[]
     relayers: string[]
-    feeCollector: string
     mimicAdmin: string
-    feeClaimer: string
-    swapSigner: string
+    feeCollector: string
   }
   params: {
     registry: string

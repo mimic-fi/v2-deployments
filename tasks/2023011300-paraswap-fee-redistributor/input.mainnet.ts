@@ -1,7 +1,7 @@
 import { ZERO_ADDRESS } from '@mimic-fi/v2-helpers'
 
 import { BOT, OWNER_EOA } from '../../constants/mimic'
-import * as tokens from '../../constants/tokens/arbitrum'
+import * as tokens from '../../constants/tokens/mainnet'
 import Task from '../../src/task'
 
 const Registry = new Task('2023010602-registry-v2')
@@ -16,7 +16,7 @@ const MimicFeeCollector = new Task('2023010700-mimic-fee-collector-l1')
 
 const owner = '0x619bbf92fd6ba59893327676b2685a3762a49a33' // Paraswap multisig
 const feeClaimer = '0xeF13101C5bbD737cFb2bF00Bbd38c626AD6952F7'
-const swapSigner = ''
+const swapSigner = '0x213ec49E59E6D219Db083C2833746b5dFCad646c'
 const managers: string[] = []
 const relayers = [BOT]
 
@@ -25,10 +25,8 @@ export default {
     owner,
     managers,
     relayers,
-    feeClaimer,
-    swapSigner,
     mimicAdmin: OWNER_EOA,
-    feeCollector: MimicFeeCollector,
+    feeCollector: MimicFeeCollector.key('SmartVault'),
   },
   params: {
     registry: Registry,
@@ -37,7 +35,7 @@ export default {
       factory: SmartVaultsFactory,
       impl: SmartVault,
       admin: owner,
-      feeCollector: MimicFeeCollector,
+      feeCollector: MimicFeeCollector.key('SmartVault'),
       strategies: [],
       priceFeedParams: [], // TODO
       priceOracle: PriceOracle,
@@ -53,7 +51,7 @@ export default {
       admin: owner,
       managers,
       maxSlippage: 0, // TODO
-      swapSigner: owner,
+      swapSigner,
       tokenSwapIgnores: [], // TODO
       feeClaimerParams: {
         feeClaimer,

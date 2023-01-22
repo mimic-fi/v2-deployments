@@ -1,21 +1,31 @@
-import { ZERO_ADDRESS } from '@mimic-fi/v2-helpers'
+import { DAY, fp, MONTH, toUSDC, ZERO_ADDRESS } from '@mimic-fi/v2-helpers'
 import { expect } from 'chai'
 import { Contract } from 'ethers'
 
+import { USD } from '../../../constants/chainlink/denominations'
 import { assertPermissions } from '../../../src/asserts'
 import { ParaswapFeeRedistributorDeployment } from '../input'
 
-const WETH = ''
+/* eslint-disable no-secrets/no-secrets */
+
+const PSP = '0x42d61d766b85431666b39b89c43011f24451bff6'
+const USDC = '0x2791Bca1f2de4661ED88A30C99A7a9449Aa84174'
+const WMATIC = '0x0d500B1d8E8eF31E21C99d1Db9A6444d3ADf1270'
+
+const CHAINLINK_USDC_USD = '0xfE4A8cc5b5B2366C1B58Bea3858e81843581b2F7'
+const CHAINLINK_MATIC_USD = '0xAB594600376Ec9fD91F8e885dADF0CE036862dE0'
+
+const FEE_CLAIMER = '0x22e43eCDcddE93Ed88E006F10EbfbeA6010E87dE'
+const SWAP_SIGNER = '0x213ec49E59E6D219Db083C2833746b5dFCad646c'
 
 export function itDeploysParaswapFeeRedistributorCorrectly(): void {
   let input: ParaswapFeeRedistributorDeployment
   let smartVault: Contract, erc20Claimer: Contract, nativeClaimer: Contract, swapFeeSetter: Contract
   let owner: string, relayers: string[], managers: string[], feeCollector: string, mimicAdmin: string
-  let feeClaimer: string, swapSigner: string
 
   before('load accounts', async function () {
     input = this.task.input() as ParaswapFeeRedistributorDeployment
-    ;({ owner, managers, relayers, feeCollector, mimicAdmin, feeClaimer, swapSigner } = input.accounts)
+    ;({ owner, managers, relayers, feeCollector, mimicAdmin } = input.accounts)
   })
 
   before('load instances', async function () {
@@ -54,7 +64,7 @@ export function itDeploysParaswapFeeRedistributorCorrectly(): void {
             'setPerformanceFee',
           ],
         },
-        { name: 'mimic', account: mimicAdmin, roles: ['setFeeCollector'] },
+        { name: 'mimic', account: feeCollector, roles: ['setFeeCollector'] },
         { name: 'erc20Claimer', account: erc20Claimer, roles: ['call', 'swap', 'withdraw'] },
         { name: 'nativeClaimer', account: nativeClaimer, roles: ['call', 'wrap', 'withdraw'] },
         { name: 'swapFeeSetter', account: swapFeeSetter, roles: ['setSwapFee', 'withdraw'] },
@@ -114,6 +124,11 @@ export function itDeploysParaswapFeeRedistributorCorrectly(): void {
     it('sets a bridge connector', async () => {
       expect(await smartVault.bridgeConnector()).to.be.equal(input.params.smartVaultParams.bridgeConnector)
     })
+
+    it('sets the expected price feeds', async function () {
+      expect(await smartVault.getPriceFeed(USDC, USD)).to.be.equal(CHAINLINK_USDC_USD)
+      expect(await smartVault.getPriceFeed(WMATIC, USD)).to.be.equal(CHAINLINK_MATIC_USD)
+    })
   })
 
   describe('erc20 claimer', () => {
@@ -150,21 +165,21 @@ export function itDeploysParaswapFeeRedistributorCorrectly(): void {
     })
 
     it('sets the expected fee claimer params', async () => {
-      expect(await erc20Claimer.maxSlippage()).to.be.equal(0)
-      expect(await erc20Claimer.swapSigner()).to.be.equal(swapSigner)
-      expect(await erc20Claimer.feeClaimer()).to.be.equal(feeClaimer)
-      // TODO: expect(await erc20Claimer.isTokenSwapIgnored()).to.be.true
+      expect(await erc20Claimer.maxSlippage()).to.be.equal(fp(0.03))
+      expect(await erc20Claimer.swapSigner()).to.be.equal(SWAP_SIGNER)
+      expect(await erc20Claimer.feeClaimer()).to.be.equal(FEE_CLAIMER)
+      expect(await erc20Claimer.isTokenSwapIgnored(PSP)).to.be.true
     })
 
     it('sets the expected token threshold params', async () => {
-      expect(await erc20Claimer.thresholdToken()).to.be.equal(ZERO_ADDRESS)
-      expect(await erc20Claimer.thresholdAmount()).to.be.equal(0)
+      expect(await erc20Claimer.thresholdToken()).to.be.equal(USDC)
+      expect(await erc20Claimer.thresholdAmount()).to.be.equal(toUSDC(20))
     })
 
     it('sets the expected gas limits', async () => {
-      expect(await erc20Claimer.gasPriceLimit()).to.be.equal(100e9)
+      expect(await erc20Claimer.gasPriceLimit()).to.be.equal(200e9)
       expect(await erc20Claimer.totalCostLimit()).to.be.equal(0)
-      expect(await erc20Claimer.payingGasToken()).to.be.equal(WETH)
+      expect(await erc20Claimer.payingGasToken()).to.be.equal(WMATIC)
     })
 
     it('does not allow relayed permissive mode', async () => {
@@ -215,18 +230,18 @@ export function itDeploysParaswapFeeRedistributorCorrectly(): void {
     })
 
     it('sets the expected gas limits', async () => {
-      expect(await nativeClaimer.gasPriceLimit()).to.be.equal(100e9)
+      expect(await nativeClaimer.gasPriceLimit()).to.be.equal(200e9)
       expect(await nativeClaimer.totalCostLimit()).to.be.equal(0)
-      expect(await nativeClaimer.payingGasToken()).to.be.equal(WETH)
+      expect(await nativeClaimer.payingGasToken()).to.be.equal(WMATIC)
     })
 
     it('sets the expected fee claimer params', async () => {
-      expect(await nativeClaimer.feeClaimer()).to.be.equal(feeClaimer)
+      expect(await nativeClaimer.feeClaimer()).to.be.equal(FEE_CLAIMER)
     })
 
     it('sets the expected token threshold params', async () => {
-      expect(await nativeClaimer.thresholdToken()).to.be.equal(ZERO_ADDRESS)
-      expect(await nativeClaimer.thresholdAmount()).to.be.equal(0)
+      expect(await nativeClaimer.thresholdToken()).to.be.equal(USDC)
+      expect(await nativeClaimer.thresholdAmount()).to.be.equal(toUSDC(20))
     })
 
     it('does not allow relayed permissive mode', async () => {
@@ -268,14 +283,14 @@ export function itDeploysParaswapFeeRedistributorCorrectly(): void {
     })
 
     it('sets the expected time-lock', async () => {
-      expect(await swapFeeSetter.period()).to.be.equal(0)
+      expect(await swapFeeSetter.period()).to.be.equal(DAY)
       expect(await swapFeeSetter.nextResetTime()).not.to.be.eq(0)
     })
 
     it('sets the expected gas limits', async () => {
-      expect(await swapFeeSetter.gasPriceLimit()).to.be.equal(100e9)
+      expect(await swapFeeSetter.gasPriceLimit()).to.be.equal(200e9)
       expect(await swapFeeSetter.totalCostLimit()).to.be.equal(0)
-      expect(await swapFeeSetter.payingGasToken()).to.be.equal(WETH)
+      expect(await swapFeeSetter.payingGasToken()).to.be.equal(WMATIC)
     })
 
     it('does not allow relayed permissive mode', async () => {
@@ -288,6 +303,30 @@ export function itDeploysParaswapFeeRedistributorCorrectly(): void {
       expect(fee0.cap).to.be.equal(0)
       expect(fee0.token).to.be.equal(ZERO_ADDRESS)
       expect(fee0.period).to.be.equal(0)
+
+      const fee1 = await swapFeeSetter.fees(1)
+      expect(fee1.pct).to.be.equal(fp(0.005))
+      expect(fee1.cap).to.be.equal(toUSDC(0.3))
+      expect(fee1.token).to.be.equal(USDC)
+      expect(fee1.period).to.be.equal(MONTH)
+
+      const fee2 = await swapFeeSetter.fees(2)
+      expect(fee2.pct).to.be.equal(fp(0.01))
+      expect(fee2.cap).to.be.equal(toUSDC(0.5))
+      expect(fee2.token).to.be.equal(USDC)
+      expect(fee2.period).to.be.equal(MONTH)
+
+      const fee3 = await swapFeeSetter.fees(3)
+      expect(fee3.pct).to.be.equal(fp(0.015))
+      expect(fee3.cap).to.be.equal(toUSDC(0.7))
+      expect(fee3.token).to.be.equal(USDC)
+      expect(fee3.period).to.be.equal(MONTH)
+
+      const fee4 = await swapFeeSetter.fees(4)
+      expect(fee4.pct).to.be.equal(fp(0.02))
+      expect(fee4.cap).to.be.equal(toUSDC(0.9))
+      expect(fee4.token).to.be.equal(USDC)
+      expect(fee4.period).to.be.equal(MONTH)
     })
 
     it('whitelists the requested relayers', async () => {
