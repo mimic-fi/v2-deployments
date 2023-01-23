@@ -1,4 +1,4 @@
-import { DAY, fp, MONTH, toUSDC, ZERO_ADDRESS } from '@mimic-fi/v2-helpers'
+import { fp, MONTH, toUSDC, ZERO_ADDRESS } from '@mimic-fi/v2-helpers'
 import { expect } from 'chai'
 import { Contract } from 'ethers'
 
@@ -15,7 +15,7 @@ const WMATIC = '0x0d500B1d8E8eF31E21C99d1Db9A6444d3ADf1270'
 const CHAINLINK_USDC_USD = '0xfE4A8cc5b5B2366C1B58Bea3858e81843581b2F7'
 const CHAINLINK_MATIC_USD = '0xAB594600376Ec9fD91F8e885dADF0CE036862dE0'
 
-const FEE_CLAIMER = '0x22e43eCDcddE93Ed88E006F10EbfbeA6010E87dE'
+const FEE_CLAIMER = '0x8b5cF413214CA9348F047D1aF402Db1b4E96c060'
 const SWAP_SIGNER = '0x213ec49E59E6D219Db083C2833746b5dFCad646c'
 
 export function itDeploysParaswapFeeRedistributorCorrectly(): void {
@@ -173,7 +173,7 @@ export function itDeploysParaswapFeeRedistributorCorrectly(): void {
 
     it('sets the expected token threshold params', async () => {
       expect(await erc20Claimer.thresholdToken()).to.be.equal(USDC)
-      expect(await erc20Claimer.thresholdAmount()).to.be.equal(toUSDC(20))
+      expect(await erc20Claimer.thresholdAmount()).to.be.equal(toUSDC(200))
     })
 
     it('sets the expected gas limits', async () => {
@@ -241,7 +241,7 @@ export function itDeploysParaswapFeeRedistributorCorrectly(): void {
 
     it('sets the expected token threshold params', async () => {
       expect(await nativeClaimer.thresholdToken()).to.be.equal(USDC)
-      expect(await nativeClaimer.thresholdAmount()).to.be.equal(toUSDC(20))
+      expect(await nativeClaimer.thresholdAmount()).to.be.equal(toUSDC(200))
     })
 
     it('does not allow relayed permissive mode', async () => {
@@ -283,7 +283,7 @@ export function itDeploysParaswapFeeRedistributorCorrectly(): void {
     })
 
     it('sets the expected time-lock', async () => {
-      expect(await swapFeeSetter.period()).to.be.equal(DAY)
+      expect(await swapFeeSetter.period()).to.be.equal(3 * MONTH)
       expect(await swapFeeSetter.nextResetTime()).not.to.be.eq(0)
     })
 
@@ -293,8 +293,8 @@ export function itDeploysParaswapFeeRedistributorCorrectly(): void {
       expect(await swapFeeSetter.payingGasToken()).to.be.equal(WMATIC)
     })
 
-    it('does not allow relayed permissive mode', async () => {
-      expect(await swapFeeSetter.isPermissiveModeActive()).to.be.false
+    it('allows relayed permissive mode', async () => {
+      expect(await swapFeeSetter.isPermissiveModeActive()).to.be.true
     })
 
     it('sets the expected fees', async () => {
@@ -306,25 +306,25 @@ export function itDeploysParaswapFeeRedistributorCorrectly(): void {
 
       const fee1 = await swapFeeSetter.fees(1)
       expect(fee1.pct).to.be.equal(fp(0.005))
-      expect(fee1.cap).to.be.equal(toUSDC(0.3))
+      expect(fee1.cap).to.be.equal(toUSDC(5000))
       expect(fee1.token).to.be.equal(USDC)
       expect(fee1.period).to.be.equal(MONTH)
 
       const fee2 = await swapFeeSetter.fees(2)
       expect(fee2.pct).to.be.equal(fp(0.01))
-      expect(fee2.cap).to.be.equal(toUSDC(0.5))
+      expect(fee2.cap).to.be.equal(toUSDC(5000))
       expect(fee2.token).to.be.equal(USDC)
       expect(fee2.period).to.be.equal(MONTH)
 
       const fee3 = await swapFeeSetter.fees(3)
       expect(fee3.pct).to.be.equal(fp(0.015))
-      expect(fee3.cap).to.be.equal(toUSDC(0.7))
+      expect(fee3.cap).to.be.equal(toUSDC(5000))
       expect(fee3.token).to.be.equal(USDC)
       expect(fee3.period).to.be.equal(MONTH)
 
       const fee4 = await swapFeeSetter.fees(4)
       expect(fee4.pct).to.be.equal(fp(0.02))
-      expect(fee4.cap).to.be.equal(toUSDC(0.9))
+      expect(fee4.cap).to.be.equal(toUSDC(5000))
       expect(fee4.token).to.be.equal(USDC)
       expect(fee4.period).to.be.equal(MONTH)
     })

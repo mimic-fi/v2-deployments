@@ -1,5 +1,7 @@
-import { ZERO_ADDRESS } from '@mimic-fi/v2-helpers'
+import { fp, MONTH, toUSDC, ZERO_ADDRESS } from '@mimic-fi/v2-helpers'
 
+import { USD } from '../../constants/chainlink/denominations'
+import * as chainlink from '../../constants/chainlink/fantom'
 import { BOT, OWNER_EOA } from '../../constants/mimic'
 import * as tokens from '../../constants/tokens/fantom'
 import Task from '../../src/task'
@@ -8,7 +10,6 @@ const Registry = new Task('2023010602-registry-v2')
 const SmartVault = new Task('2023010603-smart-vault-v3')
 const PriceOracle = new Task('2023010604-price-oracle-v2')
 const SwapConnector = new Task('2023010605-swap-connector-v5')
-const BridgeConnector = new Task('2023010606-bridge-connector-v1')
 const SmartVaultsFactory = new Task('2023010607-smart-vaults-factory-v1')
 const MimicFeeCollector = new Task('2023010702-mimic-fee-collector-l2-no-bridge')
 
@@ -37,10 +38,13 @@ export default {
       admin: owner,
       feeCollector: MimicFeeCollector.key('SmartVault'),
       strategies: [],
-      priceFeedParams: [], // TODO
+      priceFeedParams: [
+        { base: tokens.USDC, quote: USD, feed: chainlink.USDC_USD },
+        { base: tokens.WFTM, quote: USD, feed: chainlink.FTM_USD },
+      ],
       priceOracle: PriceOracle,
       swapConnector: SwapConnector,
-      bridgeConnector: BridgeConnector,
+      bridgeConnector: ZERO_ADDRESS,
       swapFee: { pct: 0, cap: 0, token: ZERO_ADDRESS, period: 0 },
       bridgeFee: { pct: 0, cap: 0, token: ZERO_ADDRESS, period: 0 },
       withdrawFee: { pct: 0, cap: 0, token: ZERO_ADDRESS, period: 0 },
@@ -50,20 +54,20 @@ export default {
       impl: undefined,
       admin: owner,
       managers,
-      maxSlippage: 0, // TODO
+      maxSlippage: fp(0.03), // 3%
       swapSigner,
-      tokenSwapIgnores: [], // TODO
+      tokenSwapIgnores: [tokens.PSP],
       feeClaimerParams: {
         feeClaimer,
         tokenThresholdActionParams: {
-          token: '', // TODO
-          amount: 0, // TODO
+          token: tokens.USDC,
+          amount: toUSDC(200),
         },
         relayedActionParams: {
           relayers,
-          gasPriceLimit: 100e9,
+          gasPriceLimit: 300e9,
           totalCostLimit: 0,
-          payingGasToken: tokens.WETH,
+          payingGasToken: tokens.WFTM,
           permissiveModeAdmin: OWNER_EOA,
           isPermissiveModeActive: false,
         },
@@ -76,14 +80,14 @@ export default {
       feeClaimerParams: {
         feeClaimer,
         tokenThresholdActionParams: {
-          token: '', // TODO
-          amount: 0, // TODO
+          token: tokens.USDC,
+          amount: toUSDC(200),
         },
         relayedActionParams: {
           relayers,
-          gasPriceLimit: 100e9,
+          gasPriceLimit: 300e9,
           totalCostLimit: 0,
-          payingGasToken: tokens.WETH,
+          payingGasToken: tokens.WFTM,
           permissiveModeAdmin: OWNER_EOA,
           isPermissiveModeActive: false,
         },
@@ -93,17 +97,23 @@ export default {
       impl: undefined,
       admin: owner,
       managers,
-      feeParams: [], // TODO
+      feeParams: [
+        { pct: 0, cap: 0, token: ZERO_ADDRESS, period: 0 },
+        { pct: fp(0.005), cap: toUSDC(5000), token: tokens.USDC, period: MONTH }, // 0.5%
+        { pct: fp(0.01), cap: toUSDC(5000), token: tokens.USDC, period: MONTH }, // 1%
+        { pct: fp(0.015), cap: toUSDC(5000), token: tokens.USDC, period: MONTH }, // 1.5%
+        { pct: fp(0.02), cap: toUSDC(5000), token: tokens.USDC, period: MONTH }, // 2%
+      ],
       timeLockedActionParams: {
-        period: 0, // TODO
+        period: 3 * MONTH,
       },
       relayedActionParams: {
         relayers,
-        gasPriceLimit: 100e9,
+        gasPriceLimit: 300e9,
         totalCostLimit: 0,
-        payingGasToken: tokens.WETH,
+        payingGasToken: tokens.WFTM,
         permissiveModeAdmin: OWNER_EOA,
-        isPermissiveModeActive: false,
+        isPermissiveModeActive: true,
       },
     },
   },

@@ -1,5 +1,7 @@
-import { ZERO_ADDRESS } from '@mimic-fi/v2-helpers'
+import { fp, MONTH, toUSDC, ZERO_ADDRESS } from '@mimic-fi/v2-helpers'
 
+import * as chainlink from '../../constants/chainlink/arbitrum'
+import { USD } from '../../constants/chainlink/denominations'
 import { BOT, OWNER_EOA } from '../../constants/mimic'
 import * as tokens from '../../constants/tokens/arbitrum'
 import Task from '../../src/task'
@@ -37,7 +39,10 @@ export default {
       admin: owner,
       feeCollector: MimicFeeCollector.key('SmartVault'),
       strategies: [],
-      priceFeedParams: [], // TODO
+      priceFeedParams: [
+        { base: tokens.USDC, quote: USD, feed: chainlink.USDC_USD },
+        { base: tokens.WETH, quote: USD, feed: chainlink.ETH_USD },
+      ],
       priceOracle: PriceOracle,
       swapConnector: SwapConnector,
       bridgeConnector: BridgeConnector,
@@ -50,18 +55,18 @@ export default {
       impl: undefined,
       admin: owner,
       managers,
-      maxSlippage: 0, // TODO
+      maxSlippage: fp(0.03), // 3%
       swapSigner,
-      tokenSwapIgnores: [], // TODO
+      tokenSwapIgnores: [],
       feeClaimerParams: {
         feeClaimer,
         tokenThresholdActionParams: {
-          token: '', // TODO
-          amount: 0, // TODO
+          token: tokens.USDC,
+          amount: toUSDC(200),
         },
         relayedActionParams: {
           relayers,
-          gasPriceLimit: 100e9,
+          gasPriceLimit: 10e9,
           totalCostLimit: 0,
           payingGasToken: tokens.WETH,
           permissiveModeAdmin: OWNER_EOA,
@@ -76,12 +81,12 @@ export default {
       feeClaimerParams: {
         feeClaimer,
         tokenThresholdActionParams: {
-          token: '', // TODO
-          amount: 0, // TODO
+          token: tokens.USDC,
+          amount: toUSDC(200),
         },
         relayedActionParams: {
           relayers,
-          gasPriceLimit: 100e9,
+          gasPriceLimit: 10e9,
           totalCostLimit: 0,
           payingGasToken: tokens.WETH,
           permissiveModeAdmin: OWNER_EOA,
@@ -93,17 +98,23 @@ export default {
       impl: undefined,
       admin: owner,
       managers,
-      feeParams: [], // TODO
+      feeParams: [
+        { pct: 0, cap: 0, token: ZERO_ADDRESS, period: 0 },
+        { pct: fp(0.005), cap: toUSDC(5000), token: tokens.USDC, period: MONTH }, // 0.5%
+        { pct: fp(0.01), cap: toUSDC(5000), token: tokens.USDC, period: MONTH }, // 1%
+        { pct: fp(0.015), cap: toUSDC(5000), token: tokens.USDC, period: MONTH }, // 1.5%
+        { pct: fp(0.02), cap: toUSDC(5000), token: tokens.USDC, period: MONTH }, // 2%
+      ],
       timeLockedActionParams: {
-        period: 0, // TODO
+        period: 3 * MONTH,
       },
       relayedActionParams: {
         relayers,
-        gasPriceLimit: 100e9,
+        gasPriceLimit: 10e9,
         totalCostLimit: 0,
         payingGasToken: tokens.WETH,
         permissiveModeAdmin: OWNER_EOA,
-        isPermissiveModeActive: false,
+        isPermissiveModeActive: true,
       },
     },
   },

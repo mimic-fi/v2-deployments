@@ -5,7 +5,7 @@ import Task from '../../../../src/task'
 import { ParaswapFeeRedistributorDeployment } from '../../input'
 import { itDeploysParaswapFeeRedistributorCorrectly } from '../behavior.bsc'
 
-describe.skip('Paraswap fee redistributor - bsc', function () {
+describe('Paraswap fee redistributor - bsc', function () {
   before('load task', function () {
     this.task = Task.forTest('2023011300-paraswap-fee-redistributor', getForkedNetwork(hre))
   })
