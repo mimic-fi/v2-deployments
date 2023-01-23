@@ -9,7 +9,7 @@ import Task from '../../src/task'
 
 /* eslint-disable no-secrets/no-secrets */
 
-const owner = '0x519b70055af55A007110B4Ff99b0eA33071c720a' // dao
+const owner = '0xe716EC63C5673B3a4732D22909b38d779fa47c3F' // dao
 const managers: string[] = [] // no managers
 const relayers = [BOT]
 
