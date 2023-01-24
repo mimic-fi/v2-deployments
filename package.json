@@ -28,10 +28,12 @@
     "test:deployed:gnosis": "ts-node ./src/tests.ts --deployed --network gnosis",
     "test:deployed:avalanche": "ts-node ./src/tests.ts --deployed --network avalanche",
     "test:deployed:bsc": "ts-node ./src/tests.ts --deployed --network bsc",
-    "test:deployed:fantom": "ts-node ./src/tests.ts --deployed --network fantom"
+    "test:deployed:fantom": "ts-node ./src/tests.ts --deployed --network fantom",
+    "test": "yarn hardhat test",
+    "test:all": "for network in avalanche arbitrum bsc fantom gnosis goerli mainnet mumbai optimism polygon; do yarn test --fork $network || exit 1; done"
   },
   "dependencies": {
-    "@mimic-fi/v2-helpers": "0.1.0-rc.3",
+    "@mimic-fi/v2-helpers": "0.1.2",
     "@nomiclabs/hardhat-ethers": "^2.2.1",
     "@nomiclabs/hardhat-etherscan": "^2.1.8",
     "chalk": "^4.1.1",

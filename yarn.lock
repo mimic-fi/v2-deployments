@@ -857,10 +857,10 @@
     decimal.js "^10.3.1"
     hardhat "^2.12.3"
 
-"@mimic-fi/v2-helpers@0.1.0-rc.3":
-  version "0.1.0-rc.3"
-  resolved "https://registry.yarnpkg.com/@mimic-fi/v2-helpers/-/v2-helpers-0.1.0-rc.3.tgz#09720892445f78b7da2c4beb47b14673923c1932"
-  integrity sha512-APtmKx3o0z6MP86Q3qD1klRwSazV9/FmErhu6Cq4UBk+NHcU4w/zjRqrl5eKLaZH2wvSQXggu1ZBGXhPe2j54Q==
+"@mimic-fi/v2-helpers@0.1.2":
+  version "0.1.2"
+  resolved "https://registry.yarnpkg.com/@mimic-fi/v2-helpers/-/v2-helpers-0.1.2.tgz#f7d567639273554a2439ff428a4ffcb7cd8f0340"
+  integrity sha512-GZXdWHIE6VY94Up2Xbwjxc6ja12nSFRjMwBanwzh92IxoHKIbFtWE+kfAbea3aXJdy3KRkcpMYHJBveo0N3zQg==
   dependencies:
     "@nomiclabs/hardhat-ethers" "^2.2.1"
     "@nomiclabs/hardhat-waffle" "^2.0.3"
