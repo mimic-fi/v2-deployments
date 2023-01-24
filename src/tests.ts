@@ -10,7 +10,12 @@ const RETRIES_INTERVAL = 15
 const TASKS_DIRECTORY = path.resolve(__dirname, '../tasks')
 const TASKS_IDS = fs.readdirSync(TASKS_DIRECTORY)
 
-type BlockNumbersPerNetwork = { [key: string]: number | undefined }
+type TaskConfig = {
+  custom: boolean
+  blockNumbers: {
+    [key: string]: number | undefined
+  }
+}
 
 async function tests(): Promise<void> {
   const yargsParser = yargs
@@ -33,15 +38,19 @@ async function tests(): Promise<void> {
 }
 
 function getConfigsPerTaskId(fork: boolean) {
-  return TASKS_IDS.reduce((configs: { [key: string]: BlockNumbersPerNetwork }, taskId: string) => {
+  return TASKS_IDS.reduce((configs: { [key: string]: TaskConfig }, taskId: string) => {
     const testDir = path.join(TASKS_DIRECTORY, taskId, 'test')
     if (!fs.existsSync(testDir) || !fs.statSync(testDir).isDirectory()) return configs
+
+    const customDir = path.join(testDir, fork ? 'fork' : 'deployed')
+    const existsCustomDir = fs.existsSync(customDir)
+    configs[taskId] = { custom: existsCustomDir, blockNumbers: {} }
 
     const configFile = path.join(testDir, '.config.json')
     if (!fs.existsSync(configFile) || !fs.statSync(configFile).isFile()) return configs
 
     const config = JSON.parse(fs.readFileSync(configFile).toString())
-    configs[taskId] = (fork ? config.fork : config.deployed) || {}
+    configs[taskId].blockNumbers = (fork ? config.fork : config.deployed) || {}
     return configs
   }, {})
 }
@@ -51,13 +60,20 @@ async function runTests(taskIds: string[], networks: string[], fork: boolean) {
   const tasksToRun = taskIds.length === 0 ? Object.keys(configs) : taskIds
 
   for (const taskId of tasksToRun) {
-    const networksToRun = networks.length === 0 ? Object.keys(configs[taskId]) : networks
+    const blockNumbersPerNetwork = configs[taskId].blockNumbers
+    const networksToRun = networks.length === 0 ? Object.keys(blockNumbersPerNetwork) : networks
 
     for (const network of networksToRun) {
-      if (configs[taskId][network] !== undefined) {
-        const blockNumber = configs[taskId][network]
-        const tests = `./tasks/${taskId}/test/${fork ? 'fork' : 'deployed'}/*.${network}.ts`
-        await runTest(`hardhat test ${tests} --fork ${network} ${blockNumber ? `--block-number ${blockNumber}` : ''}`)
+      if (blockNumbersPerNetwork[network] !== undefined) {
+        const blockNumber = blockNumbersPerNetwork[network]
+
+        process.env.TASK_ID = taskId
+        process.env.TASK_TEST_TYPE = fork ? 'fork' : 'deployed'
+
+        const isCustom = configs[taskId].custom
+        const testPath = isCustom ? `./tasks/${taskId}/test/${fork ? 'fork' : 'deployed'}/*.ts` : './test/tasks/*.ts'
+        const cmd = `hardhat test ${testPath} --fork ${network} ${blockNumber ? `--block-number ${blockNumber}` : ''}`
+        await runTest(cmd)
       }
     }
   }

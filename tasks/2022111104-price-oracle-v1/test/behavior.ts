@@ -4,7 +4,7 @@ import { ethers } from 'hardhat'
 
 import { PriceOracleDeployment } from '../input'
 
-export function itDeploysPriceOracleCorrectly(): void {
+export default function itDeploysPriceOracleCorrectly(): void {
   let priceOracle: Contract
 
   before('load price oracle', async function () {

@@ -4,7 +4,7 @@ import { ethers } from 'hardhat'
 
 /* eslint-disable no-secrets/no-secrets */
 
-export function itBehavesLikeCreate3Factory(): void {
+export default function itBehavesLikeCreate3Factory(): void {
   let factory: Contract
 
   before('load factory', async function () {

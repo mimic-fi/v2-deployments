@@ -18,7 +18,7 @@ const WHALE = '0x9A6ebE7E2a7722F8200d0ffB63a1F6406A0d7dce'
 
 import { DecentralandManaSwapperDeployment } from '../input'
 
-export function itDeploysDecentralandManaSwapperCorrectly(): void {
+export default function itDeploysDecentralandManaSwapperCorrectly(): void {
   let input: DecentralandManaSwapperDeployment
   let smartVault: Contract, withdrawer: Contract, dexSwapper: Contract, otcSwapper: Contract
   let owner: string, relayers: string[], managers: string[], feeCollector: string

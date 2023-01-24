@@ -6,7 +6,7 @@ import { RegistryDeployment } from '../input'
 
 /* eslint-disable no-secrets/no-secrets */
 
-export function itDeploysRegistryCorrectly(): void {
+export default function itDeploysRegistryCorrectly(): void {
   let registry: Contract
 
   before('load registry', async function () {

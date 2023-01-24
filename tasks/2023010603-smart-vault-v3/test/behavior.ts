@@ -3,7 +3,7 @@ import { Contract } from 'ethers'
 
 import { SmartVaultDeployment } from '../input'
 
-export function itDeploysSmartVaultCorrectly(): void {
+export default function itDeploysSmartVaultCorrectly(): void {
   let smartVault: Contract
 
   before('load smart vault', async function () {

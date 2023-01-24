@@ -2,7 +2,7 @@ import { expect } from 'chai'
 import { Contract } from 'ethers'
 import { ethers } from 'hardhat'
 
-export function itDeploysDeployerCorrectly(): void {
+export default function itDeploysDeployerCorrectly(): void {
   let deployer: Contract
 
   before('load deployer', async function () {

@@ -6,7 +6,7 @@ import { PriceOracleDeployment } from '../input'
 
 /* eslint-disable no-secrets/no-secrets */
 
-export function itDeploysPriceOracleCorrectly(): void {
+export default function itDeploysPriceOracleCorrectly(): void {
   let priceOracle: Contract
 
   before('load price oracle', async function () {

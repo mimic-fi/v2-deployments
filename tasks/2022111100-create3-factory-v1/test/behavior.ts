@@ -2,7 +2,7 @@ import { expect } from 'chai'
 import { Contract } from 'ethers'
 import { ethers } from 'hardhat'
 
-export function itBehavesLikeCreate3Factory(): void {
+export default function itBehavesLikeCreate3Factory(): void {
   let factory: Contract
 
   before('load factory', async function () {

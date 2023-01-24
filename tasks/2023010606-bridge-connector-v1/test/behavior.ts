@@ -4,7 +4,7 @@ import { ethers } from 'hardhat'
 
 import { BridgeConnectorDeployment } from '../input'
 
-export function itDeploysBridgeConnectorCorrectly(): void {
+export default function itDeploysBridgeConnectorCorrectly(): void {
   let bridgeConnector: Contract
 
   before('load bridge connector', async function () {

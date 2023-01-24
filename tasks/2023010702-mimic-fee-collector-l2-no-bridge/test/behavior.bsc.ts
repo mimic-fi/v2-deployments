@@ -20,7 +20,7 @@ const CHAINLINK_ORACLE_USDT_USD = '0xB97Ad0E74fa7d920791E90258A6E2085088b4320'
 const CHAINLINK_ORACLE_ETH_USD = '0x9ef1B8c0E4F7dc8bF5719Ea496883DC6401d5b2e'
 const CHAINLINK_ORACLE_BNB_USD = '0x0567F2323251f0Aab15c8dFb1967E4e8A7D42aeE'
 
-export function itDeploysMimicFeeCollectorCorrectly(): void {
+export default function itDeploysMimicFeeCollectorCorrectly(): void {
   let input: MimicFeeCollectorDeployment
   let smartVault: Contract, holder: Contract, funder: Contract
   let owner: string, bot: string, managers: string[]
