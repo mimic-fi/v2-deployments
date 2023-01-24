@@ -26,7 +26,7 @@ jobs:
           discord-webhook: ${{ secrets.DISCORD_WEBHOOK }}
 
   test:
-    name: Test
+    name: Unit tests
     runs-on: ubuntu-latest
     steps:
       - name: Checkout
@@ -35,8 +35,8 @@ jobs:
         uses: ./.github/actions/setup
       - name: Set up hardhat config
         run: .github/scripts/setup-hardhat-config.sh ${{secrets.GOERLI_RPC}} ${{secrets.MUMBAI_RPC}} ${{secrets.MAINNET_RPC}} ${{secrets.POLYGON_RPC}} ${{secrets.OPTIMISM_RPC}} ${{secrets.ARBITRUM_RPC}} ${{secrets.GNOSIS_RPC}} ${{secrets.AVALANCHE_RPC}} ${{secrets.BSC_RPC}} ${{secrets.FANTOM_RPC}}
-      - name: Test
-        run: yarn test:all
+      - name: Unit tests
+        run: yarn test:unit:all
       - name: Notify discord
         uses: ./.github/actions/notify-discord
         with:
@@ -63,7 +63,7 @@ jobs:
         run: |
           TASKS=$(echo ${{ steps.changed-tasks.outputs.all_changed_files }} | tr -s ' '  '\n' | grep -oP '(?<=tasks/)[^/]*' | sort --unique | paste -sd ' ')
           echo "Tasks: $TASKS"
-          yarn test:fork --task $TASKS
+          yarn test:task:fork --task $TASKS
       - name: Notify discord
         uses: ./.github/actions/notify-discord
         with:
@@ -91,7 +91,7 @@ jobs:
         run: |
           TASKS=$(echo ${{ steps.changed-tasks.outputs.all_changed_files }} | tr -s ' '  '\n' | grep -oP '(?<=tasks/)[^/]*' | sort --unique | paste -sd ' ')
           echo "Tasks: $TASKS"
-          yarn test:deployed --task $TASKS
+          yarn test:task:deployed --task $TASKS
       - name: Notify discord
         uses: ./.github/actions/notify-discord
         with:
