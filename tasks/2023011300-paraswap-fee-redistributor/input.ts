@@ -54,6 +54,7 @@ export type ParaswapFeeRedistributorDeployment = {
       factory: string
       impl: string
       admin: string
+      mimic: string
       feeCollector: string
       strategies: string[]
       priceFeedParams: { base: string; quote: string; feed: string }[]

@@ -31,6 +31,7 @@ export default {
     feeCollector: MimicFeeCollector.key('SmartVault'),
   },
   params: {
+    mimic: OWNER_EOA,
     registry: Registry,
     smartVaultParams: {
       salt: undefined,
