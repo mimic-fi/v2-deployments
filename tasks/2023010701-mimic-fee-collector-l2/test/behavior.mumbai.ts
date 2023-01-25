@@ -14,7 +14,7 @@ const HOP_USDC_AMM = '0xa81D244A1814468C734E5b4101F7b9c0c577a8fC'
 const HOP_WETH_AMM = '0x0e0E3d2C5c292161999474247956EF542caBF8dd'
 const CHAINLINK_MATIC_USD = '0xd0D5e3DB44DE05E9F294BB0a3bEEaF030DE24Ada'
 
-export function itDeploysMimicFeeCollectorCorrectly(): void {
+export default function itDeploysMimicFeeCollectorCorrectly(): void {
   let input: MimicFeeCollectorDeployment
   let smartVault: Contract, holder: Contract, funder: Contract, bridger: Contract, swapper: Contract
   let owner: string, bot: string, managers: string[]

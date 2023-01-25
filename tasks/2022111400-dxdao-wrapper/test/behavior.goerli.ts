@@ -8,7 +8,7 @@ import { DxDaoWrapperDeployment } from '../input'
 
 const WETH = '0xB4FBF271143F4FBf7B91A5ded31805e42b2208d6'
 
-export function itDeploysDxDaoWrapperCorrectly(): void {
+export default function itDeploysDxDaoWrapperCorrectly(): void {
   let input: DxDaoWrapperDeployment
   let smartVault: Contract, wrapper: Contract, registry: Contract
   let owner: string, relayers: string[], managers: string[], feeCollector: string

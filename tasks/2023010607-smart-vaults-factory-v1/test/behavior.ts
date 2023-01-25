@@ -6,7 +6,7 @@ import { SmartVaultsFactoryDeployment } from '../input'
 
 /* eslint-disable no-secrets/no-secrets */
 
-export function itDeploysSmartVaultsFactoryCorrectly(): void {
+export default function itDeploysSmartVaultsFactoryCorrectly(): void {
   let smartVaultsFactory: Contract
 
   before('load factory', async function () {
