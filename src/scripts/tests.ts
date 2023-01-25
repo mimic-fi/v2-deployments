@@ -3,11 +3,11 @@ import fs from 'fs'
 import path from 'path'
 import yargs from 'yargs'
 
-import { NETWORKS } from './types'
+import { NETWORKS } from '../types'
 
 const RETRIES = 3
 const RETRIES_INTERVAL = 15
-const TASKS_DIRECTORY = path.resolve(__dirname, '../tasks')
+const TASKS_DIRECTORY = path.resolve(__dirname, '../../tasks')
 const TASKS_IDS = fs.readdirSync(TASKS_DIRECTORY)
 
 type TaskConfig = {
