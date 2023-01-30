@@ -18,7 +18,7 @@ const MimicFeeCollector = new Task('2023010701-mimic-fee-collector-l2')
 
 const owner = '0xf93A7F819F83DBfDbC307d4D4f0FE5a208C50318' // Paraswap multisig
 const feeClaimer = '0xa7465ccd97899edcf11c56d2d26b49125674e45f'
-const swapSigner = '0x213ec49E59E6D219Db083C2833746b5dFCad646c'
+const swapSigner = '0x6278c27CF5534F07fA8f1Ab6188a155cb8750FFA'
 const managers: string[] = []
 const relayers = [BOT]
 

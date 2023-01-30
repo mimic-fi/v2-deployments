@@ -15,7 +15,7 @@ const CHAINLINK_ETH_USD = '0x639Fe6ab55C921f74e7fac1ee960C0B6293ba612'
 const CHAINLINK_USDC_USD = '0x50834F3163758fcC1Df9973b6e91f0F0F0434aD3'
 
 const FEE_CLAIMER = '0xA7465CCD97899edcf11C56D2d26B49125674e45F'
-const SWAP_SIGNER = '0x213ec49E59E6D219Db083C2833746b5dFCad646c'
+const SWAP_SIGNER = '0x6278c27CF5534F07fA8f1Ab6188a155cb8750FFA'
 
 export function itDeploysParaswapFeeRedistributorCorrectly(): void {
   let input: ParaswapFeeRedistributorDeployment
