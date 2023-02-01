@@ -5,7 +5,7 @@ import { ethers } from 'hardhat'
 
 import { DXDaoWrapperReceiverDeployment } from '../input'
 
-export function itDeploysSwapConnectorCorrectly(): void {
+export default function itDeploysSwapConnectorCorrectly(): void {
   let receiver: Contract, smartVault: string, input: DXDaoWrapperReceiverDeployment
 
   before('load input', async function () {

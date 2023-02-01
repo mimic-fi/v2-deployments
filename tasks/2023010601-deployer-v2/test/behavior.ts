@@ -4,7 +4,7 @@ import { ethers } from 'hardhat'
 
 import { DeployerDeployment } from '../input'
 
-export function itDeploysDeployerCorrectly(): void {
+export default function itDeploysDeployerCorrectly(): void {
   let deployer: Contract
 
   before('load deployer', async function () {

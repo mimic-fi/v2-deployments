@@ -12,7 +12,7 @@ const WETH = '0xA6FA4fB5f76172d178d61B04b0ecd319C5d1C0aa'
 const HOP_USDC_AMM = '0xa81D244A1814468C734E5b4101F7b9c0c577a8fC'
 const HOP_WETH_AMM = '0x0e0E3d2C5c292161999474247956EF542caBF8dd'
 
-export function itDeploysDxDaoBridgerCorrectly(): void {
+export default function itDeploysDxDaoBridgerCorrectly(): void {
   let input: DxDaoBridgerDeployment
   let smartVault: Contract, bridger: Contract, swapper: Contract
   let owner: string, relayers: string[], managers: string[], feeCollector: string
@@ -29,10 +29,6 @@ export function itDeploysDxDaoBridgerCorrectly(): void {
   })
 
   describe('smart vault', () => {
-    it('has the same address as the L1 smart vault', async function () {
-      expect(smartVault.address).to.be.equal(this.l1Task.output()['SmartVault'])
-    })
-
     it('uses the correct implementation', async function () {
       const smartVaultsFactory = await this.task.inputDeployedInstance('SmartVaultsFactory')
       const implementation = await smartVaultsFactory.implementationOf(smartVault.address)

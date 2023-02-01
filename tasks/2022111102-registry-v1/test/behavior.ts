@@ -4,7 +4,7 @@ import { ethers } from 'hardhat'
 
 import { RegistryDeployment } from '../input'
 
-export function itDeploysRegistryCorrectly(): void {
+export default function itDeploysRegistryCorrectly(): void {
   let registry: Contract
 
   before('load registry', async function () {

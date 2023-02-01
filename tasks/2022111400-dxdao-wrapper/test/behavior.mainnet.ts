@@ -12,7 +12,7 @@ const USDC = '0xA0b86991c6218b36c1d19D4a2e9Eb0cE3606eB48'
 const WETH = '0xC02aaA39b223FE8D0A0e5C4F27eAD9083C756Cc2'
 const CHAINLINK_ORACLE_USDC_ETH = '0x986b5E1e1755e3C2440e960477f25201B0a8bbD4'
 
-export function itDeploysDxDaoWrapperCorrectly(): void {
+export default function itDeploysDxDaoWrapperCorrectly(): void {
   let input: DxDaoWrapperDeployment
   let smartVault: Contract, wrapper: Contract, registry: Contract
   let owner: string, relayers: string[], managers: string[], feeCollector: string
