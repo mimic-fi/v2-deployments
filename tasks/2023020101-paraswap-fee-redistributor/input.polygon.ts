@@ -1,4 +1,4 @@
-import { DAY, fp, MONTH, toUSDC, ZERO_ADDRESS } from '@mimic-fi/v2-helpers'
+import { fp, MONTH, toUSDC, ZERO_ADDRESS } from '@mimic-fi/v2-helpers'
 
 import { USD } from '../../constants/chainlink/denominations'
 import * as chainlink from '../../constants/chainlink/polygon'
@@ -16,13 +16,13 @@ const MimicFeeCollector = new Task('2023010701-mimic-fee-collector-l2')
 
 /* eslint-disable no-secrets/no-secrets */
 
-const owner = '0xE26590aD9fAe88f357350FD8d0b0D184E98c5D33' // Paraswap multisig (testing)
+const owner = '0xabf832105d7d19e5dec28d014d5a12579dfa1097' // Paraswap multisig
 const relayers = [BOT]
 const managers: string[] = []
 const mimicAdmin = TESTING_EOA
 const feeCollector = MimicFeeCollector.key('SmartVault')
 
-const feeClaimer = '0x22e43eCDcddE93Ed88E006F10EbfbeA6010E87dE' // Testing claimer
+const feeClaimer = '0x8b5cF413214CA9348F047D1aF402Db1b4E96c060'
 const swapSigner = '0x6278c27CF5534F07fA8f1Ab6188a155cb8750FFA'
 
 export default {
@@ -67,7 +67,7 @@ export default {
         feeClaimer,
         tokenThresholdActionParams: {
           token: tokens.USDC,
-          amount: toUSDC(20),
+          amount: toUSDC(200),
         },
         relayedActionParams: {
           relayers,
@@ -84,7 +84,7 @@ export default {
         feeClaimer,
         tokenThresholdActionParams: {
           token: tokens.USDC,
-          amount: toUSDC(20),
+          amount: toUSDC(200),
         },
         relayedActionParams: {
           relayers,
@@ -99,13 +99,13 @@ export default {
       managers: [mimicAdmin],
       feeParams: [
         { pct: 0, cap: 0, token: ZERO_ADDRESS, period: 0 },
-        { pct: fp(0.005), cap: toUSDC(35), token: tokens.USDC, period: MONTH }, // 0.5%
-        { pct: fp(0.01), cap: toUSDC(60), token: tokens.USDC, period: MONTH }, // 1%
-        { pct: fp(0.015), cap: toUSDC(70), token: tokens.USDC, period: MONTH }, // 1.5%
-        { pct: fp(0.02), cap: toUSDC(90), token: tokens.USDC, period: MONTH }, // 2%
+        { pct: fp(0.005), cap: toUSDC(5000), token: tokens.USDC, period: MONTH }, // 0.5%
+        { pct: fp(0.01), cap: toUSDC(5000), token: tokens.USDC, period: MONTH }, // 1%
+        { pct: fp(0.015), cap: toUSDC(5000), token: tokens.USDC, period: MONTH }, // 1.5%
+        { pct: fp(0.02), cap: toUSDC(5000), token: tokens.USDC, period: MONTH }, // 2%
       ],
       timeLockedActionParams: {
-        period: DAY,
+        period: 3 * MONTH,
       },
     },
   },
