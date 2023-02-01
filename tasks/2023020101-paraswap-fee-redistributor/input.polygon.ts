@@ -1,4 +1,4 @@
-import { fp, MONTH, toUSDC, ZERO_ADDRESS } from '@mimic-fi/v2-helpers'
+import { DAY, fp, MONTH, toUSDC, ZERO_ADDRESS } from '@mimic-fi/v2-helpers'
 
 import { USD } from '../../constants/chainlink/denominations'
 import * as chainlink from '../../constants/chainlink/polygon'
@@ -67,7 +67,7 @@ export default {
         feeClaimer,
         tokenThresholdActionParams: {
           token: tokens.USDC,
-          amount: toUSDC(200),
+          amount: toUSDC(20),
         },
         relayedActionParams: {
           relayers,
@@ -84,7 +84,7 @@ export default {
         feeClaimer,
         tokenThresholdActionParams: {
           token: tokens.USDC,
-          amount: toUSDC(200),
+          amount: toUSDC(20),
         },
         relayedActionParams: {
           relayers,
@@ -99,13 +99,13 @@ export default {
       managers: [mimicAdmin],
       feeParams: [
         { pct: 0, cap: 0, token: ZERO_ADDRESS, period: 0 },
-        { pct: fp(0.005), cap: toUSDC(5000), token: tokens.USDC, period: MONTH }, // 0.5%
-        { pct: fp(0.01), cap: toUSDC(5000), token: tokens.USDC, period: MONTH }, // 1%
-        { pct: fp(0.015), cap: toUSDC(5000), token: tokens.USDC, period: MONTH }, // 1.5%
-        { pct: fp(0.02), cap: toUSDC(5000), token: tokens.USDC, period: MONTH }, // 2%
+        { pct: fp(0.005), cap: toUSDC(35), token: tokens.USDC, period: MONTH }, // 0.5%
+        { pct: fp(0.01), cap: toUSDC(60), token: tokens.USDC, period: MONTH }, // 1%
+        { pct: fp(0.015), cap: toUSDC(70), token: tokens.USDC, period: MONTH }, // 1.5%
+        { pct: fp(0.02), cap: toUSDC(90), token: tokens.USDC, period: MONTH }, // 2%
       ],
       timeLockedActionParams: {
-        period: 3 * MONTH,
+        period: DAY,
       },
     },
   },
