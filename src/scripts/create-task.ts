@@ -44,7 +44,7 @@ function createBehavior(taskDir: string, taskName: string): void {
     .join('')
 
   const content = `export default function itDeploys${fnName}Properly(): void {}`
-  fs.writeFileSync(path.join(taskDir, 'behavior.ts'), content)
+  fs.writeFileSync(path.join(taskDir, 'test', 'behavior.ts'), content)
 }
 
 function createReadme(taskDir: string, taskName: string): void {

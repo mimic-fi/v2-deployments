@@ -1,0 +1,26 @@
+{
+  "fork": {
+    "goerli": 8416602,
+    "mumbai": 31636813,
+    "mainnet": 16535660,
+    "polygon": 38782735,
+    "optimism": 71673316,
+    "arbitrum": 57217411,
+    "gnosis": 26260962,
+    "avalanche": 25703544,
+    "bsc": 25297174,
+    "fantom": 54861924
+  },
+  "deployed": {
+    "goerli": 0,
+    "mumbai": 0,
+    "mainnet": 0,
+    "polygon": 0,
+    "optimism": 0,
+    "arbitrum": 0,
+    "gnosis": 0,
+    "avalanche": 0,
+    "bsc": 0,
+    "fantom": 0
+  }
+}
