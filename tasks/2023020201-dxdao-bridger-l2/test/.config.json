@@ -1,7 +1,8 @@
 {
   "fork": {
     "mumbai": 0,
-    "gnosis": 0
+    "gnosis": 0,
+    "optimism": 0
   },
   "deployed": {}
 }

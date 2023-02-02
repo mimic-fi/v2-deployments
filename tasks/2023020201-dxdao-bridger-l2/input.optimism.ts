@@ -1,10 +1,10 @@
-import { bn, fp, HOUR, toUSDC, ZERO_ADDRESS } from '@mimic-fi/v2-helpers'
+import { fp, HOUR, toUSDC, ZERO_ADDRESS } from '@mimic-fi/v2-helpers'
 
 import { USD } from '../../constants/chainlink/denominations'
-import * as chainlink from '../../constants/chainlink/gnosis'
-import * as hop from '../../constants/hop/gnosis'
+import * as chainlink from '../../constants/chainlink/optimism'
+import * as hop from '../../constants/hop/optimism'
 import { BOT, TESTING_EOA } from '../../constants/mimic'
-import * as tokens from '../../constants/tokens/gnosis'
+import * as tokens from '../../constants/tokens/optimism'
 import Task from '../../src/task'
 
 /* eslint-disable no-secrets/no-secrets */
@@ -43,7 +43,7 @@ export default {
       strategies: [],
       priceFeedParams: [
         { base: tokens.WETH, quote: USD, feed: chainlink.ETH_USD },
-        { base: tokens.WXDAI, quote: USD, feed: chainlink.DAI_USD },
+        { base: tokens.DAI, quote: USD, feed: chainlink.DAI_USD },
         { base: tokens.USDC, quote: USD, feed: chainlink.USDC_USD },
       ],
       priceOracle: PriceOracle,
@@ -60,14 +60,14 @@ export default {
       managers,
       maxSlippage: fp(0.002), // 0.2 %
       hopAmmParams: [
-        { token: tokens.WXDAI, amm: hop.DAI_AMM },
+        { token: tokens.DAI, amm: hop.DAI_AMM },
         { token: tokens.USDC, amm: hop.USDC_AMM },
-        { token: tokens.WETH, amm: hop.WETH_AMM },
+        { token: tokens.WETH, amm: hop.ETH_AMM },
       ],
       relayedActionParams: {
         relayers,
         txCostLimit: 0,
-        gasPriceLimit: bn(40e9),
+        gasPriceLimit: 0.5e9,
       },
     },
     l2HopBridgerActionParams: {
@@ -77,10 +77,10 @@ export default {
       maxDeadline: 2 * HOUR,
       maxSlippage: fp(0.003), // 0.3 %
       maxBonderFeePct: fp(0.03), // 3 %
-      destinationChainId: 10, // optimism
+      destinationChainId: 100, // gnosis
       hopAmmParams: [
-        { token: tokens.WETH, amm: hop.WETH_AMM },
-        { token: tokens.WXDAI, amm: hop.DAI_AMM },
+        { token: tokens.WETH, amm: hop.ETH_AMM },
+        { token: tokens.DAI, amm: hop.DAI_AMM },
         { token: tokens.USDC, amm: hop.USDC_AMM },
       ],
       tokenThresholdActionParams: {
@@ -90,7 +90,7 @@ export default {
       relayedActionParams: {
         relayers,
         txCostLimit: 0,
-        gasPriceLimit: bn(40e9),
+        gasPriceLimit: 0.5e9,
       },
     },
     withdrawerActionParams: {
@@ -107,7 +107,7 @@ export default {
       relayedActionParams: {
         relayers,
         txCostLimit: 0,
-        gasPriceLimit: bn(40e9),
+        gasPriceLimit: 0.5e9,
       },
     },
   },

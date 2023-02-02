@@ -8,17 +8,17 @@ import { DxDaoBridgerDeployment } from '../input'
 
 /* eslint-disable no-secrets/no-secrets */
 
-const USDC = '0xDDAfbb505ad214D7b80b1f830fcCc89B60fb7A83'
-const WETH = '0x6A023CCd1ff6F2045C3309768eAd9E68F978f6e1'
-const WXDAI = '0xe91D153E0b41518A2Ce8Dd3D7944Fa863463a97d'
+const DAI = '0xda10009cbd5d07dd0cecc66161fc93d7c9000da1'
+const USDC = '0x7F5c764cBc14f9669B88837ca1490cCa17c31607'
+const WETH = '0x4200000000000000000000000000000000000006'
 
-const CHAINLINK_ORACLE_ETH_USD = '0xa767f745331D267c7751297D982b050c93985627'
-const CHAINLINK_ORACLE_USDC_USD = '0x26C31ac71010aF62E6B486D1132E266D6298857D'
-const CHAINLINK_ORACLE_DAI_USD = '0x678df3415fc31947dA4324eC63212874be5a82f8'
+const CHAINLINK_ORACLE_ETH_USD = '0x13e3Ee699D1909E989722E753853AE30b17e08c5'
+const CHAINLINK_ORACLE_DAI_USD = '0x8dBa75e83DA73cc766A7e5a0ee71F656BAb470d6'
+const CHAINLINK_ORACLE_USDC_USD = '0x16a9FA2FDa030272Ce99B29CF780dFA30361E0f3'
 
-const HOP_DAI_AMM = '0x6C928f435d1F3329bABb42d69CCF043e3900EcF1'
-const HOP_USDC_AMM = '0x76b22b8C1079A44F1211D867D68b1eda76a635A7'
-const HOP_WETH_AMM = '0x03D7f750777eC48d39D080b020D83Eb2CB4e3547'
+const HOP_DAI_AMM = '0xb3C68a491608952Cb1257FC9909a537a0173b63B'
+const HOP_USDC_AMM = '0x2ad09850b0CA4c7c1B33f5AcD6cBAbCaB5d6e796'
+const HOP_WETH_AMM = '0x86cA30bEF97fB651b8d866D45503684b90cb3312'
 
 export default function itDeploysDxDaoBridgerCorrectly(): void {
   let input: DxDaoBridgerDeployment
@@ -139,9 +139,9 @@ export default function itDeploysDxDaoBridgerCorrectly(): void {
     })
 
     it('sets the expected price feeds', async function () {
-      expect(await smartVault.getPriceFeed(WETH, USD)).to.be.equal(CHAINLINK_ORACLE_ETH_USD)
+      expect(await smartVault.getPriceFeed(DAI, USD)).to.be.equal(CHAINLINK_ORACLE_DAI_USD)
       expect(await smartVault.getPriceFeed(USDC, USD)).to.be.equal(CHAINLINK_ORACLE_USDC_USD)
-      expect(await smartVault.getPriceFeed(WXDAI, USD)).to.be.equal(CHAINLINK_ORACLE_DAI_USD)
+      expect(await smartVault.getPriceFeed(WETH, USD)).to.be.equal(CHAINLINK_ORACLE_ETH_USD)
     })
   })
 
@@ -176,13 +176,13 @@ export default function itDeploysDxDaoBridgerCorrectly(): void {
 
     it('sets the expected gas limits', async function () {
       expect(await swapper.txCostLimit()).to.be.equal(0)
-      expect(await swapper.gasPriceLimit()).to.be.equal(40e9)
+      expect(await swapper.gasPriceLimit()).to.be.equal(0.5e9)
     })
 
     it('sets the requested AMMs', async function () {
-      expect(await swapper.getTokenAmm(WETH)).to.be.equal(HOP_WETH_AMM)
+      expect(await swapper.getTokenAmm(DAI)).to.be.equal(HOP_DAI_AMM)
       expect(await swapper.getTokenAmm(USDC)).to.be.equal(HOP_USDC_AMM)
-      expect(await swapper.getTokenAmm(WXDAI)).to.be.equal(HOP_DAI_AMM)
+      expect(await swapper.getTokenAmm(WETH)).to.be.equal(HOP_WETH_AMM)
     })
 
     it('sets the requested max slippage', async function () {
@@ -243,17 +243,17 @@ export default function itDeploysDxDaoBridgerCorrectly(): void {
 
     it('sets the expected gas limits', async function () {
       expect(await bridger.txCostLimit()).to.be.equal(0)
-      expect(await bridger.gasPriceLimit()).to.be.equal(40e9)
+      expect(await bridger.gasPriceLimit()).to.be.equal(0.5e9)
     })
 
-    it('allows the requested destination chain ID', async function () {
-      expect(await bridger.destinationChainId()).to.be.equal(10)
+    it('allows the requested chain ID', async function () {
+      expect(await bridger.destinationChainId()).to.be.equal(100)
     })
 
     it('sets the requested AMMs', async function () {
-      expect(await bridger.getTokenAmm(WETH)).to.be.equal(HOP_WETH_AMM)
+      expect(await bridger.getTokenAmm(DAI)).to.be.equal(HOP_DAI_AMM)
       expect(await bridger.getTokenAmm(USDC)).to.be.equal(HOP_USDC_AMM)
-      expect(await bridger.getTokenAmm(WXDAI)).to.be.equal(HOP_DAI_AMM)
+      expect(await bridger.getTokenAmm(WETH)).to.be.equal(HOP_WETH_AMM)
     })
 
     it('sets the requested maximums', async function () {
@@ -315,7 +315,7 @@ export default function itDeploysDxDaoBridgerCorrectly(): void {
 
     it('sets the expected gas limits', async () => {
       expect(await withdrawer.txCostLimit()).to.be.equal(0)
-      expect(await withdrawer.gasPriceLimit()).to.be.equal(40e9)
+      expect(await withdrawer.gasPriceLimit()).to.be.equal(0.5e9)
     })
 
     it('whitelists the requested relayers', async () => {

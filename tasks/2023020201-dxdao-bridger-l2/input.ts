@@ -4,6 +4,7 @@ import { DEPLOYER_2 } from '../../constants/mimic'
 import Task from '../../src/task'
 import gnosis from './input.gnosis'
 import mumbai from './input.mumbai'
+import optimism from './input.optimism'
 
 export type DxDaoBridgerDeployment = {
   namespace: string
@@ -103,4 +104,5 @@ export default {
   SmartVaultsFactory,
   mumbai,
   gnosis,
+  optimism,
 }
