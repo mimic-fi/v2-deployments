@@ -264,7 +264,7 @@ export default function itDeploysParaswapFeeRedistributorCorrectly(): void {
         { name: 'nativeClaimer', account: nativeClaimer, roles: [] },
         { name: 'swapFeeSetter', account: swapFeeSetter, roles: [] },
         { name: 'managers', account: managers, roles: ['call'] },
-        { name: 'relayers', account: relayers, roles: [] },
+        { name: 'relayers', account: relayers, roles: ['call'] },
       ])
     })
 
