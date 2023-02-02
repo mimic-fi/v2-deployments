@@ -5,6 +5,22 @@ import Task from '../../src/task'
 import goerli from './input.goerli'
 import mainnet from './input.mainnet'
 
+const Create3Factory = new Task('2023010600-create3-factory-v2')
+const Deployer = new Task('2023020100-deployer-v3')
+const Registry = new Task('2023010602-registry-v2')
+const SmartVaultsFactory = new Task('2023010607-smart-vaults-factory-v1')
+
+export default {
+  namespace: 'mimic-v2.dxdao-bridger',
+  from: DEPLOYER_2,
+  Create3Factory,
+  Deployer,
+  Registry,
+  SmartVaultsFactory,
+  goerli,
+  mainnet,
+}
+
 export type DxDaoBridgerDeployment = {
   namespace: string
   version: string
@@ -75,20 +91,4 @@ export type DxDaoBridgerDeployment = {
       }
     }
   }
-}
-
-const Create3Factory = new Task('2023010600-create3-factory-v2')
-const Deployer = new Task('2023020100-deployer-v3')
-const Registry = new Task('2023010602-registry-v2')
-const SmartVaultsFactory = new Task('2023010607-smart-vaults-factory-v1')
-
-export default {
-  namespace: 'mimic-v2.dxdao-bridger',
-  from: DEPLOYER_2,
-  Create3Factory,
-  Deployer,
-  Registry,
-  SmartVaultsFactory,
-  goerli,
-  mainnet,
 }
