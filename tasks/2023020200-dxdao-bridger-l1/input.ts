@@ -53,11 +53,8 @@ export type DxDaoBridgerDeployment = {
       }
       relayedActionParams: {
         relayers: string[]
+        txCostLimit: BigNumberish
         gasPriceLimit: BigNumberish
-        totalCostLimit: BigNumberish
-        payingGasToken: string
-        permissiveModeAdmin: string
-        setPermissiveMode: boolean
       }
     }
     withdrawerActionParams: {
@@ -73,18 +70,15 @@ export type DxDaoBridgerDeployment = {
       }
       relayedActionParams: {
         relayers: string[]
+        txCostLimit: BigNumberish
         gasPriceLimit: BigNumberish
-        totalCostLimit: BigNumberish
-        payingGasToken: string
-        permissiveModeAdmin: string
-        isPermissiveModeActive: boolean
       }
     }
   }
 }
 
 const Create3Factory = new Task('2023010600-create3-factory-v2')
-const Deployer = new Task('2023010601-deployer-v2')
+const Deployer = new Task('2023020100-deployer-v3')
 const Registry = new Task('2023010602-registry-v2')
 const SmartVaultsFactory = new Task('2023010607-smart-vaults-factory-v1')
 

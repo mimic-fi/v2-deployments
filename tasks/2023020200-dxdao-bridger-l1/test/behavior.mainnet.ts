@@ -21,11 +21,11 @@ const HOP_USDC_BRIDGE = '0x3666f603Cc164936C1b87e207F36BEBa4AC5f18a'
 export default function itDeploysDxDaoBridgerCorrectly(): void {
   let input: DxDaoBridgerDeployment
   let smartVault: Contract, bridger: Contract, withdrawer: Contract
-  let owner: string, relayers: string[], managers: string[], feeCollector: string, mimicAdmin: string
+  let owner: string, relayers: string[], managers: string[], mimicAdmin: string, feeCollector: string
 
   before('load accounts', async function () {
     input = this.task.input() as DxDaoBridgerDeployment
-    ;({ owner, managers, relayers, feeCollector, mimicAdmin } = input.accounts)
+    ;({ owner, managers, relayers, mimicAdmin, feeCollector } = input.accounts)
   })
 
   before('load instances', async function () {
@@ -74,7 +74,7 @@ export default function itDeploysDxDaoBridgerCorrectly(): void {
             'setWithdrawFee',
           ],
         },
-        { name: 'mimic', account: feeCollector, roles: ['setFeeCollector'] },
+        { name: 'mimic', account: mimicAdmin, roles: ['setFeeCollector'] },
         { name: 'bridger', account: bridger, roles: ['wrap', 'bridge', 'withdraw'] },
         { name: 'withdrawer', account: withdrawer, roles: ['wrap', 'withdraw'] },
         { name: 'managers', account: managers, roles: [] },
@@ -158,11 +158,11 @@ export default function itDeploysDxDaoBridgerCorrectly(): void {
             'setMaxRelayerFeePct',
             'setDestinationChainId',
             'setTokenBridge',
-            'withdraw',
+            'transferToSmartVault',
             'call',
           ],
         },
-        { name: 'mimic', account: mimicAdmin, roles: ['setPermissiveMode'] },
+        { name: 'mimic', account: mimicAdmin, roles: [] },
         { name: 'bridger', account: bridger, roles: [] },
         { name: 'withdrawer', account: withdrawer, roles: [] },
         { name: 'managers', account: managers, roles: ['call'] },
@@ -180,9 +180,8 @@ export default function itDeploysDxDaoBridgerCorrectly(): void {
     })
 
     it('sets the expected gas limits', async function () {
+      expect(await bridger.txCostLimit()).to.be.equal(0)
       expect(await bridger.gasPriceLimit()).to.be.equal(100e9)
-      expect(await bridger.totalCostLimit()).to.be.equal(0)
-      expect(await bridger.payingGasToken()).to.be.equal(WETH)
     })
 
     it('allows the requested chain ID', async function () {
@@ -231,7 +230,7 @@ export default function itDeploysDxDaoBridgerCorrectly(): void {
             'call',
           ],
         },
-        { name: 'mimic', account: mimicAdmin, roles: ['setPermissiveMode'] },
+        { name: 'mimic', account: mimicAdmin, roles: [] },
         { name: 'bridger', account: bridger, roles: [] },
         { name: 'withdrawer', account: withdrawer, roles: [] },
         { name: 'managers', account: managers, roles: ['call'] },
@@ -254,12 +253,7 @@ export default function itDeploysDxDaoBridgerCorrectly(): void {
 
     it('sets the expected gas limits', async () => {
       expect(await withdrawer.gasPriceLimit()).to.be.equal(100e9)
-      expect(await withdrawer.totalCostLimit()).to.be.equal(0)
-      expect(await withdrawer.payingGasToken()).to.be.equal(WETH)
-    })
-
-    it('does not allow relayed permissive mode', async () => {
-      expect(await withdrawer.isPermissiveModeActive()).to.be.false
+      expect(await withdrawer.txCostLimit()).to.be.equal(0)
     })
 
     it('whitelists the requested relayers', async () => {

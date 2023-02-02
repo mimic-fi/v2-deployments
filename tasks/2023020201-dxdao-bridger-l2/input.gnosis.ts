@@ -9,10 +9,6 @@ import Task from '../../src/task'
 
 /* eslint-disable no-secrets/no-secrets */
 
-const owner = '0xe716EC63C5673B3a4732D22909b38d779fa47c3F' // dao
-const managers: string[] = [] // no managers
-const relayers = [BOT]
-
 const Registry = new Task('2023010602-registry-v2')
 const SmartVault = new Task('2023010603-smart-vault-v3')
 const PriceOracle = new Task('2023010604-price-oracle-v2')
@@ -21,14 +17,20 @@ const BridgeConnector = new Task('2023010606-bridge-connector-v1')
 const SmartVaultsFactory = new Task('2023010607-smart-vaults-factory-v1')
 const MimicFeeCollector = new Task('2023010701-mimic-fee-collector-l2')
 
+const owner = '0xe716EC63C5673B3a4732D22909b38d779fa47c3F' // dao
+const managers: string[] = [] // no managers
+const relayers = [BOT]
+const mimicAdmin = OWNER_EOA
+const feeCollector = MimicFeeCollector.key('SmartVault')
+
 export default {
   version: 'v1',
   accounts: {
     owner,
     managers,
     relayers,
-    mimicAdmin: OWNER_EOA,
-    feeCollector: MimicFeeCollector.key('SmartVault'),
+    mimicAdmin,
+    feeCollector,
   },
   params: {
     registry: Registry,
@@ -36,7 +38,8 @@ export default {
       factory: SmartVaultsFactory,
       impl: SmartVault,
       admin: owner,
-      feeCollector: MimicFeeCollector.key('SmartVault'),
+      feeCollector,
+      feeCollectorAdmin: mimicAdmin,
       strategies: [],
       priceFeedParams: [
         { base: tokens.WETH, quote: USD, feed: chainlink.ETH_USD },
@@ -63,11 +66,8 @@ export default {
       ],
       relayedActionParams: {
         relayers,
+        txCostLimit: 0,
         gasPriceLimit: bn(40e9),
-        totalCostLimit: 0,
-        payingGasToken: tokens.WXDAI,
-        permissiveModeAdmin: OWNER_EOA,
-        setPermissiveMode: false,
       },
     },
     l2HopBridgerActionParams: {
@@ -89,11 +89,8 @@ export default {
       },
       relayedActionParams: {
         relayers,
+        txCostLimit: 0,
         gasPriceLimit: bn(40e9),
-        totalCostLimit: 0,
-        payingGasToken: tokens.WXDAI,
-        permissiveModeAdmin: OWNER_EOA,
-        setPermissiveMode: false,
       },
     },
     withdrawerActionParams: {
@@ -109,11 +106,8 @@ export default {
       },
       relayedActionParams: {
         relayers,
+        txCostLimit: 0,
         gasPriceLimit: bn(40e9),
-        totalCostLimit: 0,
-        payingGasToken: tokens.WXDAI,
-        permissiveModeAdmin: OWNER_EOA,
-        setPermissiveMode: false,
       },
     },
   },

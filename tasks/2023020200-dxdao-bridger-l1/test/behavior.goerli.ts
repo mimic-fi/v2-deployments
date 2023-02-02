@@ -33,7 +33,7 @@ export default function itDeploysDxDaoBridgerCorrectly(): void {
 
   describe('smart vault', () => {
     it('has the expected address', async function () {
-      expect(smartVault.address).to.be.equal('0xF3bE9dd75ef36a76f2829293d970364f8d351130')
+      expect(smartVault.address).to.be.equal('0x8B06DDAfC5F8fB4Fc2d93598F95f412BE6c2fE5C')
     })
 
     it('uses the correct implementation', async function () {
@@ -65,13 +65,13 @@ export default function itDeploysDxDaoBridgerCorrectly(): void {
             'setPriceOracle',
             'setSwapConnector',
             'setBridgeConnector',
+            'setFeeCollector',
             'setSwapFee',
             'setBridgeFee',
             'setPerformanceFee',
             'setWithdrawFee',
           ],
         },
-        { name: 'mimic', account: feeCollector, roles: ['setFeeCollector'] },
         { name: 'bridger', account: bridger, roles: ['wrap', 'bridge', 'withdraw'] },
         { name: 'withdrawer', account: withdrawer, roles: ['wrap', 'withdraw'] },
         { name: 'managers', account: managers, roles: [] },
@@ -154,11 +154,10 @@ export default function itDeploysDxDaoBridgerCorrectly(): void {
             'setMaxRelayerFeePct',
             'setDestinationChainId',
             'setTokenBridge',
-            'withdraw',
+            'transferToSmartVault',
             'call',
           ],
         },
-        { name: 'mimic', account: feeCollector, roles: ['setPermissiveMode'] },
         { name: 'bridger', account: bridger, roles: [] },
         { name: 'withdrawer', account: withdrawer, roles: [] },
         { name: 'managers', account: managers, roles: ['call'] },
@@ -176,9 +175,8 @@ export default function itDeploysDxDaoBridgerCorrectly(): void {
     })
 
     it('sets the expected gas limits', async function () {
+      expect(await bridger.txCostLimit()).to.be.equal(0)
       expect(await bridger.gasPriceLimit()).to.be.equal(100e9)
-      expect(await bridger.totalCostLimit()).to.be.equal(0)
-      expect(await bridger.payingGasToken()).to.be.equal(USDC)
     })
 
     it('allows the requested chain ID', async function () {
@@ -226,7 +224,6 @@ export default function itDeploysDxDaoBridgerCorrectly(): void {
             'call',
           ],
         },
-        { name: 'mimic', account: feeCollector, roles: ['setPermissiveMode'] },
         { name: 'bridger', account: bridger, roles: [] },
         { name: 'withdrawer', account: withdrawer, roles: [] },
         { name: 'managers', account: managers, roles: ['call'] },
@@ -248,13 +245,8 @@ export default function itDeploysDxDaoBridgerCorrectly(): void {
     })
 
     it('sets the expected gas limits', async () => {
+      expect(await withdrawer.txCostLimit()).to.be.equal(0)
       expect(await withdrawer.gasPriceLimit()).to.be.equal(100e9)
-      expect(await withdrawer.totalCostLimit()).to.be.equal(0)
-      expect(await withdrawer.payingGasToken()).to.be.equal(USDC)
-    })
-
-    it('does not allow relayed permissive mode', async () => {
-      expect(await withdrawer.isPermissiveModeActive()).to.be.false
     })
 
     it('whitelists the requested relayers', async () => {

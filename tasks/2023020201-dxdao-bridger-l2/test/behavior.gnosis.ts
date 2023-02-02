@@ -77,7 +77,7 @@ export default function itDeploysDxDaoBridgerCorrectly(): void {
             'setWithdrawFee',
           ],
         },
-        { name: 'mimic', account: feeCollector, roles: ['setFeeCollector'] },
+        { name: 'mimic', account: mimicAdmin, roles: ['setFeeCollector'] },
         { name: 'swapper', account: swapper, roles: ['swap', 'withdraw'] },
         { name: 'bridger', account: bridger, roles: ['wrap', 'bridge', 'withdraw'] },
         { name: 'withdrawer', account: withdrawer, roles: ['wrap', 'withdraw'] },
@@ -162,7 +162,7 @@ export default function itDeploysDxDaoBridgerCorrectly(): void {
             'call',
           ],
         },
-        { name: 'mimic', account: mimicAdmin, roles: ['setPermissiveMode'] },
+        { name: 'mimic', account: mimicAdmin, roles: [] },
         { name: 'swapper', account: swapper, roles: [] },
         { name: 'bridger', account: bridger, roles: [] },
         { name: 'withdrawer', account: withdrawer, roles: [] },
@@ -176,9 +176,8 @@ export default function itDeploysDxDaoBridgerCorrectly(): void {
     })
 
     it('sets the expected gas limits', async function () {
+      expect(await swapper.txCostLimit()).to.be.equal(0)
       expect(await swapper.gasPriceLimit()).to.be.equal(40e9)
-      expect(await swapper.totalCostLimit()).to.be.equal(0)
-      expect(await swapper.payingGasToken()).to.be.equal(WXDAI)
     })
 
     it('sets the requested AMMs', async function () {
@@ -222,11 +221,11 @@ export default function itDeploysDxDaoBridgerCorrectly(): void {
             'setMaxBonderFeePct',
             'setDestinationChainId',
             'setTokenAmm',
-            'withdraw',
+            'transferToSmartVault',
             'call',
           ],
         },
-        { name: 'mimic', account: mimicAdmin, roles: ['setPermissiveMode'] },
+        { name: 'mimic', account: mimicAdmin, roles: [] },
         { name: 'swapper', account: swapper, roles: [] },
         { name: 'bridger', account: bridger, roles: [] },
         { name: 'withdrawer', account: withdrawer, roles: [] },
@@ -245,9 +244,8 @@ export default function itDeploysDxDaoBridgerCorrectly(): void {
     })
 
     it('sets the expected gas limits', async function () {
+      expect(await bridger.txCostLimit()).to.be.equal(0)
       expect(await bridger.gasPriceLimit()).to.be.equal(40e9)
-      expect(await bridger.totalCostLimit()).to.be.equal(0)
-      expect(await bridger.payingGasToken()).to.be.equal(WXDAI)
     })
 
     it('allows the requested destination chain ID', async function () {
@@ -296,7 +294,7 @@ export default function itDeploysDxDaoBridgerCorrectly(): void {
             'call',
           ],
         },
-        { name: 'mimic', account: mimicAdmin, roles: ['setPermissiveMode'] },
+        { name: 'mimic', account: mimicAdmin, roles: [] },
         { name: 'bridger', account: bridger, roles: [] },
         { name: 'swapper', account: swapper, roles: [] },
         { name: 'withdrawer', account: withdrawer, roles: [] },
@@ -319,13 +317,8 @@ export default function itDeploysDxDaoBridgerCorrectly(): void {
     })
 
     it('sets the expected gas limits', async () => {
+      expect(await withdrawer.txCostLimit()).to.be.equal(0)
       expect(await withdrawer.gasPriceLimit()).to.be.equal(40e9)
-      expect(await withdrawer.totalCostLimit()).to.be.equal(0)
-      expect(await withdrawer.payingGasToken()).to.be.equal(WXDAI)
-    })
-
-    it('does not allow relayed permissive mode', async () => {
-      expect(await withdrawer.isPermissiveModeActive()).to.be.false
     })
 
     it('whitelists the requested relayers', async () => {
