@@ -28,7 +28,7 @@ const WETH = '0xC02aaA39b223FE8D0A0e5C4F27eAD9083C756Cc2'
 const WHALE = '0x075e72a5edf65f0a5f44699c7654c1a76941ddc8'
 const CHAINLINK_ORACLE_USDC_ETH = '0x986b5E1e1755e3C2440e960477f25201B0a8bbD4'
 
-export function itDeploysParaswapFeeRedistributorCorrectly(): void {
+export default function itDeploysParaswapFeeRedistributorCorrectly(): void {
   let input: ParaswapFeeRedistributorDeployment
   let smartVault: Contract, feeClaimer: Contract
   let withdrawer: Contract, erc20Claimer: Contract, nativeClaimer: Contract, swapFeeSetter: Contract

@@ -15,7 +15,7 @@ const HOP_USDC_BRIDGE = '0x7D269D3E0d61A05a0bA976b7DBF8805bF844AF3F'
 
 const CHAINLINK_ORACLE_ETH_USD = '0xD4a33860578De61DBAbDc8BFdb98FD742fA7028e'
 
-export function itDeploysDxDaoBridgerCorrectly(): void {
+export default function itDeploysDxDaoBridgerCorrectly(): void {
   let input: DxDaoBridgerDeployment
   let smartVault: Contract, bridger: Contract, withdrawer: Contract
   let owner: string, relayers: string[], managers: string[], feeCollector: string

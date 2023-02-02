@@ -3,8 +3,5 @@
     "mumbai": 31240129,
     "gnosis": 0
   },
-  "deployed": {
-    "mumbai": 0,
-    "gnosis": 0
-  }
+  "deployed": {}
 }

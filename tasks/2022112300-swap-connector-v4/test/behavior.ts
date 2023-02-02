@@ -4,7 +4,7 @@ import { ethers } from 'hardhat'
 
 import { SwapConnectorDeployment } from '../input'
 
-export function itDeploysSwapConnectorCorrectly(): void {
+export default function itDeploysSwapConnectorCorrectly(): void {
   let swapConnector: Contract
 
   before('load swap connector', async function () {

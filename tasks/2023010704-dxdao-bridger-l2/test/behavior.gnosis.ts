@@ -20,7 +20,7 @@ const HOP_DAI_AMM = '0x6C928f435d1F3329bABb42d69CCF043e3900EcF1'
 const HOP_USDC_AMM = '0x76b22b8C1079A44F1211D867D68b1eda76a635A7'
 const HOP_WETH_AMM = '0x03D7f750777eC48d39D080b020D83Eb2CB4e3547'
 
-export function itDeploysDxDaoBridgerCorrectly(): void {
+export default function itDeploysDxDaoBridgerCorrectly(): void {
   let input: DxDaoBridgerDeployment
   let smartVault: Contract, bridger: Contract, swapper: Contract, withdrawer: Contract
   let owner: string, relayers: string[], managers: string[], feeCollector: string, mimicAdmin: string

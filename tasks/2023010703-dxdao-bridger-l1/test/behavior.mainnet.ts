@@ -18,7 +18,7 @@ const HOP_ETH_BRIDGE = '0xb8901acB165ed027E32754E0FFe830802919727f'
 const HOP_DAI_BRIDGE = '0x3d4Cc8A61c7528Fd86C55cfe061a78dCBA48EDd1'
 const HOP_USDC_BRIDGE = '0x3666f603Cc164936C1b87e207F36BEBa4AC5f18a'
 
-export function itDeploysDxDaoBridgerCorrectly(): void {
+export default function itDeploysDxDaoBridgerCorrectly(): void {
   let input: DxDaoBridgerDeployment
   let smartVault: Contract, bridger: Contract, withdrawer: Contract
   let owner: string, relayers: string[], managers: string[], feeCollector: string, mimicAdmin: string

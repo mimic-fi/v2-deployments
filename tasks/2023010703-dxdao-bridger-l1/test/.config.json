@@ -3,8 +3,5 @@
     "goerli": 8352221,
     "mainnet": 0
   },
-  "deployed": {
-    "goerli": 0,
-    "mainnet": 0
-  }
+  "deployed": {}
 }

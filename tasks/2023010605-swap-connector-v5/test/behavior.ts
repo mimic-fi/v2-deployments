@@ -6,7 +6,7 @@ import { SwapConnectorDeployment } from '../input'
 
 /* eslint-disable no-secrets/no-secrets */
 
-export function itDeploysSwapConnectorCorrectly(): void {
+export default function itDeploysSwapConnectorCorrectly(): void {
   let swapConnector: Contract
 
   before('load swap connector', async function () {

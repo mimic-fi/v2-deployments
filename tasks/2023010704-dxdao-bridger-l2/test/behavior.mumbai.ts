@@ -16,7 +16,7 @@ const HOP_WETH_AMM = '0x0e0E3d2C5c292161999474247956EF542caBF8dd'
 
 const CHAINLINK_ORACLE_MATIC_USD = '0xd0D5e3DB44DE05E9F294BB0a3bEEaF030DE24Ada'
 
-export function itDeploysDxDaoBridgerCorrectly(): void {
+export default function itDeploysDxDaoBridgerCorrectly(): void {
   let input: DxDaoBridgerDeployment
   let smartVault: Contract, bridger: Contract, swapper: Contract, withdrawer: Contract
   let owner: string, relayers: string[], managers: string[], feeCollector: string
