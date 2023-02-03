@@ -11,6 +11,8 @@ import { DxDaoBridgerDeployment } from './input'
 export default async (task: Task, { force, from }: TaskRunOptions = {}): Promise<void> => {
   const input = task.input() as DxDaoBridgerDeployment
   const { params, namespace, version, Deployer, Registry } = input
+  if (!namespace) throw Error('Missing namespace')
+  if (!version) throw Error('Missing version')
   if (!from) from = await getSigner(input.from)
 
   const smartVaultDeployer = await create3IfNecessary(
