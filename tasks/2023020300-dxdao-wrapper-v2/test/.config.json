@@ -1,6 +1,8 @@
 {
   "fork": {
-    "gnosis": 0
+    "gnosis": 26292091
   },
-  "deployed": {}
+  "deployed": {
+    "gnosis": 0
+  }
 }

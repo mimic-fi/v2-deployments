@@ -16,7 +16,7 @@ const BridgeConnector = new Task('2023010606-bridge-connector-v1')
 const SmartVaultsFactory = new Task('2023010607-smart-vaults-factory-v1')
 const MimicFeeCollector = new Task('2023010701-mimic-fee-collector-l2')
 
-const owner = '0x000000000000000000000000000000000000dEaD' // TODO: use dx dao
+const owner = TESTING_EOA // TODO: use dx dao
 const relayers = [BOT]
 const managers: string[] = []
 const mimicAdmin = TESTING_EOA
@@ -62,7 +62,7 @@ export default {
       },
       tokenThresholdActionParams: {
         token: tokens.USDC,
-        amount: toUSDC(200),
+        amount: toUSDC(10),
       },
       relayedActionParams: {
         relayers,
