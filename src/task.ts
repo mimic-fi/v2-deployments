@@ -224,10 +224,17 @@ export default class Task {
       if (Array.isArray(item)) input[key] = item
       else if (BigNumber.isBigNumber(item)) input[key] = item
       else if (typeof item !== 'object') input[key] = item
-      else if (this._isTaskOutput(item)) input[key] = (item.task as Task).output({ network: this.network })[item.key]
-      else if (this._isTask(item)) {
-        const output = (item as Task).output({ network: this.network })
+      else if (this._isTaskOutput(item)) {
+        const task = item.task as Task
+        const output = task.output({ network: this.network })
+        const value = output[item.key]
+        if (!value) throw Error(`Missing ${item.key} in output for task ${task.id}`)
+        input[key] = value
+      } else if (this._isTask(item)) {
+        const task = item as Task
+        const output = task.output({ network: this.network })
         const values = Object.values(output)
+        if (values.length > 1 && !output[key]) throw Error(`Ambiguous ${task.id} output for task input "${key}"`)
         input[key] = values.length == 1 ? values[0] : output[key]
       } else input[key] = this._parseRawInput(item)
       return input

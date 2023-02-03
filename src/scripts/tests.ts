@@ -60,6 +60,7 @@ async function runTests(taskIds: string[], networks: string[], fork: boolean) {
   const tasksToRun = taskIds.length === 0 ? Object.keys(configs) : taskIds
 
   for (const taskId of tasksToRun) {
+    if (!configs[taskId]) throw Error(`Unknown task "${taskId}"`)
     const blockNumbersPerNetwork = configs[taskId].blockNumbers
     const networksToRun = networks.length === 0 ? Object.keys(blockNumbersPerNetwork) : networks
 
