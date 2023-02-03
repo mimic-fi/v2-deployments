@@ -37,7 +37,7 @@
   "dependencies": {
     "@mimic-fi/v2-helpers": "0.1.2",
     "@nomiclabs/hardhat-ethers": "^2.2.1",
-    "@nomiclabs/hardhat-etherscan": "^2.1.8",
+    "@nomiclabs/hardhat-etherscan": "^3.1.5",
     "chalk": "^4.1.1",
     "ethers": "~5.6.0",
     "hardhat": "^2.12.4",

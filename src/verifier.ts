@@ -1,6 +1,8 @@
 import { encodeArguments } from '@nomiclabs/hardhat-etherscan/dist/src/ABIEncoder'
-import EtherscanResponse, {
+import { chainConfig } from '@nomiclabs/hardhat-etherscan/dist/src/ChainConfig'
+import {
   delay,
+  EtherscanResponse,
   getVerificationStatus,
 } from '@nomiclabs/hardhat-etherscan/dist/src/etherscan/EtherscanService'
 import {
@@ -8,11 +10,7 @@ import {
   toCheckStatusRequest,
   toVerifyRequest,
 } from '@nomiclabs/hardhat-etherscan/dist/src/etherscan/EtherscanVerifyContractRequest'
-import {
-  EtherscanURLs,
-  getEtherscanEndpoints,
-  retrieveContractBytecode,
-} from '@nomiclabs/hardhat-etherscan/dist/src/network/prober'
+import { getEtherscanEndpoints, retrieveContractBytecode } from '@nomiclabs/hardhat-etherscan/dist/src/network/prober'
 import {
   Bytecode,
   ContractInformation,
@@ -20,6 +18,7 @@ import {
 } from '@nomiclabs/hardhat-etherscan/dist/src/solc/bytecode'
 import { getLibraryLinks, Libraries } from '@nomiclabs/hardhat-etherscan/dist/src/solc/libraries'
 import { getLongVersion } from '@nomiclabs/hardhat-etherscan/dist/src/solc/version'
+import { EtherscanNetworkEntry } from '@nomiclabs/hardhat-etherscan/dist/src/types'
 import { BuildInfo, CompilerInput, Network } from 'hardhat/types'
 import fetch, { Response } from 'node-fetch'
 
@@ -48,8 +47,8 @@ export default class Verifier {
     const response = await this.verify(task, name, address, constructorArguments)
 
     if (response.isVerificationSuccess()) {
-      const etherscanAPIEndpoints = await getEtherscanEndpoints(this.network.provider, this.network.name)
-      const contractURL = new URL(`/address/${address}#code`, etherscanAPIEndpoints.browserURL)
+      const etherscanEndpoints = await getEtherscanEndpoints(this.network.provider, this.network.name, chainConfig, [])
+      const contractURL = new URL(`/address/${address}#code`, etherscanEndpoints.urls.browserURL)
       return contractURL.toString()
     } else if (intent < MAX_VERIFICATION_INTENTS && response.isBytecodeMissingInNetworkError()) {
       logger.info(`Could not find deployed bytecode in network, retrying ${intent++}/${MAX_VERIFICATION_INTENTS}...`)
@@ -86,10 +85,10 @@ export default class Verifier {
     )
 
     const solcFullVersion = await getLongVersion(contractInformation.solcVersion)
-    const etherscanAPIEndpoints = await getEtherscanEndpoints(this.network.provider, this.network.name)
+    const etherscanEndpoints = await getEtherscanEndpoints(this.network.provider, this.network.name, chainConfig, [])
 
     const minimumBuildVerificationStatus = await this.attemptVerification(
-      etherscanAPIEndpoints,
+      etherscanEndpoints,
       contractInformation,
       address,
       this.apiKey,
@@ -101,7 +100,7 @@ export default class Verifier {
     if (minimumBuildVerificationStatus.isVerificationSuccess()) return minimumBuildVerificationStatus
 
     const verificationStatus = await this.attemptVerification(
-      etherscanAPIEndpoints,
+      etherscanEndpoints,
       contractInformation,
       address,
       this.apiKey,
@@ -115,7 +114,7 @@ export default class Verifier {
   }
 
   private async attemptVerification(
-    etherscanAPIEndpoints: EtherscanURLs,
+    etherscanEndpoints: EtherscanNetworkEntry,
     contractInformation: ContractInformation,
     contractAddress: string,
     etherscanAPIKey: string,
@@ -134,11 +133,11 @@ export default class Verifier {
       constructorArguments: deployArgumentsEncoded,
     })
 
-    const response = await this.verifyContract(etherscanAPIEndpoints.apiURL, request)
+    const response = await this.verifyContract(etherscanEndpoints.urls.apiURL, request)
     const pollRequest = toCheckStatusRequest({ apiKey: etherscanAPIKey, guid: response.message })
 
     await delay(700)
-    const verificationStatus = await getVerificationStatus(etherscanAPIEndpoints.apiURL, pollRequest)
+    const verificationStatus = await getVerificationStatus(etherscanEndpoints.urls.apiURL, pollRequest)
 
     if (verificationStatus.isVerificationFailure() || verificationStatus.isVerificationSuccess()) {
       return verificationStatus
