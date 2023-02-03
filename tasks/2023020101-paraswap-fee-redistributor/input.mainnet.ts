@@ -92,7 +92,7 @@ export default {
     swapFeeSetterActionParams: {
       impl: undefined,
       admin: owner,
-      managers: [mimicAdmin],
+      managers: [mimicAdmin, BOT],
       feeParams: [
         { pct: 0, cap: 0, token: ZERO_ADDRESS, period: 0 },
         { pct: fp(0.005), cap: toUSDC(5000), token: tokens.USDC, period: MONTH }, // 0.5%
