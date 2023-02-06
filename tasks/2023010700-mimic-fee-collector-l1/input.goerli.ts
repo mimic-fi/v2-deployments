@@ -49,7 +49,7 @@ export default {
     funderActionParams: {
       impl: undefined,
       admin: TESTING_EOA,
-      managers,
+      managers: [BOT, ...managers],
       tokenIn: tokens.USDC,
       minBalance: fp(0.3),
       maxBalance: fp(2),
@@ -61,7 +61,7 @@ export default {
     holderActionParams: {
       impl: undefined,
       admin: TESTING_EOA,
-      managers,
+      managers: [BOT, ...managers],
       tokenOut: tokens.USDC,
       maxSlippage: fp(0.002),
       tokenThresholdActionParams: {
