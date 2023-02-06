@@ -5,6 +5,23 @@ import Task from '../../src/task'
 import goerli from './input.goerli'
 import mainnet from './input.mainnet'
 
+const Create3Factory = new Task('2023010600-create3-factory-v2')
+const Deployer = new Task('2023010601-deployer-v2')
+const Registry = new Task('2023010602-registry-v2')
+const SmartVaultsFactory = new Task('2023010607-smart-vaults-factory-v1')
+
+export default {
+  namespace: 'mimic-v2.mimic-fee-collector',
+  version: 'v1',
+  from: DEPLOYER_2,
+  Create3Factory,
+  Deployer,
+  Registry,
+  SmartVaultsFactory,
+  goerli,
+  mainnet,
+}
+
 export type MimicFeeCollectorDeployment = {
   namespace: string
   version: string
@@ -74,20 +91,4 @@ export type MimicFeeCollectorDeployment = {
       }
     }
   }
-}
-
-const Create3Factory = new Task('2023010600-create3-factory-v2')
-const Deployer = new Task('2023010601-deployer-v2')
-const Registry = new Task('2023010602-registry-v2')
-const SmartVaultsFactory = new Task('2023010607-smart-vaults-factory-v1')
-
-export default {
-  namespace: 'mimic-v2.mimic-fee-collector',
-  from: DEPLOYER_2,
-  Create3Factory,
-  Deployer,
-  Registry,
-  SmartVaultsFactory,
-  goerli,
-  mainnet,
 }

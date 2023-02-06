@@ -8,6 +8,26 @@ import mumbai from './input.mumbai'
 import optimism from './input.optimism'
 import polygon from './input.polygon'
 
+const Create3Factory = new Task('2023010600-create3-factory-v2')
+const Deployer = new Task('2023010601-deployer-v2')
+const Registry = new Task('2023010602-registry-v2')
+const SmartVaultsFactory = new Task('2023010607-smart-vaults-factory-v1')
+
+export default {
+  namespace: 'mimic-v2.mimic-fee-collector',
+  version: 'v1',
+  from: DEPLOYER_2,
+  Create3Factory,
+  Deployer,
+  Registry,
+  SmartVaultsFactory,
+  mumbai,
+  polygon,
+  optimism,
+  arbitrum,
+  gnosis,
+}
+
 export type MimicFeeCollectorDeployment = {
   namespace: string
   version: string
@@ -83,24 +103,4 @@ export type MimicFeeCollectorDeployment = {
       }
     }
   }
-}
-
-const Create3Factory = new Task('2023010600-create3-factory-v2')
-const Deployer = new Task('2023010601-deployer-v2')
-const Registry = new Task('2023010602-registry-v2')
-const SmartVaultsFactory = new Task('2023010607-smart-vaults-factory-v1')
-
-export default {
-  namespace: 'mimic-v2.mimic-fee-collector',
-  version: 'v4',
-  from: DEPLOYER_2,
-  Create3Factory,
-  Deployer,
-  Registry,
-  SmartVaultsFactory,
-  mumbai,
-  polygon,
-  optimism,
-  arbitrum,
-  gnosis,
 }

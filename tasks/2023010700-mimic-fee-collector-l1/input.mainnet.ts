@@ -22,7 +22,6 @@ const BridgeConnector = new Task('2023010606-bridge-connector-v1')
 const SmartVaultsFactory = new Task('2023010607-smart-vaults-factory-v1')
 
 export default {
-  version: 'v1',
   accounts: {
     bot: BOT,
     owner: OWNER_EOA,
@@ -53,7 +52,7 @@ export default {
     funderActionParams: {
       impl: undefined,
       admin: OWNER_EOA,
-      managers,
+      managers: [BOT, ...managers],
       tokenIn: tokens.USDC,
       minBalance: fp(0.3), // 0.3 ETH
       maxBalance: fp(2), // 2 ETH
@@ -65,7 +64,7 @@ export default {
     holderActionParams: {
       impl: undefined,
       admin: OWNER_EOA,
-      managers,
+      managers: [BOT, ...managers],
       tokenOut: tokens.USDC,
       maxSlippage: fp(0.002), // 0.2 %
       tokenThresholdActionParams: {

@@ -9,6 +9,7 @@ import Task from '../../src/task'
 /* eslint-disable no-secrets/no-secrets */
 
 const managers = [
+  BOT,
   '0xFd4393f728824615ee9132D3A399C67416c0b5e1', // Personal account 1
   '0xa93680F09e9d5cb395aE4cEd72b6a0f66D5F5159', // Personal account 2
   '0xB03B9E9456752EE303c355C64Ed6EDAd20372B4c', // Personal account 3
@@ -21,7 +22,6 @@ const SwapConnector = new Task('2023010605-swap-connector-v5')
 const SmartVaultsFactory = new Task('2023010607-smart-vaults-factory-v1')
 
 export default {
-  version: 'v1',
   accounts: {
     owner: OWNER_EOA,
     bot: BOT,
