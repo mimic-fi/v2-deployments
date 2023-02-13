@@ -16,7 +16,7 @@ const BridgeConnector = new Task('2023010606-bridge-connector-v1')
 const SmartVaultsFactory = new Task('2023010607-smart-vaults-factory-v1')
 const MimicFeeCollector = new Task('2023010701-mimic-fee-collector-l2')
 
-const owner = '0x519b70055af55A007110B4Ff99b0eA33071c720a' // DXdao
+const owner = '0xe716EC63C5673B3a4732D22909b38d779fa47c3F' // DXdao
 const relayers = [BOT]
 const managers: string[] = []
 const mimicAdmin = OWNER_EOA
