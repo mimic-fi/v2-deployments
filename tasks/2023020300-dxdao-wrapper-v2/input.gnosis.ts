@@ -2,7 +2,7 @@ import { toUSDC, ZERO_ADDRESS } from '@mimic-fi/v2-helpers'
 
 import { USD } from '../../constants/chainlink/denominations'
 import * as chainlink from '../../constants/chainlink/gnosis'
-import { BOT, TESTING_EOA } from '../../constants/mimic'
+import { BOT, OWNER_EOA } from '../../constants/mimic'
 import * as tokens from '../../constants/tokens/gnosis'
 import Task from '../../src/task'
 
@@ -16,14 +16,14 @@ const BridgeConnector = new Task('2023010606-bridge-connector-v1')
 const SmartVaultsFactory = new Task('2023010607-smart-vaults-factory-v1')
 const MimicFeeCollector = new Task('2023010701-mimic-fee-collector-l2')
 
-const owner = TESTING_EOA // TODO: use dx dao
+const owner = '0x519b70055af55A007110B4Ff99b0eA33071c720a' // DXdao
 const relayers = [BOT]
 const managers: string[] = []
-const mimicAdmin = TESTING_EOA
+const mimicAdmin = OWNER_EOA
 const feeCollector = MimicFeeCollector.key('SmartVault')
 
 export default {
-  version: 'v2',
+  version: 'v1',
   accounts: {
     owner,
     managers,
@@ -62,7 +62,7 @@ export default {
       },
       tokenThresholdActionParams: {
         token: tokens.USDC,
-        amount: toUSDC(10),
+        amount: toUSDC(200),
       },
       relayedActionParams: {
         relayers,
