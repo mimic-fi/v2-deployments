@@ -3,7 +3,7 @@ import { bn, fp, HOUR, toUSDC, ZERO_ADDRESS } from '@mimic-fi/v2-helpers'
 import { USD } from '../../constants/chainlink/denominations'
 import * as chainlink from '../../constants/chainlink/gnosis'
 import * as hop from '../../constants/hop/gnosis'
-import { BOT, TESTING_EOA } from '../../constants/mimic'
+import { BOT, OWNER_EOA } from '../../constants/mimic'
 import * as tokens from '../../constants/tokens/gnosis'
 import Task from '../../src/task'
 
@@ -17,14 +17,14 @@ const BridgeConnector = new Task('2023010606-bridge-connector-v1')
 const SmartVaultsFactory = new Task('2023010607-smart-vaults-factory-v1')
 const MimicFeeCollector = new Task('2023010701-mimic-fee-collector-l2')
 
-const owner = TESTING_EOA
+const owner = '0x519b70055af55A007110B4Ff99b0eA33071c720a' // DXdao
 const managers: string[] = [] // no managers
 const relayers = [BOT]
-const mimicAdmin = TESTING_EOA
+const mimicAdmin = OWNER_EOA
 const feeCollector = MimicFeeCollector.key('SmartVault')
 
 export default {
-  version: 'v1-beta',
+  version: 'v1',
   accounts: {
     owner,
     managers,
@@ -77,7 +77,7 @@ export default {
       maxDeadline: 2 * HOUR,
       maxSlippage: fp(0.003), // 0.3 %
       maxBonderFeePct: fp(0.03), // 3 %
-      destinationChainId: 10, // optimism
+      destinationChainId: 1, // mainnet
       hopAmmParams: [
         { token: tokens.WETH, amm: hop.WETH_AMM },
         { token: tokens.WXDAI, amm: hop.DAI_AMM },
@@ -85,7 +85,7 @@ export default {
       ],
       tokenThresholdActionParams: {
         token: tokens.USDC,
-        amount: toUSDC(50),
+        amount: toUSDC(500),
       },
       relayedActionParams: {
         relayers,
@@ -102,7 +102,7 @@ export default {
       },
       tokenThresholdActionParams: {
         token: tokens.USDC,
-        amount: toUSDC(40),
+        amount: toUSDC(500),
       },
       relayedActionParams: {
         relayers,

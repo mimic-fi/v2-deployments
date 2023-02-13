@@ -248,7 +248,7 @@ export default function itDeploysDxDaoBridgerCorrectly(): void {
 
     it('sets the expected token threshold params', async () => {
       expect(await withdrawer.thresholdToken()).to.be.equal(USDC)
-      expect(await withdrawer.thresholdAmount()).to.be.equal(toUSDC(400))
+      expect(await withdrawer.thresholdAmount()).to.be.equal(toUSDC(500))
     })
 
     it('sets the expected gas limits', async () => {
