@@ -4,7 +4,6 @@ import { DEPLOYER_2 } from '../../constants/mimic'
 import Task from '../../src/task'
 import gnosis from './input.gnosis'
 import mumbai from './input.mumbai'
-import optimism from './input.optimism'
 
 const Create3Factory = new Task('2023010600-create3-factory-v2')
 const Deployer = new Task('2023020100-deployer-v3')
@@ -20,7 +19,6 @@ export default {
   SmartVaultsFactory,
   mumbai,
   gnosis,
-  optimism,
 }
 
 export type DxDaoBridgerDeployment = {

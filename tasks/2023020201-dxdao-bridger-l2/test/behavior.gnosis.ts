@@ -23,11 +23,11 @@ const HOP_WETH_AMM = '0x03D7f750777eC48d39D080b020D83Eb2CB4e3547'
 export default function itDeploysDxDaoBridgerCorrectly(): void {
   let input: DxDaoBridgerDeployment
   let smartVault: Contract, bridger: Contract, swapper: Contract, withdrawer: Contract
-  let owner: string, relayers: string[], managers: string[], feeCollector: string
+  let owner: string, relayers: string[], managers: string[], feeCollector: string, mimicAdmin: string
 
   before('load accounts', async function () {
     input = this.task.input() as DxDaoBridgerDeployment
-    ;({ owner, managers, relayers, feeCollector } = input.accounts)
+    ;({ owner, managers, relayers, feeCollector, mimicAdmin } = input.accounts)
   })
 
   before('load instances', async function () {
@@ -39,7 +39,7 @@ export default function itDeploysDxDaoBridgerCorrectly(): void {
 
   describe('smart vault', () => {
     it('has the expected address', async function () {
-      expect(smartVault.address).to.be.equal('0x8B06DDAfC5F8fB4Fc2d93598F95f412BE6c2fE5C')
+      expect(smartVault.address).to.be.equal('0x282d45DFe36f08aF75F278dbf5F8c301fB30EA56')
     })
 
     it('uses the correct implementation', async function () {
@@ -71,13 +71,13 @@ export default function itDeploysDxDaoBridgerCorrectly(): void {
             'setPriceOracle',
             'setSwapConnector',
             'setBridgeConnector',
-            'setFeeCollector',
             'setSwapFee',
             'setBridgeFee',
             'setPerformanceFee',
             'setWithdrawFee',
           ],
         },
+        { name: 'mimic', account: mimicAdmin, roles: ['setFeeCollector'] },
         { name: 'swapper', account: swapper, roles: ['swap', 'withdraw'] },
         { name: 'bridger', account: bridger, roles: ['wrap', 'bridge', 'withdraw'] },
         { name: 'withdrawer', account: withdrawer, roles: ['wrap', 'withdraw'] },
@@ -238,7 +238,7 @@ export default function itDeploysDxDaoBridgerCorrectly(): void {
 
     it('sets the expected token threshold params', async function () {
       expect(await bridger.thresholdToken()).to.be.equal(USDC)
-      expect(await bridger.thresholdAmount()).to.be.equal(toUSDC(50))
+      expect(await bridger.thresholdAmount()).to.be.equal(toUSDC(500))
     })
 
     it('sets the expected gas limits', async function () {
@@ -247,7 +247,7 @@ export default function itDeploysDxDaoBridgerCorrectly(): void {
     })
 
     it('allows the requested destination chain ID', async function () {
-      expect(await bridger.destinationChainId()).to.be.equal(10)
+      expect(await bridger.destinationChainId()).to.be.equal(1)
     })
 
     it('sets the requested AMMs', async function () {
@@ -310,7 +310,7 @@ export default function itDeploysDxDaoBridgerCorrectly(): void {
 
     it('sets the expected token threshold params', async () => {
       expect(await withdrawer.thresholdToken()).to.be.equal(USDC)
-      expect(await withdrawer.thresholdAmount()).to.be.equal(toUSDC(40))
+      expect(await withdrawer.thresholdAmount()).to.be.equal(toUSDC(500))
     })
 
     it('sets the expected gas limits', async () => {
