@@ -17,11 +17,11 @@ const CHAINLINK_USDC_USD = '0x26C31ac71010aF62E6B486D1132E266D6298857D'
 export default function itDeploysDxdaoWrapperV2Properly(): void {
   let input: DxDaoWrapperDeployment
   let smartVault: Contract, wrapper: Contract
-  let owner: string, managers: string[], relayers: string[], feeCollector: string
+  let owner: string, managers: string[], relayers: string[], feeCollector: string, mimicAdmin: string
 
   before('load accounts', async function () {
     input = this.task.input() as DxDaoWrapperDeployment
-    ;({ owner, managers, relayers, feeCollector } = input.accounts)
+    ;({ owner, managers, relayers, feeCollector, mimicAdmin } = input.accounts)
   })
 
   before('load instances', async function () {
@@ -53,13 +53,13 @@ export default function itDeploysDxdaoWrapperV2Properly(): void {
             'setPriceOracle',
             'setSwapConnector',
             'setBridgeConnector',
-            'setFeeCollector',
             'setSwapFee',
             'setBridgeFee',
             'setPerformanceFee',
             'setWithdrawFee',
           ],
         },
+        { name: 'mimic', account: mimicAdmin, roles: ['setFeeCollector'] },
         { name: 'wrapper', account: wrapper, roles: ['wrap', 'withdraw'] },
         { name: 'managers', account: managers, roles: [] },
         { name: 'relayers', account: relayers, roles: [] },
@@ -158,7 +158,7 @@ export default function itDeploysDxdaoWrapperV2Properly(): void {
 
     it('sets the expected token threshold params', async () => {
       expect(await wrapper.thresholdToken()).to.be.equal(USDC)
-      expect(await wrapper.thresholdAmount()).to.be.equal(toUSDC(10))
+      expect(await wrapper.thresholdAmount()).to.be.equal(toUSDC(200))
     })
 
     it('sets the expected gas limits', async () => {
