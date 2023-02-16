@@ -36,6 +36,10 @@ export default function itDeploysParaswapFeeRedistributorCorrectly(): void {
   })
 
   describe('smart vault', () => {
+    it('has the expected address', async () => {
+      expect(smartVault.address).to.be.equal('0xD5B927956057075377263aaB7f8AfC12F85100dB')
+    })
+
     it('has set its permissions correctly', async () => {
       await assertPermissions(smartVault, [
         {
