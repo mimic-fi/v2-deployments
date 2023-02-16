@@ -56,7 +56,7 @@ export default {
       impl: undefined,
       admin: owner,
       managers,
-      maxSlippage: fp(0.03), // 3%
+      maxSlippage: fp(0.005), // 0.5%
       swapSigner,
       tokenSwapIgnores: [tokens.PSP],
       feeClaimerParams: {
@@ -68,7 +68,7 @@ export default {
         relayedActionParams: {
           relayers,
           txCostLimit: 0,
-          gasPriceLimit: 100e9,
+          gasPriceLimit: 30e9,
         },
       },
     },
@@ -85,7 +85,7 @@ export default {
         relayedActionParams: {
           relayers,
           txCostLimit: 0,
-          gasPriceLimit: 100e9,
+          gasPriceLimit: 30e9,
         },
       },
     },

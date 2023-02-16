@@ -34,6 +34,10 @@ export default function itDeploysParaswapFeeRedistributorCorrectly(): void {
   })
 
   describe('smart vault', () => {
+    it('has the expected address', async () => {
+      expect(smartVault.address).to.be.equal('0xD5B927956057075377263aaB7f8AfC12F85100dB')
+    })
+
     it('has set its permissions correctly', async () => {
       await assertPermissions(smartVault, [
         {
@@ -162,7 +166,7 @@ export default function itDeploysParaswapFeeRedistributorCorrectly(): void {
     })
 
     it('sets the expected fee claimer params', async () => {
-      expect(await erc20Claimer.maxSlippage()).to.be.equal(fp(0.03))
+      expect(await erc20Claimer.maxSlippage()).to.be.equal(fp(0.005))
       expect(await erc20Claimer.swapSigner()).to.be.equal(SWAP_SIGNER)
       expect(await erc20Claimer.feeClaimer()).to.be.equal(FEE_CLAIMER)
       expect(await erc20Claimer.isTokenSwapIgnored(PSP)).to.be.true
@@ -174,7 +178,7 @@ export default function itDeploysParaswapFeeRedistributorCorrectly(): void {
     })
 
     it('sets the expected gas limits', async () => {
-      expect(await erc20Claimer.gasPriceLimit()).to.be.equal(100e9)
+      expect(await erc20Claimer.gasPriceLimit()).to.be.equal(30e9)
       expect(await erc20Claimer.txCostLimit()).to.be.equal(0)
     })
 
@@ -222,7 +226,7 @@ export default function itDeploysParaswapFeeRedistributorCorrectly(): void {
     })
 
     it('sets the expected gas limits', async () => {
-      expect(await nativeClaimer.gasPriceLimit()).to.be.equal(100e9)
+      expect(await nativeClaimer.gasPriceLimit()).to.be.equal(30e9)
       expect(await nativeClaimer.txCostLimit()).to.be.equal(0)
     })
 

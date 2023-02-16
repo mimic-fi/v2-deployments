@@ -36,6 +36,10 @@ export default function itDeploysParaswapFeeRedistributorCorrectly(): void {
   })
 
   describe('smart vault', () => {
+    it('has the expected address', async () => {
+      expect(smartVault.address).to.be.equal('0xD5B927956057075377263aaB7f8AfC12F85100dB')
+    })
+
     it('has set its permissions correctly', async () => {
       await assertPermissions(smartVault, [
         {
@@ -165,7 +169,7 @@ export default function itDeploysParaswapFeeRedistributorCorrectly(): void {
     })
 
     it('sets the expected fee claimer params', async () => {
-      expect(await erc20Claimer.maxSlippage()).to.be.equal(fp(0.03))
+      expect(await erc20Claimer.maxSlippage()).to.be.equal(fp(0.005))
       expect(await erc20Claimer.swapSigner()).to.be.equal(SWAP_SIGNER)
       expect(await erc20Claimer.feeClaimer()).to.be.equal(FEE_CLAIMER)
       expect(await erc20Claimer.isTokenSwapIgnored(PSP)).to.be.true
@@ -173,7 +177,7 @@ export default function itDeploysParaswapFeeRedistributorCorrectly(): void {
 
     it('sets the expected token threshold params', async () => {
       expect(await erc20Claimer.thresholdToken()).to.be.equal(USDC)
-      expect(await erc20Claimer.thresholdAmount()).to.be.equal(toUSDC(200))
+      expect(await erc20Claimer.thresholdAmount()).to.be.equal(toUSDC(100))
     })
 
     it('sets the expected gas limits', async () => {
@@ -235,7 +239,7 @@ export default function itDeploysParaswapFeeRedistributorCorrectly(): void {
 
     it('sets the expected token threshold params', async () => {
       expect(await nativeClaimer.thresholdToken()).to.be.equal(USDC)
-      expect(await nativeClaimer.thresholdAmount()).to.be.equal(toUSDC(200))
+      expect(await nativeClaimer.thresholdAmount()).to.be.equal(toUSDC(100))
     })
 
     it('whitelists the requested relayers', async () => {
