@@ -60,14 +60,14 @@ export default {
       impl: undefined,
       admin: owner,
       managers,
-      maxSlippage: fp(0.03), // 3%
+      maxSlippage: fp(0.005), // 0.5%
       swapSigner,
       tokenSwapIgnores: [tokens.PSP],
       feeClaimerParams: {
         feeClaimer,
         tokenThresholdActionParams: {
           token: tokens.USDC,
-          amount: toUSDC(200),
+          amount: toUSDC(100),
         },
         relayedActionParams: {
           relayers,
@@ -84,7 +84,7 @@ export default {
         feeClaimer,
         tokenThresholdActionParams: {
           token: tokens.USDC,
-          amount: toUSDC(200),
+          amount: toUSDC(100),
         },
         relayedActionParams: {
           relayers,

@@ -17,7 +17,7 @@ const SmartVaultsFactory = new Task('2023010607-smart-vaults-factory-v1')
 
 export default {
   namespace: 'mimic-v2.paraswap-fee-redistributor',
-  version: 'v1-beta.2',
+  version: 'v1',
   from: DEPLOYER_2,
   Create3Factory,
   Deployer,
