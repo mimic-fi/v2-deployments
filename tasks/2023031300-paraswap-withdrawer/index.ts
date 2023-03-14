@@ -52,7 +52,6 @@ export default async (task: Task, { force, from }: TaskRunOptions = {}): Promise
   const signer = await getSigner(admin)
   const withdrawer = await task.instanceAt(CONTRACT_NAME, address)
   await authorize(withdrawer, signer, params.owner, 'authorize')
-  await authorize(withdrawer, signer, params.owner, 'authorize')
   await authorize(withdrawer, signer, params.owner, 'unauthorize')
   await authorize(withdrawer, signer, params.owner, 'setRelayer')
   await authorize(withdrawer, signer, params.owner, 'setLimits')
