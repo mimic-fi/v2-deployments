@@ -59,21 +59,16 @@ export default function itDeploysParaswapFeeRedistributorWithdrawerCorrectly(): 
   })
 
   describe('withdrawer', () => {
+    const MISSING_ROLES = ['unauthorize', 'call', 'setThreshold']
+    const ROLES = ['authorize', 'setLimits', 'setRelayer', 'setTimeLock', 'setRecipient']
+    const EXPECTED_OWNER_ROLES = process.env.TASK_TEST_TYPE == 'fork' ? ROLES.concat(MISSING_ROLES) : ROLES
+
     it('has set its permissions correctly', async () => {
       await assertPermissions(withdrawer, [
         {
           name: 'owner',
           account: input.params.owner,
-          roles: [
-            'authorize',
-            'unauthorize',
-            'setLimits',
-            'setRelayer',
-            'setThreshold',
-            'setTimeLock',
-            'setRecipient',
-            'call',
-          ],
+          roles: EXPECTED_OWNER_ROLES,
         },
         { name: 'mimic', account: input.admin, roles: ['authorize', 'unauthorize'] },
         { name: 'relayer', account: input.params.relayer, roles: ['call'] },

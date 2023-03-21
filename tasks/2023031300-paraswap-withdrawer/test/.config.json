@@ -1,11 +1,20 @@
 {
   "fork": {
-    "arbitrum": 0,
-    "avalanche": 0,
-    "bsc": 0,
-    "fantom": 0,
-    "mainnet": 0,
-    "optimism": 0,
-    "polygon": 0
+    "arbitrum": 70178037,
+    "avalanche": 27483855,
+    "bsc": 26495364,
+    "fantom": 57653076,
+    "mainnet": 16835619,
+    "optimism": 81209862,
+    "polygon": 40387121
+  },
+  "deployed": {
+    "arbitrum": 70178121,
+    "avalanche": 27483870,
+    "bsc": 26495375,
+    "fantom": 57653103,
+    "mainnet": 16835624,
+    "optimism": 81209980,
+    "polygon": 40391234
   }
 }
