@@ -1,6 +1,4 @@
 import { getSigner } from '@mimic-fi/v2-helpers'
-import { SignerWithAddress } from '@nomiclabs/hardhat-ethers/signers'
-import { Contract } from 'ethers'
 import { ethers } from 'hardhat'
 
 import logger from '../../src/logger'
