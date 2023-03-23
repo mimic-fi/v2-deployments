@@ -60,6 +60,7 @@ export default {
     claimerActionParams: {
       admin: owner,
       managers,
+      oracleSigner: BOT,
       protocolFeeWithdrawer,
       tokenThresholdActionParams: {
         token: tokens.USDC,

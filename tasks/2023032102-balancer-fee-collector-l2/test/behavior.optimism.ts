@@ -171,7 +171,15 @@ export default function itDeploysBalancerFeeCollectorCorrectly(): void {
         {
           name: 'owner',
           account: owner,
-          roles: ['setSmartVault', 'setLimits', 'setRelayer', 'setThreshold', 'setProtocolFeeWithdrawer', 'call'],
+          roles: [
+            'setSmartVault',
+            'setLimits',
+            'setRelayer',
+            'setThreshold',
+            'setOracleSigner',
+            'setProtocolFeeWithdrawer',
+            'call',
+          ],
         },
         { name: 'mimic', account: mimic, roles: [] },
         { name: 'claimer', account: claimer, roles: [] },
@@ -185,6 +193,10 @@ export default function itDeploysBalancerFeeCollectorCorrectly(): void {
 
     it('has the proper smart vault set', async () => {
       expect(await claimer.smartVault()).to.be.equal(smartVault.address)
+    })
+
+    it('sets the proper oracle signer', async () => {
+      expect(await claimer.isOracleSigner(relayers[0])).to.be.true
     })
 
     it('sets the proper protocol fee withdrawer', async () => {
