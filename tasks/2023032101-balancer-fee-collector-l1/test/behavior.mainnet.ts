@@ -227,7 +227,7 @@ export default function itDeploysBalancerFeeCollectorCorrectly(): void {
       expect(await claimer.isAuthorized(who, what)).to.be.false
 
       const requests = [{ target: claimer.address, changes: [{ grant: true, permission: { who, what } }] }]
-      await manager.connect(await impersonate(owner, fp(1))).execute(requests)
+      await manager.connect(await impersonate(owner, fp(10))).execute(requests)
 
       expect(await claimer.isAuthorized(who, what)).to.be.true
     })
@@ -308,7 +308,7 @@ export default function itDeploysBalancerFeeCollectorCorrectly(): void {
       expect(await oneInchSwapper.isAuthorized(who, what)).to.be.false
 
       const requests = [{ target: oneInchSwapper.address, changes: [{ grant: true, permission: { who, what } }] }]
-      await manager.connect(await impersonate(owner, fp(1))).execute(requests)
+      await manager.connect(await impersonate(owner, fp(10))).execute(requests)
 
       expect(await oneInchSwapper.isAuthorized(who, what)).to.be.true
     })
@@ -391,7 +391,7 @@ export default function itDeploysBalancerFeeCollectorCorrectly(): void {
       expect(await paraswapSwapper.isAuthorized(who, what)).to.be.false
 
       const requests = [{ target: paraswapSwapper.address, changes: [{ grant: true, permission: { who, what } }] }]
-      await manager.connect(await impersonate(owner, fp(1))).execute(requests)
+      await manager.connect(await impersonate(owner, fp(10))).execute(requests)
 
       expect(await paraswapSwapper.isAuthorized(who, what)).to.be.true
     })
@@ -452,7 +452,7 @@ export default function itDeploysBalancerFeeCollectorCorrectly(): void {
       expect(await withdrawer.isAuthorized(who, what)).to.be.false
 
       const requests = [{ target: withdrawer.address, changes: [{ grant: true, permission: { who, what } }] }]
-      await manager.connect(await impersonate(owner, fp(1))).execute(requests)
+      await manager.connect(await impersonate(owner, fp(10))).execute(requests)
 
       expect(await withdrawer.isAuthorized(who, what)).to.be.true
     })

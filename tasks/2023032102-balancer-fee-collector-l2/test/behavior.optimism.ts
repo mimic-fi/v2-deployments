@@ -58,7 +58,7 @@ export default function itDeploysBalancerFeeCollectorCorrectly(): void {
 
   describe('smart vault', () => {
     it('has the expected address', async function () {
-      expect(smartVault.address).to.be.equal('0x7c04451163cAF1BBeCA529F017D38a303bDB4562')
+      expect(smartVault.address).to.be.equal('0x94Dd9C6152a2A0BBcB52d3297b723A6F01D5F9f7')
     })
 
     it('uses the correct implementation', async function () {
@@ -231,7 +231,7 @@ export default function itDeploysBalancerFeeCollectorCorrectly(): void {
       expect(await claimer.isAuthorized(who, what)).to.be.false
 
       const requests = [{ target: claimer.address, changes: [{ grant: true, permission: { who, what } }] }]
-      await manager.connect(await impersonate(owner, fp(1))).execute(requests)
+      await manager.connect(await impersonate(owner, fp(10))).execute(requests)
 
       expect(await claimer.isAuthorized(who, what)).to.be.true
     })
@@ -312,7 +312,7 @@ export default function itDeploysBalancerFeeCollectorCorrectly(): void {
       expect(await oneInchSwapper.isAuthorized(who, what)).to.be.false
 
       const requests = [{ target: oneInchSwapper.address, changes: [{ grant: true, permission: { who, what } }] }]
-      await manager.connect(await impersonate(owner, fp(1))).execute(requests)
+      await manager.connect(await impersonate(owner, fp(10))).execute(requests)
 
       expect(await oneInchSwapper.isAuthorized(who, what)).to.be.true
     })
@@ -393,7 +393,7 @@ export default function itDeploysBalancerFeeCollectorCorrectly(): void {
       expect(await paraswapSwapper.isAuthorized(who, what)).to.be.false
 
       const requests = [{ target: paraswapSwapper.address, changes: [{ grant: true, permission: { who, what } }] }]
-      await manager.connect(await impersonate(owner, fp(1))).execute(requests)
+      await manager.connect(await impersonate(owner, fp(10))).execute(requests)
 
       expect(await paraswapSwapper.isAuthorized(who, what)).to.be.true
     })
@@ -477,7 +477,7 @@ export default function itDeploysBalancerFeeCollectorCorrectly(): void {
       expect(await bridger.isAuthorized(who, what)).to.be.false
 
       const requests = [{ target: bridger.address, changes: [{ grant: true, permission: { who, what } }] }]
-      await manager.connect(await impersonate(owner, fp(1))).execute(requests)
+      await manager.connect(await impersonate(owner, fp(10))).execute(requests)
 
       expect(await bridger.isAuthorized(who, what)).to.be.true
     })
