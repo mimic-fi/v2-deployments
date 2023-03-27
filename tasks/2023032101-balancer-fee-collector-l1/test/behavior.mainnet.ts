@@ -1,4 +1,4 @@
-import { fp, impersonate, toUSDC, ZERO_ADDRESS } from '@mimic-fi/v2-helpers'
+import { fp, impersonate, MONTH, toUSDC, ZERO_ADDRESS } from '@mimic-fi/v2-helpers'
 import { expect } from 'chai'
 import { Contract } from 'ethers'
 
@@ -7,10 +7,12 @@ import { BalancerFeeCollectorL1Deployment } from '../input'
 
 /* eslint-disable no-secrets/no-secrets */
 
+const BAL = '0xba100000625a3754423978a60c9317c58a424e3D'
 const DAI = '0x6B175474E89094C44Da98b954EedeAC495271d0F'
 const USDC = '0xA0b86991c6218b36c1d19D4a2e9Eb0cE3606eB48'
 const WETH = '0xC02aaA39b223FE8D0A0e5C4F27eAD9083C756Cc2'
 
+const CHAINLINK_ORACLE_BAL_ETH = '0xC1438AA3823A6Ba0C159CfA8D98dF5A994bA120b'
 const CHAINLINK_ORACLE_DAI_ETH = '0x773616E4d11A78F511299002da57A0a94577F1f4'
 const CHAINLINK_ORACLE_USDC_ETH = '0x986b5E1e1755e3C2440e960477f25201B0a8bbD4'
 
@@ -103,10 +105,10 @@ export default function itDeploysBalancerFeeCollectorCorrectly(): void {
       expect(await smartVault.feeCollector()).to.be.equal(feeCollector)
     })
 
-    it('sets a bridge fee', async function () {
+    it('sets no bridge fee', async function () {
       const bridgeFee = await smartVault.bridgeFee()
 
-      expect(bridgeFee.pct).to.be.equal(fp(0.005))
+      expect(bridgeFee.pct).to.be.equal(0)
       expect(bridgeFee.cap).to.be.equal(0)
       expect(bridgeFee.token).to.be.equal(ZERO_ADDRESS)
       expect(bridgeFee.period).to.be.equal(0)
@@ -121,13 +123,13 @@ export default function itDeploysBalancerFeeCollectorCorrectly(): void {
       expect(swapFee.period).to.be.equal(0)
     })
 
-    it('sets no withdraw fee', async function () {
+    it('sets a withdraw fee', async function () {
       const withdrawFee = await smartVault.withdrawFee()
 
-      expect(withdrawFee.pct).to.be.equal(0)
-      expect(withdrawFee.cap).to.be.equal(0)
-      expect(withdrawFee.token).to.be.equal(ZERO_ADDRESS)
-      expect(withdrawFee.period).to.be.equal(0)
+      expect(withdrawFee.pct).to.be.equal(fp(0.002))
+      expect(withdrawFee.cap).to.be.equal(toUSDC(10000))
+      expect(withdrawFee.token).to.be.equal(USDC)
+      expect(withdrawFee.period).to.be.equal(MONTH)
     })
 
     it('sets no performance fee', async function () {
@@ -152,6 +154,7 @@ export default function itDeploysBalancerFeeCollectorCorrectly(): void {
     })
 
     it('sets the expected price feeds', async function () {
+      expect(await smartVault.getPriceFeed(BAL, WETH)).to.be.equal(CHAINLINK_ORACLE_BAL_ETH)
       expect(await smartVault.getPriceFeed(DAI, WETH)).to.be.equal(CHAINLINK_ORACLE_DAI_ETH)
       expect(await smartVault.getPriceFeed(USDC, WETH)).to.be.equal(CHAINLINK_ORACLE_USDC_ETH)
     })
@@ -193,17 +196,17 @@ export default function itDeploysBalancerFeeCollectorCorrectly(): void {
     })
 
     it('sets the proper protocol fee withdrawer', async () => {
-      expect(await claimer.protocolFeeWithdrawer()).to.be.equal('0x0000000000000000000000000000000000000001')
+      expect(await claimer.protocolFeeWithdrawer()).to.be.equal('0x5ef4c5352882b10893b70DbcaA0C000965bd23c5')
     })
 
     it('sets the expected token threshold params', async () => {
       expect(await claimer.thresholdToken()).to.be.equal(USDC)
-      expect(await claimer.thresholdAmount()).to.be.equal(toUSDC(1))
+      expect(await claimer.thresholdAmount()).to.be.equal(toUSDC(5000))
     })
 
     it('sets the expected limits', async () => {
       expect(await claimer.txCostLimit()).to.be.equal(0)
-      expect(await claimer.gasPriceLimit()).to.be.equal(50e9)
+      expect(await claimer.gasPriceLimit()).to.be.equal(100e9)
     })
 
     it('whitelists the requested relayers', async () => {
@@ -279,12 +282,12 @@ export default function itDeploysBalancerFeeCollectorCorrectly(): void {
 
     it('sets the expected token threshold params', async () => {
       expect(await oneInchSwapper.thresholdToken()).to.be.equal(USDC)
-      expect(await oneInchSwapper.thresholdAmount()).to.be.equal(toUSDC(10))
+      expect(await oneInchSwapper.thresholdAmount()).to.be.equal(toUSDC(5000))
     })
 
     it('sets the expected gas limits', async () => {
       expect(await oneInchSwapper.txCostLimit()).to.be.equal(0)
-      expect(await oneInchSwapper.gasPriceLimit()).to.be.equal(50e9)
+      expect(await oneInchSwapper.gasPriceLimit()).to.be.equal(100e9)
     })
 
     it('whitelists the requested relayers', async () => {
@@ -355,17 +358,19 @@ export default function itDeploysBalancerFeeCollectorCorrectly(): void {
     })
 
     it('sets the expected denied tokens', async () => {
-      expect(await oneInchSwapper.getDeniedTokens()).to.be.empty
+      const deniedTokens = await oneInchSwapper.getDeniedTokens()
+      expect(deniedTokens).to.be.have.lengthOf(1)
+      expect(deniedTokens[0]).to.be.equal(BAL)
     })
 
     it('sets the expected token threshold params', async () => {
       expect(await paraswapSwapper.thresholdToken()).to.be.equal(USDC)
-      expect(await paraswapSwapper.thresholdAmount()).to.be.equal(toUSDC(10))
+      expect(await paraswapSwapper.thresholdAmount()).to.be.equal(toUSDC(5000))
     })
 
     it('sets the expected gas limits', async () => {
       expect(await paraswapSwapper.txCostLimit()).to.be.equal(0)
-      expect(await paraswapSwapper.gasPriceLimit()).to.be.equal(50e9)
+      expect(await paraswapSwapper.gasPriceLimit()).to.be.equal(100e9)
     })
 
     it('whitelists the requested relayers', async () => {
@@ -416,7 +421,7 @@ export default function itDeploysBalancerFeeCollectorCorrectly(): void {
     })
 
     it('sets the owner as the recipient', async () => {
-      expect(await withdrawer.recipient()).to.be.equal(owner)
+      expect(await withdrawer.recipient()).to.be.equal('0xe649B71783d5008d10a96b6871e3840a398d4F06')
     })
 
     it('sets the expected token threshold params', async () => {
@@ -426,7 +431,7 @@ export default function itDeploysBalancerFeeCollectorCorrectly(): void {
 
     it('sets the expected limits', async () => {
       expect(await withdrawer.txCostLimit()).to.be.equal(0)
-      expect(await withdrawer.gasPriceLimit()).to.be.equal(50e9)
+      expect(await withdrawer.gasPriceLimit()).to.be.equal(100e9)
     })
 
     it('whitelists the requested relayers', async () => {

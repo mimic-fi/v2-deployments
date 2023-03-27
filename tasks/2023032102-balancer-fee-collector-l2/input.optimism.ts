@@ -3,7 +3,7 @@ import { fp, HOUR, toUSDC, ZERO_ADDRESS } from '@mimic-fi/v2-helpers'
 import { USD } from '../../constants/chainlink/denominations'
 import * as chainlink from '../../constants/chainlink/optimism'
 import * as hop from '../../constants/hop/optimism'
-import { BOT, OWNER_EOA } from '../../constants/mimic'
+import { BOT, TESTING_EOA } from '../../constants/mimic'
 import * as tokens from '../../constants/tokens/optimism'
 import Task from '../../src/task'
 
@@ -17,14 +17,14 @@ const BridgeConnector = new Task('2023010606-bridge-connector-v1')
 const SmartVaultsFactory = new Task('2023010607-smart-vaults-factory-v1')
 const MimicFeeCollector = new Task('2023010701-mimic-fee-collector-l2')
 
-const owner = '0x0000000000000000000000000000000000000001' // TODO: Balancer multisig
-const mimic = OWNER_EOA
+const owner = '0x09Df1626110803C7b3b07085Ef1E053494155089'
+const mimic = TESTING_EOA
 const managers: string[] = [] // no managers
 const relayers = [BOT]
 const feeCollector = MimicFeeCollector.key('SmartVault')
 
 const paraswapSigner = '0x6278c27CF5534F07fA8f1Ab6188a155cb8750FFA'
-const protocolFeeWithdrawer = '0x0000000000000000000000000000000000000002'
+const protocolFeeWithdrawer = '0xaccaE4A956393Cbc99e1A00006F0F2F9cF718347' // TODO: mocked, update to real version
 
 export default {
   accounts: {
@@ -52,19 +52,20 @@ export default {
       priceOracle: PriceOracle,
       swapConnector: SwapConnector,
       bridgeConnector: BridgeConnector,
-      swapFee: { pct: fp(0.001), cap: 0, token: ZERO_ADDRESS, period: 0 }, // 0.1 %
-      bridgeFee: { pct: fp(0.002), cap: 0, token: ZERO_ADDRESS, period: 0 }, // 0.2 %
+      swapFee: { pct: 0, cap: 0, token: ZERO_ADDRESS, period: 0 },
+      bridgeFee: { pct: 0, cap: 0, token: ZERO_ADDRESS, period: 0 },
       withdrawFee: { pct: 0, cap: 0, token: ZERO_ADDRESS, period: 0 },
       performanceFee: { pct: 0, cap: 0, token: ZERO_ADDRESS, period: 0 },
     },
     claimerActionParams: {
+      impl: undefined,
       admin: owner,
       managers,
       oracleSigner: BOT,
       protocolFeeWithdrawer,
       tokenThresholdActionParams: {
         token: tokens.USDC,
-        amount: toUSDC(1),
+        amount: toUSDC(1), // TODO: update to 100
       },
       relayedActionParams: {
         relayers,
@@ -73,6 +74,7 @@ export default {
       },
     },
     oneInchSwapperActionParams: {
+      impl: undefined,
       admin: owner,
       managers,
       tokenOut: tokens.USDC,
@@ -83,7 +85,7 @@ export default {
       customSlippageValues: [], // none
       tokenThresholdActionParams: {
         token: tokens.USDC,
-        amount: toUSDC(5),
+        amount: toUSDC(1), // TODO: update to 100
       },
       relayedActionParams: {
         relayers,
@@ -92,6 +94,7 @@ export default {
       },
     },
     paraswapSwapperActionParams: {
+      impl: undefined,
       admin: owner,
       managers,
       tokenOut: tokens.USDC,
@@ -102,7 +105,7 @@ export default {
       customSlippageValues: [], // none
       tokenThresholdActionParams: {
         token: tokens.USDC,
-        amount: toUSDC(5),
+        amount: toUSDC(1), // TODO: update to 100
       },
       relayedActionParams: {
         relayers,
@@ -114,9 +117,9 @@ export default {
       impl: undefined,
       admin: owner,
       managers,
-      maxDeadline: 2 * HOUR,
-      maxSlippage: fp(0.003), // 0.3 %
-      maxBonderFeePct: fp(0.03), // 3 %
+      maxDeadline: HOUR,
+      maxSlippage: fp(0.002), // 0.2 %
+      maxBonderFeePct: fp(0.02), // 2 %
       destinationChainId: 1, // mainnet
       hopAmmParams: [
         { token: tokens.WETH, amm: hop.ETH_AMM },
@@ -125,7 +128,7 @@ export default {
       ],
       tokenThresholdActionParams: {
         token: tokens.USDC,
-        amount: toUSDC(5),
+        amount: toUSDC(1), // TODO: update to 100
       },
       relayedActionParams: {
         relayers,

@@ -58,7 +58,7 @@ export default function itDeploysBalancerFeeCollectorCorrectly(): void {
 
   describe('smart vault', () => {
     it('has the expected address', async function () {
-      expect(smartVault.address).to.be.equal('0x94Dd9C6152a2A0BBcB52d3297b723A6F01D5F9f7')
+      expect(smartVault.address).to.be.equal('0x7c04451163cAF1BBeCA529F017D38a303bDB4562')
     })
 
     it('uses the correct implementation', async function () {
@@ -109,10 +109,10 @@ export default function itDeploysBalancerFeeCollectorCorrectly(): void {
       expect(await smartVault.feeCollector()).to.be.equal(feeCollector)
     })
 
-    it('sets a bridge fee', async function () {
+    it('sets no bridge fee', async function () {
       const bridgeFee = await smartVault.bridgeFee()
 
-      expect(bridgeFee.pct).to.be.equal(fp(0.002))
+      expect(bridgeFee.pct).to.be.equal(0)
       expect(bridgeFee.cap).to.be.equal(0)
       expect(bridgeFee.token).to.be.equal(ZERO_ADDRESS)
       expect(bridgeFee.period).to.be.equal(0)
@@ -121,7 +121,7 @@ export default function itDeploysBalancerFeeCollectorCorrectly(): void {
     it('sets no swap fee', async function () {
       const swapFee = await smartVault.swapFee()
 
-      expect(swapFee.pct).to.be.equal(fp(0.001))
+      expect(swapFee.pct).to.be.equal(0)
       expect(swapFee.cap).to.be.equal(0)
       expect(swapFee.token).to.be.equal(ZERO_ADDRESS)
       expect(swapFee.period).to.be.equal(0)
@@ -200,7 +200,7 @@ export default function itDeploysBalancerFeeCollectorCorrectly(): void {
     })
 
     it('sets the proper protocol fee withdrawer', async () => {
-      expect(await claimer.protocolFeeWithdrawer()).to.be.equal('0x0000000000000000000000000000000000000002')
+      expect(await claimer.protocolFeeWithdrawer()).to.be.equal('0xaccaE4A956393Cbc99e1A00006F0F2F9cF718347')
     })
 
     it('sets the expected token threshold params', async () => {
@@ -286,7 +286,7 @@ export default function itDeploysBalancerFeeCollectorCorrectly(): void {
 
     it('sets the expected token threshold params', async () => {
       expect(await oneInchSwapper.thresholdToken()).to.be.equal(USDC)
-      expect(await oneInchSwapper.thresholdAmount()).to.be.equal(toUSDC(5))
+      expect(await oneInchSwapper.thresholdAmount()).to.be.equal(toUSDC(1))
     })
 
     it('sets the expected gas limits', async () => {
@@ -367,7 +367,7 @@ export default function itDeploysBalancerFeeCollectorCorrectly(): void {
 
     it('sets the expected token threshold params', async () => {
       expect(await paraswapSwapper.thresholdToken()).to.be.equal(USDC)
-      expect(await paraswapSwapper.thresholdAmount()).to.be.equal(toUSDC(5))
+      expect(await paraswapSwapper.thresholdAmount()).to.be.equal(toUSDC(1))
     })
 
     it('sets the expected gas limits', async () => {
@@ -435,7 +435,7 @@ export default function itDeploysBalancerFeeCollectorCorrectly(): void {
 
     it('sets the expected token threshold params', async () => {
       expect(await bridger.thresholdToken()).to.be.equal(USDC)
-      expect(await bridger.thresholdAmount()).to.be.equal(toUSDC(5))
+      expect(await bridger.thresholdAmount()).to.be.equal(toUSDC(1))
     })
 
     it('sets the expected gas limits', async () => {
@@ -454,9 +454,9 @@ export default function itDeploysBalancerFeeCollectorCorrectly(): void {
     })
 
     it('sets the requested maximums', async () => {
-      expect(await bridger.maxDeadline()).to.be.equal(2 * HOUR)
-      expect(await bridger.maxSlippage()).to.be.equal(fp(0.003))
-      expect(await bridger.maxBonderFeePct()).to.be.equal(fp(0.03))
+      expect(await bridger.maxDeadline()).to.be.equal(HOUR)
+      expect(await bridger.maxSlippage()).to.be.equal(fp(0.002))
+      expect(await bridger.maxBonderFeePct()).to.be.equal(fp(0.02))
     })
 
     it('allows the requested relayers', async () => {
