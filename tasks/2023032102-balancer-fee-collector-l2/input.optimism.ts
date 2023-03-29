@@ -24,7 +24,7 @@ const relayers = [BOT]
 const feeCollector = MimicFeeCollector.key('SmartVault')
 
 const paraswapSigner = '0x6278c27CF5534F07fA8f1Ab6188a155cb8750FFA'
-const protocolFeeWithdrawer = '0xaccaE4A956393Cbc99e1A00006F0F2F9cF718347' // TODO: mocked, update to real version
+const protocolFeeWithdrawer = '0x7f4b5250C63E24360055342D2a4427079290F044' // TODO: mocked, update to real version
 
 export default {
   accounts: {

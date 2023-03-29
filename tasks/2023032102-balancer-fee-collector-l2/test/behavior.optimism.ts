@@ -200,7 +200,7 @@ export default function itDeploysBalancerFeeCollectorCorrectly(): void {
     })
 
     it('sets the proper protocol fee withdrawer', async () => {
-      expect(await claimer.protocolFeeWithdrawer()).to.be.equal('0xaccaE4A956393Cbc99e1A00006F0F2F9cF718347')
+      expect(await claimer.protocolFeeWithdrawer()).to.be.equal('0x7f4b5250C63E24360055342D2a4427079290F044')
     })
 
     it('sets the expected token threshold params', async () => {
