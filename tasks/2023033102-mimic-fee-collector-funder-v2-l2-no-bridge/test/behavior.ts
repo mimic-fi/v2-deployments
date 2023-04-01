@@ -8,8 +8,9 @@ import { MimicFeeCollectorFunderV2Deployment } from '../input'
 
 export default function itDeploysMimicFeeCollectorFunderV2Correctly(): void {
   let input: MimicFeeCollectorFunderV2Deployment
-  let smartVault: Contract, holder: Contract, funderV1: Contract, funderV2: Contract
-  let manager: Contract, owner: string, bot: string, managers: string[]
+  let smartVault: Contract, holder: Contract, funderV1: Contract
+  let manager: Contract, relayerFunder: Contract, deployerFunder: Contract
+  let owner: string, bot: string, managers: string[]
 
   before('load accounts', async function () {
     input = this.task.input() as MimicFeeCollectorFunderV2Deployment
@@ -20,7 +21,8 @@ export default function itDeploysMimicFeeCollectorFunderV2Correctly(): void {
     smartVault = await this.task.inputDeployedInstance('SmartVault')
     holder = await this.task.inputDeployedInstance('Holder')
     funderV1 = await this.task.inputDeployedInstance('Funder')
-    funderV2 = await this.task.deployedInstance('FunderV2')
+    relayerFunder = await this.task.deployedInstance('RelayerFunder', 'FunderV2')
+    deployerFunder = await this.task.deployedInstance('DeployerFunder', 'FunderV2')
     manager = await this.task.deployedInstance('PermissionsManager')
   })
 
@@ -55,16 +57,17 @@ export default function itDeploysMimicFeeCollectorFunderV2Correctly(): void {
           ],
         },
         { name: 'funder v1', account: funderV1, roles: [] },
-        { name: 'funder v2', account: funderV2, roles: ['swap', 'unwrap', 'withdraw'] },
+        { name: 'relayer funder', account: relayerFunder, roles: ['swap', 'unwrap', 'withdraw'] },
+        { name: 'deployer funder', account: deployerFunder, roles: ['swap', 'unwrap', 'withdraw'] },
         { name: 'holder', account: holder, roles: ['wrap', 'swap'] },
         { name: 'managers', account: managers, roles: [] },
       ])
     })
   })
 
-  describe('funder v2', () => {
+  describe('relayer funder', () => {
     it('sets its permissions correctly', async () => {
-      await assertPermissions(funderV2, [
+      await assertPermissions(relayerFunder, [
         { name: 'manager', account: manager, roles: ['authorize', 'unauthorize'] },
         {
           name: 'owner',
@@ -73,31 +76,72 @@ export default function itDeploysMimicFeeCollectorFunderV2Correctly(): void {
         },
         { name: 'bot', account: bot, roles: ['call'] },
         { name: 'funder v1', account: funderV1, roles: [] },
-        { name: 'funder v2', account: funderV2, roles: [] },
+        { name: 'relayer funder', account: relayerFunder, roles: [] },
+        { name: 'deployer funder', account: deployerFunder, roles: [] },
         { name: 'holder', account: holder, roles: [] },
         { name: 'managers', account: managers, roles: ['call'] },
       ])
     })
 
     it('has the proper smart vault set', async () => {
-      expect(await funderV2.smartVault()).to.be.equal(smartVault.address)
+      expect(await relayerFunder.smartVault()).to.be.equal(smartVault.address)
     })
 
     it('sets the expected token in', async () => {
-      expect(await funderV2.tokenIn()).to.be.equal(await funderV1.tokenIn())
+      expect(await relayerFunder.tokenIn()).to.be.equal(await funderV1.tokenIn())
     })
 
     it('sets the expected token balance limits', async () => {
-      expect(await funderV2.minBalance()).to.be.equal(await funderV1.minBalance())
-      expect(await funderV2.maxBalance()).to.be.equal(await funderV1.maxBalance())
+      expect(await relayerFunder.minBalance()).to.be.equal(await funderV1.minBalance())
+      expect(await relayerFunder.maxBalance()).to.be.equal(await funderV1.maxBalance())
     })
 
     it('sets the requested max slippage', async () => {
-      expect(await funderV2.maxSlippage()).to.be.equal(await funderV1.maxSlippage())
+      expect(await relayerFunder.maxSlippage()).to.be.equal(await funderV1.maxSlippage())
     })
 
     it('sets the requested recipient', async () => {
-      expect(await funderV2.recipient()).to.be.equal(await funderV1.recipient())
+      expect(await relayerFunder.recipient()).to.be.equal(await funderV1.recipient())
+    })
+  })
+
+  describe('deployer funder', () => {
+    it('sets its permissions correctly', async () => {
+      await assertPermissions(deployerFunder, [
+        { name: 'manager', account: manager, roles: ['authorize', 'unauthorize'] },
+        {
+          name: 'owner',
+          account: owner,
+          roles: ['setSmartVault', 'setTokenIn', 'setMaxSlippage', 'setBalanceLimits', 'setRecipient', 'call'],
+        },
+        { name: 'bot', account: bot, roles: ['call'] },
+        { name: 'funder v1', account: funderV1, roles: [] },
+        { name: 'relayer funder', account: relayerFunder, roles: [] },
+        { name: 'deployer funder', account: deployerFunder, roles: [] },
+        { name: 'holder', account: holder, roles: [] },
+        { name: 'managers', account: managers, roles: ['call'] },
+      ])
+    })
+
+    it('has the proper smart vault set', async () => {
+      expect(await deployerFunder.smartVault()).to.be.equal(smartVault.address)
+    })
+
+    it('sets the expected token in', async () => {
+      expect(await deployerFunder.tokenIn()).to.be.equal(await funderV1.tokenIn())
+    })
+
+    it('sets the expected token balance limits', async () => {
+      expect(await deployerFunder.minBalance()).to.be.equal(await funderV1.minBalance())
+      expect(await deployerFunder.maxBalance()).to.be.equal(await funderV1.maxBalance())
+    })
+
+    it('sets the requested max slippage', async () => {
+      expect(await deployerFunder.maxSlippage()).to.be.equal(await funderV1.maxSlippage())
+    })
+
+    it('sets the requested recipient', async () => {
+      expect(await deployerFunder.recipient()).to.be.equal(input.from)
     })
   })
 
@@ -112,7 +156,8 @@ export default function itDeploysMimicFeeCollectorFunderV2Correctly(): void {
         },
         { name: 'bot', account: bot, roles: [] },
         { name: 'funder v1', account: funderV1, roles: [] },
-        { name: 'funder v2', account: funderV2, roles: [] },
+        { name: 'relayer funder', account: relayerFunder, roles: [] },
+        { name: 'deployer funder', account: deployerFunder, roles: [] },
         { name: 'holder', account: holder, roles: [] },
         { name: 'managers', account: managers, roles: [] },
       ])
@@ -130,7 +175,8 @@ export default function itDeploysMimicFeeCollectorFunderV2Correctly(): void {
         },
         { name: 'bot', account: bot, roles: ['call'] },
         { name: 'funder v1', account: funderV1, roles: [] },
-        { name: 'funder v2', account: funderV2, roles: [] },
+        { name: 'relayer funder', account: relayerFunder, roles: [] },
+        { name: 'deployer funder', account: deployerFunder, roles: [] },
         { name: 'holder', account: holder, roles: [] },
         { name: 'managers', account: managers, roles: ['call'] },
       ])

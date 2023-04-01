@@ -80,10 +80,10 @@ export default class Task {
     return instanceAt(artifactLike, address)
   }
 
-  async deployedInstance(name: string): Promise<Contract> {
+  async deployedInstance(name: string, contractName = name): Promise<Contract> {
     const address = this.output()[name]
     if (!address) throw Error(`Could not find deployed address for ${name}`)
-    return this.instanceAt(name, address)
+    return this.instanceAt(contractName, address)
   }
 
   async inputDeployedInstance(name: string): Promise<Contract> {

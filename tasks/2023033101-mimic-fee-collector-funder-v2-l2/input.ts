@@ -21,7 +21,6 @@ export default {
   from: DEPLOYER_2,
   owner: OWNER_EOA,
   relayer: BOT,
-  deployer: DEPLOYER_2,
   managers,
   Create3Factory,
   Registry,

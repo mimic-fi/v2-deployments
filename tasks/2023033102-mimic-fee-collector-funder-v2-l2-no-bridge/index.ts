@@ -34,22 +34,42 @@ export default async (task: Task, { force, from }: TaskRunOptions = {}): Promise
     manager.address,
     Registry,
   ]
-  const funderV2 = await create3IfNecessary(task, 'FunderV2', args, from, 'v2', force, 'Funder')
+  const relayerFunder = await create3IfNecessary(task, 'FunderV2', args, from, 'v1', force, 'RelayerFunder')
 
-  const grantManagersToFunderV2 = managers.map((who: string) => {
-    return { grant: true, permission: { who, what: funderV2.interface.getSighash('call') } }
+  const deployerArgs = [
+    smartVault.address,
+    await funderV1.tokenIn(),
+    await funderV1.minBalance(),
+    await funderV1.maxBalance(),
+    await funderV1.maxSlippage(),
+    input.from,
+    owner.address,
+    manager.address,
+    Registry,
+  ]
+  const deployerFunder = await create3IfNecessary(task, 'FunderV2', deployerArgs, from, 'v1', force, 'DeployerFunder')
+
+  const grantManagersToFunderV2 = managers.map((who) => {
+    return { grant: true, permission: { who, what: relayerFunder.interface.getSighash('call') } }
   })
 
-  const revokeManagersFromFunderV1 = managers.map((who: string) => {
+  const revokeManagersFromFunderV1 = managers.map((who) => {
     return { grant: false, permission: { who, what: funderV1.interface.getSighash('call') } }
   })
 
   await manager.connect(owner).execute([
     {
-      target: funderV2.address,
+      target: relayerFunder.address,
       changes: grantManagersToFunderV2.concat([
-        { grant: true, permission: { who: relayer, what: funderV2.interface.getSighash('call') } },
-        { grant: true, permission: { who: owner.address, what: funderV2.interface.getSighash('call') } },
+        { grant: true, permission: { who: relayer, what: relayerFunder.interface.getSighash('call') } },
+        { grant: true, permission: { who: owner.address, what: relayerFunder.interface.getSighash('call') } },
+      ]),
+    },
+    {
+      target: deployerFunder.address,
+      changes: grantManagersToFunderV2.concat([
+        { grant: true, permission: { who: relayer, what: deployerFunder.interface.getSighash('call') } },
+        { grant: true, permission: { who: owner.address, what: deployerFunder.interface.getSighash('call') } },
       ]),
     },
     {
@@ -64,6 +84,7 @@ export default async (task: Task, { force, from }: TaskRunOptions = {}): Promise
     {
       target: holder.address,
       changes: [
+        { grant: true, permission: { who: relayer, what: holder.interface.getSighash('call') } }, // this was missing
         { grant: false, permission: { who: owner.address, what: holder.interface.getSighash('authorize') } },
         { grant: false, permission: { who: owner.address, what: holder.interface.getSighash('unauthorize') } },
       ],
@@ -71,9 +92,12 @@ export default async (task: Task, { force, from }: TaskRunOptions = {}): Promise
     {
       target: smartVault.address,
       changes: [
-        { grant: true, permission: { who: funderV2.address, what: smartVault.interface.getSighash('swap') } },
-        { grant: true, permission: { who: funderV2.address, what: smartVault.interface.getSighash('unwrap') } },
-        { grant: true, permission: { who: funderV2.address, what: smartVault.interface.getSighash('withdraw') } },
+        { grant: true, permission: { who: relayerFunder.address, what: smartVault.interface.getSighash('swap') } },
+        { grant: true, permission: { who: relayerFunder.address, what: smartVault.interface.getSighash('unwrap') } },
+        { grant: true, permission: { who: relayerFunder.address, what: smartVault.interface.getSighash('withdraw') } },
+        { grant: true, permission: { who: deployerFunder.address, what: smartVault.interface.getSighash('swap') } },
+        { grant: true, permission: { who: deployerFunder.address, what: smartVault.interface.getSighash('unwrap') } },
+        { grant: true, permission: { who: deployerFunder.address, what: smartVault.interface.getSighash('withdraw') } },
         { grant: false, permission: { who: funderV1.address, what: smartVault.interface.getSighash('swap') } },
         { grant: false, permission: { who: funderV1.address, what: smartVault.interface.getSighash('unwrap') } },
         { grant: false, permission: { who: funderV1.address, what: smartVault.interface.getSighash('withdraw') } },
@@ -122,19 +146,19 @@ async function create3IfNecessary(
   const output = task.output({ ensure: false })
   const { namespace } = input
 
-  if (force || !output[contractName]) {
-    logger.info(`Deploying ${contractName} ${version}...`)
+  if (force || !output[name]) {
+    logger.info(`Deploying ${name} (${contractName}) ${version}...`)
     const creationCode = await task.getCreationCode(contractName, args)
     const salt = ethers.utils.solidityKeccak256(['string'], [`${namespace}.${name}.${version}`])
     const factory = await task.inputDeployedInstance('Create3Factory')
     const tx = await factory.connect(from).create(salt, creationCode)
     await tx.wait()
     address = await factory.addressOf(salt)
-    logger.success(`Deployed ${contractName} ${version} at ${address}`)
-    task.save({ [contractName]: address })
+    logger.success(`Deployed ${name} (${contractName}) ${version} at ${address}`)
+    task.save({ [name]: address })
   } else {
-    address = output[contractName]
-    logger.warn(`${contractName} ${version} already deployed at ${address}`)
+    address = output[name]
+    logger.warn(`${name} ${version} already deployed at ${address}`)
   }
 
   await task.verify(contractName, address, args)
