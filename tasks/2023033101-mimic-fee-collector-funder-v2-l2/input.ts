@@ -6,6 +6,7 @@ const Registry = new Task('2023010602-registry-v2')
 const Funder = new Task('2023010701-mimic-fee-collector-l2')
 const Holder = new Task('2023010701-mimic-fee-collector-l2')
 const L2HopBridger = new Task('2023010701-mimic-fee-collector-l2')
+const L2HopSwapper = new Task('2023010701-mimic-fee-collector-l2')
 const SmartVault = new Task('2023010701-mimic-fee-collector-l2')
 
 /* eslint-disable no-secrets/no-secrets */
@@ -28,6 +29,7 @@ export default {
   Funder,
   Holder,
   L2HopBridger,
+  L2HopSwapper,
 }
 
 export type MimicFeeCollectorFunderV2Deployment = {

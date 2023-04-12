@@ -22,6 +22,7 @@ export default async (task: Task, { force, from }: TaskRunOptions = {}): Promise
   const funderV1 = await authorizeManager(task, 'Funder', owner, manager)
   const holder = await authorizeManager(task, 'Holder', owner, manager)
   const bridger = await authorizeManager(task, 'L2HopBridger', owner, manager)
+  const swapper = await authorizeManager(task, 'L2HopSwapper', owner, manager)
   const smartVault = await authorizeManager(task, 'SmartVault', owner, manager)
 
   const args = [
@@ -94,6 +95,13 @@ export default async (task: Task, { force, from }: TaskRunOptions = {}): Promise
       changes: [
         { grant: false, permission: { who: owner.address, what: bridger.interface.getSighash('authorize') } },
         { grant: false, permission: { who: owner.address, what: bridger.interface.getSighash('unauthorize') } },
+      ],
+    },
+    {
+      target: swapper.address,
+      changes: [
+        { grant: false, permission: { who: owner.address, what: swapper.interface.getSighash('authorize') } },
+        { grant: false, permission: { who: owner.address, what: swapper.interface.getSighash('unauthorize') } },
       ],
     },
     {

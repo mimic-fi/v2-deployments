@@ -8,7 +8,7 @@ import { MimicFeeCollectorFunderV2Deployment } from '../input'
 
 export default function itDeploysMimicFeeCollectorFunderV2Correctly(): void {
   let input: MimicFeeCollectorFunderV2Deployment
-  let smartVault: Contract, holder: Contract, funderV1: Contract, bridger: Contract
+  let smartVault: Contract, holder: Contract, funderV1: Contract, bridger: Contract, swapper: Contract
   let manager: Contract, relayerFunder: Contract, deployerFunder: Contract
   let owner: string, bot: string, managers: string[]
 
@@ -20,6 +20,7 @@ export default function itDeploysMimicFeeCollectorFunderV2Correctly(): void {
   before('load instances', async function () {
     smartVault = await this.task.inputDeployedInstance('SmartVault')
     bridger = await this.task.inputDeployedInstance('L2HopBridger')
+    swapper = await this.task.inputDeployedInstance('L2HopSwapper')
     holder = await this.task.inputDeployedInstance('Holder')
     funderV1 = await this.task.inputDeployedInstance('Funder')
     relayerFunder = await this.task.deployedInstance('RelayerFunder', 'FunderV2')
@@ -62,6 +63,7 @@ export default function itDeploysMimicFeeCollectorFunderV2Correctly(): void {
         { name: 'deployer funder', account: deployerFunder, roles: ['swap', 'unwrap', 'withdraw'] },
         { name: 'holder', account: holder, roles: ['wrap', 'swap'] },
         { name: 'bridger', account: bridger, roles: ['bridge'] },
+        { name: 'swapper', account: swapper, roles: ['swap'] },
         { name: 'managers', account: managers, roles: [] },
       ])
     })
@@ -82,6 +84,7 @@ export default function itDeploysMimicFeeCollectorFunderV2Correctly(): void {
         { name: 'deployer funder', account: deployerFunder, roles: [] },
         { name: 'holder', account: holder, roles: [] },
         { name: 'bridger', account: bridger, roles: [] },
+        { name: 'swapper', account: swapper, roles: [] },
         { name: 'managers', account: managers, roles: ['call'] },
       ])
     })
@@ -123,6 +126,7 @@ export default function itDeploysMimicFeeCollectorFunderV2Correctly(): void {
         { name: 'deployer funder', account: deployerFunder, roles: [] },
         { name: 'holder', account: holder, roles: [] },
         { name: 'bridger', account: bridger, roles: [] },
+        { name: 'swapper', account: swapper, roles: [] },
         { name: 'managers', account: managers, roles: ['call'] },
       ])
     })
@@ -164,6 +168,7 @@ export default function itDeploysMimicFeeCollectorFunderV2Correctly(): void {
         { name: 'deployer funder', account: deployerFunder, roles: [] },
         { name: 'holder', account: holder, roles: [] },
         { name: 'bridger', account: bridger, roles: [] },
+        { name: 'swapper', account: swapper, roles: [] },
         { name: 'managers', account: managers, roles: [] },
       ])
     })
@@ -184,6 +189,7 @@ export default function itDeploysMimicFeeCollectorFunderV2Correctly(): void {
         { name: 'deployer funder', account: deployerFunder, roles: [] },
         { name: 'holder', account: holder, roles: [] },
         { name: 'bridger', account: bridger, roles: [] },
+        { name: 'swapper', account: swapper, roles: [] },
         { name: 'managers', account: managers, roles: ['call'] },
       ])
     })
@@ -212,6 +218,26 @@ export default function itDeploysMimicFeeCollectorFunderV2Correctly(): void {
         { name: 'relayer funder', account: relayerFunder, roles: [] },
         { name: 'deployer funder', account: deployerFunder, roles: [] },
         { name: 'holder', account: holder, roles: [] },
+        { name: 'bridger', account: bridger, roles: [] },
+        { name: 'managers', account: managers, roles: ['call'] },
+      ])
+    })
+  })
+
+  describe('swapper', () => {
+    it('updates its permissions correctly', async () => {
+      await assertPermissions(swapper, [
+        { name: 'manager', account: manager, roles: ['authorize', 'unauthorize'] },
+        {
+          name: 'owner',
+          account: owner,
+          roles: ['setSmartVault', 'setMaxSlippage', 'setTokenAmm', 'call'],
+        },
+        { name: 'funder v1', account: funderV1, roles: [] },
+        { name: 'relayer funder', account: relayerFunder, roles: [] },
+        { name: 'deployer funder', account: deployerFunder, roles: [] },
+        { name: 'holder', account: holder, roles: [] },
+        { name: 'swapper', account: swapper, roles: [] },
         { name: 'bridger', account: bridger, roles: [] },
         { name: 'managers', account: managers, roles: ['call'] },
       ])
