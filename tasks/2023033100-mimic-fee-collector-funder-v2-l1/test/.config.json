@@ -1,5 +1,8 @@
 {
   "fork": {
     "mainnet": 16951310
+  },
+  "deployed": {
+    "mainnet": 0
   }
 }

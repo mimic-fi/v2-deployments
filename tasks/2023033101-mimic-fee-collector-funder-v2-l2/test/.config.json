@@ -4,5 +4,11 @@
     "optimism": 84097200,
     "arbitrum": 72220484,
     "gnosis": 27055680
+  },
+  "deployed": {
+    "polygon": 0,
+    "optimism": 0,
+    "arbitrum": 0,
+    "gnosis": 0
   }
 }
