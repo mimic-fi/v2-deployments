@@ -7,6 +7,8 @@ import { NETWORKS } from '../types'
 
 const RETRIES = 3
 const RETRIES_INTERVAL = 15
+const ERROR_OUTPUT_FILE = 'hardhat_tests_output.log'
+const EXECUTION_ERRORS_TO_RETRY = ['HttpProviderError', 'InvalidInputError']
 const TASKS_DIRECTORY = path.resolve(__dirname, '../../tasks')
 const TASKS_IDS = fs.readdirSync(TASKS_DIRECTORY)
 
@@ -83,15 +85,48 @@ async function runTests(taskIds: string[], networks: string[], fork: boolean) {
 async function runTest(command: string, intent = 1) {
   console.log(`Running test try #${intent}`)
   const args: string[] = command.split(' ')
-  const child = spawn('yarn', args, { stdio: 'inherit', shell: true })
-  const exitCode = await new Promise((resolve) => child.on('close', resolve))
+  const child = spawn('yarn', args, { shell: true })
 
-  if (exitCode) {
-    if (intent >= RETRIES) throw new Error(`Subprocess error exit ${exitCode}`)
-    console.log(`Subprocess error exit ${exitCode}, waiting ${RETRIES_INTERVAL} seconds before retrying`)
-    await sleep(RETRIES_INTERVAL)
-    await runTest(command, intent + 1)
-  }
+  return new Promise<void>((resolve, reject) => {
+    let errorOutput = ''
+    const errorFile = fs.createWriteStream(ERROR_OUTPUT_FILE)
+
+    child.stderr.pipe(errorFile)
+    child.stdout.pipe(process.stdout) // Pipe child stdout to process stdout
+
+    child.on('close', async (exitCode) => {
+      errorFile.end()
+
+      if (exitCode === 0) {
+        resolve()
+      } else {
+        fs.readFile(ERROR_OUTPUT_FILE, 'utf8', async (err, data) => {
+          if (err) {
+            console.error(`Failed to read error output file: ${err}`)
+            process.exitCode = 1
+            reject(new Error(`Subprocess error exit ${exitCode}`))
+          } else {
+            errorOutput = data
+            if (intent < RETRIES && EXECUTION_ERRORS_TO_RETRY.some((message) => errorOutput.includes(message))) {
+              console.error(`Subprocess error exit ${exitCode}, waiting ${RETRIES_INTERVAL} seconds before retrying`)
+              console.error(`Error message: ${errorOutput}`) // Output error message on every retry
+              await sleep(RETRIES_INTERVAL)
+              try {
+                await runTest(command, intent + 1)
+                resolve()
+              } catch (error) {
+                reject(error)
+              }
+            } else {
+              console.error(`Child process failed with error message: ${errorOutput}`)
+              process.exitCode = 1
+              reject(new Error(`Subprocess error exit ${exitCode}`))
+            }
+          }
+        })
+      }
+    })
+  })
 }
 
 async function sleep(seconds: number): Promise<void> {
@@ -101,4 +136,5 @@ async function sleep(seconds: number): Promise<void> {
 tests().catch((error) => {
   console.error(error)
   process.exitCode = 1
+  fs.unlinkSync(ERROR_OUTPUT_FILE)
 })

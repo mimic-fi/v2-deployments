@@ -1,3 +1,4 @@
+import { Libraries } from '@mimic-fi/v2-helpers'
 import { SignerWithAddress } from '@nomiclabs/hardhat-ethers/dist/src/signer-with-address'
 import { BigNumber, Contract } from 'ethers'
 import { CompilerOutputBytecode } from 'hardhat/types'
@@ -30,10 +31,18 @@ export type TaskOutput = {
   key: string
 }
 
+export type TxParams = {
+  from: SignerWithAddress
+  libs?: Libraries
+  force?: boolean
+}
+
 export type NAry<T> = T | Array<T>
 
 // eslint-disable-next-line @typescript-eslint/no-explicit-any
 export type Param = boolean | string | number | BigNumber | any
+
+export type Account = string | Contract | SignerWithAddress
 
 export type Input = {
   [key: string]: NAry<Param>
@@ -64,18 +73,4 @@ export type Artifact = {
       [methodSignature: string]: string
     }
   }
-}
-
-export type DeploymentMetadata = {
-  namespace: string
-  contractName: string
-  version: string
-  from: string
-  Create3Factory: string
-}
-
-export type MimicDeployment = DeploymentMetadata & {
-  admin: string
-  stateless: boolean
-  Registry: string
 }

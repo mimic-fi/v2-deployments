@@ -20,8 +20,8 @@ export default function itDeploysPriceOracleCorrectly(): void {
   it('registers the PriceOracle under the expected namespace', async function () {
     const factory = await this.task.inputDeployedInstance('Create3Factory')
 
-    const { namespace, contractName, version } = this.task.input() as PriceOracleDeployment
-    const salt = ethers.utils.solidityKeccak256(['string'], [`${namespace}.${contractName}.${version}`])
+    const { namespace, version } = this.task.input() as PriceOracleDeployment
+    const salt = ethers.utils.solidityKeccak256(['string'], [`${namespace}.PriceOracle.${version}`])
     expect(await factory.addressOf(salt)).to.be.equal(priceOracle.address)
   })
 

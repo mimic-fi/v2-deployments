@@ -1,11 +1,10 @@
-import { assertIndirectEvent, getSigner, Libraries } from '@mimic-fi/v2-helpers'
-import { SignerWithAddress } from '@nomiclabs/hardhat-ethers/signers'
-import { Contract } from 'ethers'
+import { getSigner } from '@mimic-fi/v2-helpers'
 import { ethers } from 'hardhat'
 
-import logger from '../../src/logger'
+import { deployCreate3 } from '../../src/create3'
+import { deploySmartVault } from '../../src/smartVault'
 import Task from '../../src/task'
-import { Param, TaskRunOptions } from '../../src/types'
+import { TaskRunOptions } from '../../src/types'
 import { MimicFeeCollectorDeployment } from './input'
 
 /* eslint-disable no-secrets/no-secrets */
@@ -13,68 +12,20 @@ import { MimicFeeCollectorDeployment } from './input'
 export default async (task: Task, { force, from }: TaskRunOptions = {}): Promise<void> => {
   const input = task.input() as MimicFeeCollectorDeployment
   const { params, namespace, version, Deployer, Registry } = input
+
   if (!from) from = await getSigner(input.from)
+  const txParams = { from, force, libraries: { Deployer } }
+  const create3Params = { ...txParams, namespace, version }
+  const smartVaultDeployer = await deployCreate3(task, 'L2NoBridgingSmartVaultDeployer', [], {
+    ...create3Params,
+    instanceName: 'SmartVaultDeployer',
+  })
 
-  const smartVaultDeployer = await create3IfNecessary(
-    task,
-    'L2NoBridgingSmartVaultDeployer',
-    [],
-    from,
-    force,
-    {
-      Deployer,
-    },
-    'SmartVaultDeployer'
-  )
+  const funder = await deployCreate3(task, 'Funder', [smartVaultDeployer.address, Registry], create3Params)
+  const holder = await deployCreate3(task, 'Holder', [smartVaultDeployer.address, Registry], create3Params)
 
-  const funder = await create3IfNecessary(task, 'Funder', [smartVaultDeployer.address, Registry], from, force)
-  const holder = await create3IfNecessary(task, 'Holder', [smartVaultDeployer.address, Registry], from, force)
-
-  const output = task.output({ ensure: false })
-  if (force || !output['SmartVault']) {
-    params.funderActionParams.impl = funder.address
-    params.holderActionParams.impl = holder.address
-    params.smartVaultParams.salt = ethers.utils.solidityKeccak256(['string'], [`${namespace}.SmartVault.${version}`])
-
-    logger.info(`Deploying SmartVault ${version}...`)
-    const tx = await smartVaultDeployer.connect(from).deploy(params)
-    const factory = await task.inputDeployedInstance('SmartVaultsFactory')
-    const implementation = params.smartVaultParams.impl
-    const event = await assertIndirectEvent(tx, factory.interface, 'Created', { implementation })
-    logger.success(`New SmartVault instance at ${event.args.instance}`)
-    task.save({ SmartVault: event.args.instance })
-  }
-}
-
-async function create3IfNecessary(
-  task: Task,
-  contractName: string,
-  args: Array<Param> = [],
-  from: SignerWithAddress,
-  force?: boolean,
-  libs?: Libraries,
-  name: string = contractName
-): Promise<Contract> {
-  let address
-  const input = task.input() as MimicFeeCollectorDeployment
-  const output = task.output({ ensure: false })
-  const { namespace, version } = input
-
-  if (force || !output[contractName]) {
-    logger.info(`Deploying ${contractName} ${version}...`)
-    const creationCode = await task.getCreationCode(contractName, args, libs)
-    const salt = ethers.utils.solidityKeccak256(['string'], [`${namespace}.${name}.${version}`])
-    const factory = await task.inputDeployedInstance('Create3Factory')
-    const tx = await factory.connect(from).create(salt, creationCode)
-    await tx.wait()
-    address = await factory.addressOf(salt)
-    logger.success(`Deployed ${contractName} ${version} at ${address}`)
-    task.save({ [contractName]: address })
-  } else {
-    address = output[contractName]
-    logger.warn(`${contractName} ${version} already deployed at ${address}`)
-  }
-
-  await task.verify(contractName, address, args)
-  return task.instanceAt(contractName, address)
+  params.funderActionParams.impl = funder.address
+  params.holderActionParams.impl = holder.address
+  params.smartVaultParams.salt = ethers.utils.solidityKeccak256(['string'], [`${namespace}.SmartVault.${version}`])
+  await deploySmartVault(task, smartVaultDeployer, params, txParams)
 }

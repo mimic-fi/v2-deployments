@@ -1,7 +1,7 @@
 import { ADMIN_EOA, DEPLOYER_2 } from '../../constants/mimic'
 import * as tokens from '../../constants/tokens'
+import { MimicDeployment } from '../../src/registry'
 import Task from '../../src/task'
-import { MimicDeployment } from '../../src/types'
 
 export type SmartVaultDeployment = MimicDeployment & {
   wrappedNativeToken: string
@@ -12,7 +12,6 @@ const Registry = new Task('2023010602-registry-v2')
 
 export default {
   namespace: 'mimic-v2',
-  contractName: 'SmartVault',
   version: 'v3',
   stateless: false,
   from: DEPLOYER_2,
