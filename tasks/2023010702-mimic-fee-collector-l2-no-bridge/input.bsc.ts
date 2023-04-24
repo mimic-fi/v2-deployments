@@ -1,4 +1,4 @@
-import { fp, toUSDC, ZERO_ADDRESS } from '@mimic-fi/v2-helpers'
+import { fp, ZERO_ADDRESS } from '@mimic-fi/v2-helpers'
 
 import * as chainlink from '../../constants/chainlink/bsc'
 import { USD } from '../../constants/chainlink/denominations'
@@ -71,7 +71,7 @@ export default {
       maxSlippage: fp(0.002), // 0.2 %
       tokenThresholdActionParams: {
         token: tokens.USDC,
-        amount: toUSDC(50),
+        amount: fp(50),
       },
     },
   },

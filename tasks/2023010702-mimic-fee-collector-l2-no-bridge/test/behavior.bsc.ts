@@ -1,4 +1,4 @@
-import { fp, toUSDC, ZERO_ADDRESS } from '@mimic-fi/v2-helpers'
+import { fp, ZERO_ADDRESS } from '@mimic-fi/v2-helpers'
 import { expect } from 'chai'
 import { Contract } from 'ethers'
 
@@ -205,7 +205,7 @@ export default function itDeploysMimicFeeCollectorCorrectly(): void {
 
     it('sets the expected token threshold params', async function () {
       expect(await holder.thresholdToken()).to.be.equal(USDC)
-      expect(await holder.thresholdAmount()).to.be.equal(toUSDC(50))
+      expect(await holder.thresholdAmount()).to.be.equal(fp(50))
     })
 
     it('sets the requested token out', async function () {
