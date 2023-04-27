@@ -82,7 +82,7 @@ export default async (task: Task, { force, from }: TaskRunOptions = {}): Promise
         changes: [
           { grant: false, permission: { who: relayer, what: 'call' } },
           { grant: false, permission: { who: owner, what: 'call' } },
-          { grant: false, permission: { who: manager, what: 'call' } },
+          { grant: false, permission: { who: managers, what: 'call' } },
           { grant: false, permission: { who: owner, what: 'authorize' } },
           { grant: false, permission: { who: owner, what: 'unauthorize' } },
         ],
