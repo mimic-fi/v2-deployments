@@ -14,7 +14,7 @@ export async function deploySmartVault(task: Task, deployer: Contract, args: any
 
   if (force || !output['SmartVault']) {
     logger.info(`Deploying SmartVault...`)
-    const tx = await deployer.connect(params.from).deploy(params)
+    const tx = await deployer.connect(params.from).deploy(args)
     const factory = await task.inputDeployedInstance('SmartVaultsFactory')
     const event = await assertIndirectEvent(tx, factory.interface, 'Created')
     logger.success(`New SmartVault instance at ${event.args.instance}`)

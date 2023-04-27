@@ -43,7 +43,7 @@ export async function deployCreate3(
 
   if (force || !output[instanceName]) {
     logger.info(`Deploying ${instanceName} (${contractName}) ${version}...`)
-    const creationCode = await task.getCreationCode(contractName, args)
+    const creationCode = await task.getCreationCode(contractName, args, params.libs)
     const salt = ethers.utils.solidityKeccak256(['string'], [`${namespace}.${instanceName}.${version}`])
     const factory = await task.inputDeployedInstance('Create3Factory')
     const tx = await factory.connect(from).create(salt, creationCode)

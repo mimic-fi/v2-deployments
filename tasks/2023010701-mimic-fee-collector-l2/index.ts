@@ -14,7 +14,7 @@ export default async (task: Task, { force, from }: TaskRunOptions = {}): Promise
   const { params, namespace, version, Deployer, Registry } = input
 
   if (!from) from = await getSigner(input.from)
-  const txParams = { from, force, libraries: { Deployer } }
+  const txParams = { from, force, libs: { Deployer } }
   const create3Params = { ...txParams, namespace, version }
   const smartVaultDeployer = await deployCreate3(task, 'L2BridgingSmartVaultDeployer', [], {
     ...create3Params,
