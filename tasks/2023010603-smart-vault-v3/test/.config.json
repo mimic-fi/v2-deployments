@@ -1,6 +1,5 @@
 {
   "fork": {
-    "mumbai": 30659455,
     "mainnet": 16437577,
     "polygon": 38243540,
     "optimism": 69013228,
@@ -11,7 +10,6 @@
     "fantom": 54076811
   },
   "deployed": {
-    "mumbai": 0,
     "mainnet": 0,
     "polygon": 0,
     "optimism": 0,
