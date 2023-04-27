@@ -43,10 +43,4 @@ export default {
   fantom: {
     wrappedNativeToken: tokens.fantom.WFTM,
   },
-  goerli: {
-    wrappedNativeToken: tokens.goerli.WETH,
-  },
-  mumbai: {
-    wrappedNativeToken: tokens.mumbai.WMATIC,
-  },
 }
