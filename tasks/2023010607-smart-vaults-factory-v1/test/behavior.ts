@@ -20,8 +20,8 @@ export default function itDeploysSmartVaultsFactoryCorrectly(): void {
   it('registers the SwapConnector under the expected namespace', async function () {
     const factory = await this.task.inputDeployedInstance('Create3Factory')
 
-    const { namespace, contractName, version } = this.task.input() as SmartVaultsFactoryDeployment
-    const salt = ethers.utils.solidityKeccak256(['string'], [`${namespace}.${contractName}.${version}`])
+    const { namespace, version } = this.task.input() as SmartVaultsFactoryDeployment
+    const salt = ethers.utils.solidityKeccak256(['string'], [`${namespace}.SmartVaultsFactory.${version}`])
     expect(await factory.addressOf(salt)).to.be.equal(smartVaultsFactory.address)
   })
 

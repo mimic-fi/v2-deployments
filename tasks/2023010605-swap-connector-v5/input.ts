@@ -1,8 +1,8 @@
 import { ZERO_ADDRESS } from '@mimic-fi/v2-helpers'
 
 import { ADMIN_EOA, DEPLOYER_2 } from '../../constants/mimic'
+import { MimicDeployment } from '../../src/registry'
 import Task from '../../src/task'
-import { MimicDeployment } from '../../src/types'
 
 export type SwapConnectorDeployment = MimicDeployment & {
   uniswapV3Router: string
@@ -19,7 +19,6 @@ const Registry = new Task('2023010602-registry-v2')
 
 export default {
   namespace: 'mimic-v2',
-  contractName: 'SwapConnector',
   version: 'v5',
   stateless: true,
   from: DEPLOYER_2,

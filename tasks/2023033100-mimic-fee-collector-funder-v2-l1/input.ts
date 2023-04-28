@@ -3,10 +3,7 @@ import Task from '../../src/task'
 
 const Create3Factory = new Task('2023010600-create3-factory-v2')
 const Registry = new Task('2023010602-registry-v2')
-const Funder = new Task('2023010700-mimic-fee-collector-l1')
-const Holder = new Task('2023010700-mimic-fee-collector-l1')
-const L1HopBridger = new Task('2023010700-mimic-fee-collector-l1')
-const SmartVault = new Task('2023010700-mimic-fee-collector-l1')
+const MimicFeeCollector = new Task('2023010700-mimic-fee-collector-l1')
 
 /* eslint-disable no-secrets/no-secrets */
 
@@ -18,20 +15,22 @@ const managers = [
 
 export default {
   namespace: 'mimic-v2.mimic-fee-collector',
+  version: 'v1',
   from: DEPLOYER_2,
   owner: OWNER_EOA,
   relayer: BOT,
   managers,
   Create3Factory,
   Registry,
-  SmartVault,
-  Funder,
-  Holder,
-  L1HopBridger,
+  SmartVault: MimicFeeCollector,
+  Funder: MimicFeeCollector,
+  Holder: MimicFeeCollector,
+  L1HopBridger: MimicFeeCollector,
 }
 
 export type MimicFeeCollectorFunderV2Deployment = {
   namespace: string
+  version: string
   from: string
   owner: string
   relayer: string

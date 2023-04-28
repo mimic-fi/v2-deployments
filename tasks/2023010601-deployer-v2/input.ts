@@ -1,8 +1,12 @@
 import { DEPLOYER_2 } from '../../constants/mimic'
 import Task from '../../src/task'
-import { DeploymentMetadata } from '../../src/types'
 
-export type DeployerDeployment = DeploymentMetadata
+export type DeployerV2Deployment = {
+  namespace: string
+  version: string
+  from: string
+  Create3Factory: string
+}
 
 const Create3Factory = new Task('2023010600-create3-factory-v2')
 
