@@ -119,7 +119,7 @@ export default {
       managers,
       maxDeadline: HOUR,
       maxSlippage: fp(0.002), // 0.2 %
-      maxBonderFeePct: fp(0.02), // 2 %
+      maxBonderFeePct: fp(0.5), // 50 % // TODO: increase to 0.02 (2%)
       destinationChainId: 1, // mainnet
       hopAmmParams: [
         { token: tokens.WETH, amm: hop.ETH_AMM },
