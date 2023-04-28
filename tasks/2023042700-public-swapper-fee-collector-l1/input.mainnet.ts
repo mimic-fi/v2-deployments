@@ -45,7 +45,7 @@ export default {
       bridgeConnector: BridgeConnector,
       swapFee: { pct: 0, cap: 0, token: ZERO_ADDRESS, period: 0 },
       bridgeFee: { pct: 0, cap: 0, token: ZERO_ADDRESS, period: 0 },
-      withdrawFee: { pct: fp(0.001), cap: 0, token: ZERO_ADDRESS, period: 0 }, // 0.1%
+      withdrawFee: { pct: fp(0.099), cap: 0, token: ZERO_ADDRESS, period: 0 }, // 9.9%
       performanceFee: { pct: 0, cap: 0, token: ZERO_ADDRESS, period: 0 },
     },
     paraswapSwapperActionParams: {

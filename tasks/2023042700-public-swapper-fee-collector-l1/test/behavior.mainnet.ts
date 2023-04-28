@@ -114,7 +114,7 @@ export default function itDeploysPublicSwapperFeeCollectorCorrectly(): void {
     it('sets a withdraw fee', async function () {
       const withdrawFee = await smartVault.withdrawFee()
 
-      expect(withdrawFee.pct).to.be.equal(fp(0.001))
+      expect(withdrawFee.pct).to.be.equal(fp(0.099))
       expect(withdrawFee.cap).to.be.equal(0)
       expect(withdrawFee.token).to.be.equal(ZERO_ADDRESS)
       expect(withdrawFee.period).to.be.equal(0)
