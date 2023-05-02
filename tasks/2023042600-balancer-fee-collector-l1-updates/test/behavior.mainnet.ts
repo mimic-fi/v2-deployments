@@ -45,6 +45,10 @@ export default function itUpdatesBalancerFeeCollectorCorrectly(): void {
   })
 
   describe('new claimer', () => {
+    it('has the expected address', async () => {
+      expect(newClaimer.address).to.be.equal('0xdF818E63341767d5F5A9827088f1892e9C604A2D')
+    })
+
     it('has set its permissions correctly', async () => {
       await assertPermissions(newClaimer, [
         { name: 'manager', account: manager, roles: ['authorize', 'unauthorize'] },
@@ -100,6 +104,10 @@ export default function itUpdatesBalancerFeeCollectorCorrectly(): void {
   })
 
   describe('bpt swapper', () => {
+    it('has the expected address', async () => {
+      expect(bptSwapper.address).to.be.equal('0x6030331C9225Ee5ae3F3D08FBD19e8bF053dF498')
+    })
+
     it('has set its permissions correctly', async () => {
       await assertPermissions(bptSwapper, [
         { name: 'manager', account: manager, roles: ['authorize', 'unauthorize'] },
