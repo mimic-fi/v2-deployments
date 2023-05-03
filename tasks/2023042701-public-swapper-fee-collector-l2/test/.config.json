@@ -1,8 +1,14 @@
 {
   "fork": {
-    "optimism": 0,
-    "arbitrum": 0,
-    "polygon": 0,
-    "gnosis": 0
+    "optimism": 96172369,
+    "arbitrum": 86950054,
+    "polygon": 42265094,
+    "gnosis": 27761272
+  },
+  "deployed": {
+    "optimism": 96173972,
+    "arbitrum": 86950355,
+    "polygon": 42265290,
+    "gnosis": 27761290
   }
 }

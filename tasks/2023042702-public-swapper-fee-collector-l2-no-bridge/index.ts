@@ -33,7 +33,7 @@ export default async (task: Task, { force, from }: TaskRunOptions = {}): Promise
   const owner = await getSigner(input.owner)
   const publicSwapper = await task.instanceAt('SmartVault', input.PublicSwapper)
 
-  if (await (publicSwapper.feeCollector()) != smartVault.address) {
+  if ((await publicSwapper.feeCollector()) != smartVault.address) {
     logger.info(`Setting public swapper fee collector to SV address...`)
     await publicSwapper.connect(owner).setFeeCollector(smartVault.address)
     logger.success(`Public swapper fee collector set`)
