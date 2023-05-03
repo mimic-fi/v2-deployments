@@ -14,7 +14,7 @@ const CHAINLINK_ORACLE_USDC_ETH = '0x986b5E1e1755e3C2440e960477f25201B0a8bbD4'
 
 export default function itDeploysPublicSwapperFeeCollectorCorrectly(): void {
   let input: PublicSwapperFeeCollectorL1Deployment
-  let smartVault: Contract, manager: Contract, swapper: Contract, withdrawer: Contract
+  let smartVault: Contract, manager: Contract, swapper: Contract, withdrawer: Contract, publicSwapper: Contract
   let owner: string, relayers: string[], managers: string[], feeCollector: string
 
   before('load accounts', async function () {
@@ -27,6 +27,13 @@ export default function itDeploysPublicSwapperFeeCollectorCorrectly(): void {
     swapper = await this.task.deployedInstance('ParaswapSwapper')
     withdrawer = await this.task.deployedInstance('Withdrawer')
     smartVault = await this.task.deployedInstance('SmartVault')
+    publicSwapper = await this.task.instanceAt('SmartVault', input.PublicSwapper)
+  })
+
+  describe('public swapper', () => {
+    it('updates its fee collector', async () => {
+      expect(await publicSwapper.feeCollector()).to.be.equal(smartVault.address)
+    })
   })
 
   describe('permissions manager', () => {
@@ -235,7 +242,7 @@ export default function itDeploysPublicSwapperFeeCollectorCorrectly(): void {
     })
 
     it('sets the owner as the recipient', async () => {
-      expect(await withdrawer.recipient()).to.be.equal('0x5B0b6f2FFE9C81F36eb5477B28d2bE3699D48d79')
+      expect(await withdrawer.recipient()).to.be.equal('0x4D027960adD0930F4aa29275884f9B13b5FFa4AA')
     })
 
     it('sets the expected token threshold params', async () => {

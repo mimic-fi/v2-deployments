@@ -16,7 +16,7 @@ const CHAINLINK_ORACLE_USDC_USD = '0xF096872672F44d6EBA71458D74fe67F9a77a23B9'
 
 export default function itDeploysPublicSwapperFeeCollectorCorrectly(): void {
   let input: PublicSwapperFeeCollectorL2NoBridgeDeployment
-  let smartVault: Contract, manager: Contract, swapper: Contract
+  let smartVault: Contract, manager: Contract, swapper: Contract, publicSwapper: Contract
   let owner: string, relayers: string[], managers: string[], feeCollector: string
 
   before('load accounts', async function () {
@@ -28,6 +28,13 @@ export default function itDeploysPublicSwapperFeeCollectorCorrectly(): void {
     manager = await this.task.deployedInstance('PermissionsManager')
     swapper = await this.task.deployedInstance('ParaswapSwapper')
     smartVault = await this.task.deployedInstance('SmartVault')
+    publicSwapper = await this.task.instanceAt('SmartVault', input.PublicSwapper)
+  })
+
+  describe('public swapper', () => {
+    it('updates its fee collector', async () => {
+      expect(await publicSwapper.feeCollector()).to.be.equal(smartVault.address)
+    })
   })
 
   describe('permissions manager', () => {

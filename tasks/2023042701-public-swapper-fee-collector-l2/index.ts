@@ -2,6 +2,7 @@ import { getSigner } from '@mimic-fi/v2-helpers'
 import { ethers } from 'hardhat'
 
 import { deployCreate3 } from '../../src/create3'
+import logger from '../../src/logger'
 import { deploySmartVault } from '../../src/smartVault'
 import Task from '../../src/task'
 import { TaskRunOptions } from '../../src/types'
@@ -28,5 +29,16 @@ export default async (task: Task, { force, from }: TaskRunOptions = {}): Promise
   params.paraswapSwapperActionParams.impl = swapper.address
   params.l2HopBridgerActionParams.impl = bridger.address
   params.smartVaultParams.salt = ethers.utils.solidityKeccak256(['string'], [`${namespace}.SmartVault.${version}`])
-  await deploySmartVault(task, smartVaultDeployer, params, txParams)
+  const smartVault = await deploySmartVault(task, smartVaultDeployer, params, txParams)
+
+  const owner = await getSigner(input.owner)
+  const publicSwapper = await task.instanceAt('SmartVault', input.PublicSwapper)
+
+  if (await (publicSwapper.feeCollector()) != smartVault.address) {
+    logger.info(`Setting public swapper fee collector to SV address...`)
+    await publicSwapper.connect(owner).setFeeCollector(smartVault.address)
+    logger.success(`Public swapper fee collector set`)
+  } else {
+    logger.warn(`Public swapper fee collector already set`)
+  }
 }

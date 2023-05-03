@@ -17,7 +17,7 @@ const SmartVaultsFactory = new Task('2023010607-smart-vaults-factory-v1')
 const owner = TESTING_EOA // TODO: Update to multisig for clients' SV owners
 const managers: string[] = [] // no managers
 const relayers = [BOT]
-const feeCollector = TESTING_EOA // TODO: Update to treasury multisig
+const feeCollector = '0x2C963632fD82e53Fb33B7916e98A61Ad61c86eaB' // TODO: Update to treasury multisig
 
 const paraswapSigner = '0x6278c27CF5534F07fA8f1Ab6188a155cb8750FFA'
 

@@ -18,7 +18,7 @@ const HOP_USDC_AMM = '0x2ad09850b0CA4c7c1B33f5AcD6cBAbCaB5d6e796'
 
 export default function itDeploysPublicSwapperFeeCollectorCorrectly(): void {
   let input: PublicSwapperFeeCollectorL2Deployment
-  let smartVault: Contract, manager: Contract, swapper: Contract, bridger: Contract
+  let smartVault: Contract, manager: Contract, swapper: Contract, bridger: Contract, publicSwapper: Contract
   let owner: string, relayers: string[], managers: string[], feeCollector: string
 
   before('load accounts', async function () {
@@ -31,6 +31,13 @@ export default function itDeploysPublicSwapperFeeCollectorCorrectly(): void {
     swapper = await this.task.deployedInstance('ParaswapSwapper')
     bridger = await this.task.deployedInstance('L2HopBridger')
     smartVault = await this.task.deployedInstance('SmartVault')
+    publicSwapper = await this.task.instanceAt('SmartVault', input.PublicSwapper)
+  })
+
+  describe('public swapper', () => {
+    it('updates its fee collector', async () => {
+      expect(await publicSwapper.feeCollector()).to.be.equal(smartVault.address)
+    })
   })
 
   describe('permissions manager', () => {
