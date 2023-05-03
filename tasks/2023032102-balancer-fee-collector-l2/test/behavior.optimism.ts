@@ -456,7 +456,7 @@ export default function itDeploysBalancerFeeCollectorCorrectly(): void {
     it('sets the requested maximums', async () => {
       expect(await bridger.maxDeadline()).to.be.equal(HOUR)
       expect(await bridger.maxSlippage()).to.be.equal(fp(0.002))
-      expect(await bridger.maxBonderFeePct()).to.be.equal(fp(0.02))
+      expect(await bridger.maxBonderFeePct()).to.be.equal(fp(0.5))
     })
 
     it('allows the requested relayers', async () => {
