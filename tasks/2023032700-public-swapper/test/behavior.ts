@@ -156,7 +156,7 @@ export default function itDeploysPublicSwapperCorrectly(): void {
       expect(await swapper.isAuthorized(who, what)).to.be.false
 
       const requests = [{ target: swapper.address, changes: [{ grant: true, permission: { who, what } }] }]
-      await manager.connect(await impersonate(mimic, fp(10))).execute(requests)
+      await manager.connect(await impersonate(mimic, fp(100))).execute(requests)
 
       expect(await swapper.isAuthorized(who, what)).to.be.true
     })
