@@ -36,6 +36,9 @@ describe(`Constants - ${network}`, () => {
         WETH: 'ETH',
         USDT: 'fUSDT',
       },
+      bsc: {
+        WETH: 'ETH',
+      },
     }
 
     it('defines ERC20s properly', async () => {
