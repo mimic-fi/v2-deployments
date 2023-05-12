@@ -20,10 +20,20 @@ jobs:
         uses: ./.github/actions/setup
       - name: Lint
         run: yarn lint
-      - name: Notify discord
-        uses: ./.github/actions/notify-discord
+      - name: Job failed
+        if: failure()
+        uses: rjstone/discord-webhook-notify@v1
         with:
-          discord-webhook: ${{ secrets.DISCORD_WEBHOOK }}
+          severity: error
+          details: Job failed!
+          webhookUrl: ${{ secrets.DISCORD_WEBHOOK }}
+      - name: Job cancelled
+        if: cancelled()
+        uses: rjstone/discord-webhook-notify@v1
+        with:
+          severity: warn
+          details: Job cancelled!
+          webhookUrl: ${{ secrets.DISCORD_WEBHOOK }}
 
   test:
     name: Unit tests
@@ -37,10 +47,20 @@ jobs:
         run: .github/scripts/setup-hardhat-config.sh ${{secrets.GOERLI_RPC}} ${{secrets.MUMBAI_RPC}} ${{secrets.MAINNET_RPC}} ${{secrets.POLYGON_RPC}} ${{secrets.OPTIMISM_RPC}} ${{secrets.ARBITRUM_RPC}} ${{secrets.GNOSIS_RPC}} ${{secrets.AVALANCHE_RPC}} ${{secrets.BSC_RPC}} ${{secrets.FANTOM_RPC}}
       - name: Unit tests
         run: yarn test:unit:all
-      - name: Notify discord
-        uses: ./.github/actions/notify-discord
+      - name: Job failed
+        if: failure()
+        uses: rjstone/discord-webhook-notify@v1
         with:
-          discord-webhook: ${{ secrets.DISCORD_WEBHOOK }}
+          severity: error
+          details: Job failed!
+          webhookUrl: ${{ secrets.DISCORD_WEBHOOK }}
+      - name: Job cancelled
+        if: cancelled()
+        uses: rjstone/discord-webhook-notify@v1
+        with:
+          severity: warn
+          details: Job cancelled!
+          webhookUrl: ${{ secrets.DISCORD_WEBHOOK }}
 
   test-fork:
     name: Fork tests
@@ -64,10 +84,20 @@ jobs:
           TASKS=$(echo ${{ steps.changed-tasks.outputs.all_changed_files }} | tr -s ' '  '\n' | grep -oP '(?<=tasks/)[^/]*' | sort --unique | paste -sd ' ')
           echo "Tasks: $TASKS"
           yarn test:task:fork --task $TASKS
-      - name: Notify discord
-        uses: ./.github/actions/notify-discord
+      - name: Job failed
+        if: failure()
+        uses: rjstone/discord-webhook-notify@v1
         with:
-          discord-webhook: ${{ secrets.DISCORD_WEBHOOK }}
+          severity: error
+          details: Job failed!
+          webhookUrl: ${{ secrets.DISCORD_WEBHOOK }}
+      - name: Job cancelled
+        if: cancelled()
+        uses: rjstone/discord-webhook-notify@v1
+        with:
+          severity: warn
+          details: Job cancelled!
+          webhookUrl: ${{ secrets.DISCORD_WEBHOOK }}
 
   test-deployed:
     needs: test-fork
@@ -92,7 +122,17 @@ jobs:
           TASKS=$(echo ${{ steps.changed-tasks.outputs.all_changed_files }} | tr -s ' '  '\n' | grep -oP '(?<=tasks/)[^/]*' | sort --unique | paste -sd ' ')
           echo "Tasks: $TASKS"
           yarn test:task:deployed --task $TASKS
-      - name: Notify discord
-        uses: ./.github/actions/notify-discord
+      - name: Job failed
+        if: failure()
+        uses: rjstone/discord-webhook-notify@v1
         with:
-          discord-webhook: ${{ secrets.DISCORD_WEBHOOK }}
+          severity: error
+          details: Job failed!
+          webhookUrl: ${{ secrets.DISCORD_WEBHOOK }}
+      - name: Job cancelled
+        if: cancelled()
+        uses: rjstone/discord-webhook-notify@v1
+        with:
+          severity: warn
+          details: Job cancelled!
+          webhookUrl: ${{ secrets.DISCORD_WEBHOOK }}
