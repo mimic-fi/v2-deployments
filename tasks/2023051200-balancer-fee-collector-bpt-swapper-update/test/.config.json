@@ -1,0 +1,12 @@
+{
+  "fork": {
+    "mainnet": 17182075,
+    "optimism": 95895110,
+    "arbitrum": 86999098
+  },
+  "deployed": {
+    "mainnet": 	17247794,
+    "optimism": 97829927,
+    "arbitrum": 90116387
+  }
+}

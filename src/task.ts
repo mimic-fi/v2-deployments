@@ -234,7 +234,7 @@ export default class Task {
         const task = item as Task
         const output = task.output({ network: this.network })
         const values = Object.values(output)
-        if (values.length > 1 && !output[key]) throw Error(`Ambiguous ${task.id} output for task input "${key}"`)
+        if (values.length > 1 && !output[key]) throw Error(`Ambiguous or missing output "${key}" in task ${task.id}`)
         input[key] = values.length == 1 ? values[0] : output[key]
       } else input[key] = this._parseRawInput(item)
       return input
