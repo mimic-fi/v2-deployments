@@ -1,22 +1,10 @@
 {
   "fork": {
-    "mainnet": 0,
-    "polygon": 	0,
-    "optimism": 0,
-    "arbitrum": 0,
-    "gnosis": 0,
-    "bsc": 0,
-    "fantom": 0,
-    "avalanche": 0
+    "bsc": 28328473,
+    "avalanche": 30192800
   },
   "deployed": {
-    "mainnet": 0,
-    "polygon": 0,
-    "optimism": 0,
-    "arbitrum": 0,
-    "gnosis": 0,
-    "bsc": 0,
-    "fantom": 0,
-    "avalanche": 0
+    "bsc": 28328480,
+    "avalanche": 30192813
   }
 }
