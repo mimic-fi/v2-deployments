@@ -1,0 +1,22 @@
+{
+  "fork": {
+    "mainnet": 0,
+    "polygon": 	0,
+    "optimism": 0,
+    "arbitrum": 0,
+    "gnosis": 0,
+    "bsc": 0,
+    "fantom": 0,
+    "avalanche": 0
+  },
+  "deployed": {
+    "mainnet": 0,
+    "polygon": 0,
+    "optimism": 0,
+    "arbitrum": 0,
+    "gnosis": 0,
+    "bsc": 0,
+    "fantom": 0,
+    "avalanche": 0
+  }
+}
