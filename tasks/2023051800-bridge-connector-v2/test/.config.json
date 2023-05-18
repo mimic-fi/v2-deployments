@@ -1,0 +1,10 @@
+{
+  "fork": {
+    "bsc": 28328473,
+    "avalanche": 30192800
+  },
+  "deployed": {
+    "bsc": 28328480,
+    "avalanche": 30192813
+  }
+}
