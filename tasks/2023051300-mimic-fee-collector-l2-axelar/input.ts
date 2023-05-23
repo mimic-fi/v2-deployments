@@ -1,8 +1,8 @@
-import { fp, toUSDC } from '@mimic-fi/v2-helpers'
+import { toUSDC } from '@mimic-fi/v2-helpers'
 import { BigNumber } from 'ethers'
 
 import { DEPLOYER_2, OWNER_EOA } from '../../constants/mimic'
-import * as tokens from '../../constants/tokens'
+import * as tokens from '../../constants/tokens/avalanche'
 import Task from '../../src/task'
 
 const Create3Factory = new Task('2023010600-create3-factory-v2')
@@ -28,23 +28,12 @@ export default {
   Registry,
   SmartVault: MimicFeeCollector,
   PermissionsManager: PermissionsManager,
-  bsc: {
-    axelarBridgerConfig: {
-      smartVault: MimicFeeCollector.key('SmartVault'),
-      thresholdToken: tokens.bsc.USDC,
-      thresholdAmount: fp(10), // USDC in BSC has 18 decimals
-      allowedTokens: [tokens.bsc.USDC],
-      allowedChainIds: [1],
-    },
-  },
-  avalanche: {
-    axelarBridgerConfig: {
-      smartVault: MimicFeeCollector.key('SmartVault'),
-      thresholdToken: tokens.avalanche.USDC,
-      thresholdAmount: toUSDC(10),
-      allowedTokens: [tokens.avalanche.USDC],
-      allowedChainIds: [1],
-    },
+  axelarBridgerConfig: {
+    smartVault: MimicFeeCollector.key('SmartVault'),
+    thresholdToken: tokens.USDC,
+    thresholdAmount: toUSDC(10),
+    allowedTokens: [tokens.USDC],
+    allowedChainIds: [1],
   },
 }
 
