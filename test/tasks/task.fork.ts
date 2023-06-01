@@ -27,6 +27,7 @@ describe(`${TASK_ID} - ${network} [${TASK_TEST_TYPE}]`, function () {
     before('deploy task', async function () {
       const input = this.task.input()
       if (input.from) await impersonate(input.from, fp(100))
+      if (input.mimic) await impersonate(input.mimic, fp(100))
       if (input.admin) await impersonate(input.admin, fp(100))
       if (input.owner) await impersonate(input.owner, fp(100))
       await this.task.run({ force: true })
