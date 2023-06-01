@@ -3,6 +3,8 @@ import { BigNumberish } from '@mimic-fi/v2-helpers'
 import { DEPLOYER_2 } from '../../constants/mimic'
 import Task from '../../src/task'
 import arbitrum from './input.arbitrum'
+import gnosis from './input.gnosis'
+import polygon from './input.polygon'
 
 const Create3Factory = new Task('2023010600-create3-factory-v2')
 const Deployer = new Task('2023050300-deployer-v5')
@@ -19,6 +21,8 @@ export default {
   SmartVaultsFactory,
   BalancerVault,
   arbitrum,
+  polygon,
+  gnosis,
 }
 
 export type BalancerFeeCollectorL2DeploymentV2 = {
