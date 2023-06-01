@@ -2,11 +2,15 @@
   "fork": {
     "mainnet": 17182075,
     "optimism": 95895110,
-    "arbitrum": 86999098
+    "arbitrum": 86999098,
+    "polygon": 43419176,
+    "gnosis": 28240542
   },
   "deployed": {
     "mainnet": 	17247794,
     "optimism": 97829927,
-    "arbitrum": 90116387
+    "arbitrum": 90116387,
+    "polygon": 43419193,
+    "gnosis": 28240586
   }
 }

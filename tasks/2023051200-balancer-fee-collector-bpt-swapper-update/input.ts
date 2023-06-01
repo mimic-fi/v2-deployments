@@ -39,6 +39,16 @@ export default {
     SmartVault: BalancerFeeCollectorL2V2Task,
     PermissionsManager: BalancerFeeCollectorL2V2Task,
   },
+  polygon: {
+    BPTSwapper: BalancerFeeCollectorL2V2Task,
+    SmartVault: BalancerFeeCollectorL2V2Task,
+    PermissionsManager: BalancerFeeCollectorL2V2Task,
+  },
+  gnosis: {
+    BPTSwapper: BalancerFeeCollectorL2V2Task,
+    SmartVault: BalancerFeeCollectorL2V2Task,
+    PermissionsManager: BalancerFeeCollectorL2V2Task,
+  },
 }
 
 export type BalancerFeeCollectorBptSwapperUpdate = {
