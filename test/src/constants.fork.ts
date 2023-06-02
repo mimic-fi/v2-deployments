@@ -27,6 +27,9 @@ describe(`Constants - ${network}`, () => {
     ]
 
     const overrides: { [key: string]: { [key: string]: string } } = {
+      mainnet: {
+        AURA_BAL: 'auraBAL',
+      },
       avalanche: {
         DAI: 'DAI.e',
         WETH: 'WETH.e',
