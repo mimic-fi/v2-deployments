@@ -1,4 +1,4 @@
-import { DAY, fp, toUSDC } from '@mimic-fi/v2-helpers'
+import { DAY, fp, NATIVE_TOKEN_ADDRESS, toUSDC } from '@mimic-fi/v2-helpers'
 import { expect } from 'chai'
 import { Contract } from 'ethers'
 
@@ -243,8 +243,10 @@ export default function itUpdatesBalancerFeeCollectorMainnetCorrectly(): void {
       expect(await oneInchSwapper.getTokensAcceptanceType()).to.be.equal(0)
 
       const deniedTokens = await oneInchSwapper.getTokensAcceptanceList()
-      expect(deniedTokens).to.have.lengthOf(1)
-      expect(deniedTokens[0]).to.be.equal(BAL)
+      expect(deniedTokens).to.have.lengthOf(3)
+      expect(deniedTokens).to.include(USDC)
+      expect(deniedTokens).to.include(BAL)
+      expect(deniedTokens).to.include(NATIVE_TOKEN_ADDRESS)
 
       expect(await oneInchSwapper.getTokensIndexSources()).to.be.have.lengthOf(0)
     })
@@ -315,8 +317,10 @@ export default function itUpdatesBalancerFeeCollectorMainnetCorrectly(): void {
       expect(await paraswapSwapper.getTokensAcceptanceType()).to.be.equal(0)
 
       const deniedTokens = await paraswapSwapper.getTokensAcceptanceList()
-      expect(deniedTokens).to.have.lengthOf(1)
-      expect(deniedTokens[0]).to.be.equal(BAL)
+      expect(deniedTokens).to.have.lengthOf(3)
+      expect(deniedTokens).to.include(USDC)
+      expect(deniedTokens).to.include(BAL)
+      expect(deniedTokens).to.include(NATIVE_TOKEN_ADDRESS)
 
       expect(await paraswapSwapper.getTokensIndexSources()).to.be.have.lengthOf(0)
     })
@@ -374,8 +378,13 @@ export default function itUpdatesBalancerFeeCollectorMainnetCorrectly(): void {
     })
 
     it('sets the expected token index config', async () => {
-      expect(await withdrawer.getTokensAcceptanceType()).to.be.equal(0)
-      expect(await withdrawer.getTokensAcceptanceList()).to.have.lengthOf(0)
+      expect(await withdrawer.getTokensAcceptanceType()).to.be.equal(1)
+
+      const tokens = await withdrawer.getTokensAcceptanceList()
+      expect(tokens).to.have.lengthOf(2)
+      expect(tokens).to.include(USDC)
+      expect(tokens).to.include(BAL)
+
       expect(await withdrawer.getTokensIndexSources()).to.be.have.lengthOf(0)
     })
 

@@ -1,4 +1,4 @@
-import { DAY, fp, toUSDC } from '@mimic-fi/v2-helpers'
+import { DAY, fp, NATIVE_TOKEN_ADDRESS, toUSDC } from '@mimic-fi/v2-helpers'
 
 import { BOT, DEPLOYER_2, TESTING_EOA } from '../../constants/mimic'
 import * as tokens from '../../constants/tokens/optimism'
@@ -111,9 +111,9 @@ export default {
       oracleConfig: defaultOracleConfig,
       timeLockConfig: defaultTimeLockConfig,
       tokenIndexConfig: {
-        tokens: [tokens.BAL],
+        tokens: [NATIVE_TOKEN_ADDRESS, tokens.USDC, tokens.BAL],
         sources: [], // smart vault
-        acceptanceType: 0,
+        acceptanceType: 0, // deny list
       },
       tokenThresholdConfig: defaultTokenThresholdConfig,
     },
@@ -135,9 +135,9 @@ export default {
         oracleConfig: defaultOracleConfig,
         timeLockConfig: defaultTimeLockConfig,
         tokenIndexConfig: {
-          tokens: [tokens.BAL],
+          tokens: [NATIVE_TOKEN_ADDRESS, tokens.USDC, tokens.BAL],
           sources: [], // smart vault
-          acceptanceType: 0,
+          acceptanceType: 0, // deny list
         },
         tokenThresholdConfig: defaultTokenThresholdConfig,
       },
@@ -160,7 +160,11 @@ export default {
         delay: 14 * DAY,
         nextExecutionTimestamp: 1686304800,
       },
-      tokenIndexConfig: defaultTokenIndexConfig,
+      tokenIndexConfig: {
+        tokens: [tokens.USDC, tokens.BAL],
+        sources: [], // smart vault
+        acceptanceType: 1, // allow list
+      },
       tokenThresholdConfig: {
         customThresholds: [],
         defaultThreshold: {

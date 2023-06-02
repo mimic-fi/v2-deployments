@@ -1,4 +1,4 @@
-import { DAY, fp, HOUR, toUSDC, ZERO_ADDRESS } from '@mimic-fi/v2-helpers'
+import { DAY, fp, HOUR, NATIVE_TOKEN_ADDRESS, toUSDC, ZERO_ADDRESS } from '@mimic-fi/v2-helpers'
 import { expect } from 'chai'
 import { Contract } from 'ethers'
 
@@ -235,7 +235,12 @@ export default function itUpdatesBalancerFeeCollectorL2Correctly(): void {
 
     it('sets the expected token index config', async () => {
       expect(await oneInchSwapper.getTokensAcceptanceType()).to.be.equal(0)
-      expect(await oneInchSwapper.getTokensAcceptanceList()).to.have.lengthOf(0)
+
+      const deniedTokens = await oneInchSwapper.getTokensAcceptanceList()
+      expect(deniedTokens).to.have.lengthOf(2)
+      expect(deniedTokens).to.include(USDC)
+      expect(deniedTokens).to.include(NATIVE_TOKEN_ADDRESS)
+
       expect(await oneInchSwapper.getTokensIndexSources()).to.be.have.lengthOf(0)
     })
 
@@ -299,7 +304,12 @@ export default function itUpdatesBalancerFeeCollectorL2Correctly(): void {
 
     it('sets the expected token index config', async () => {
       expect(await paraswapSwapper.getTokensAcceptanceType()).to.be.equal(0)
-      expect(await paraswapSwapper.getTokensAcceptanceList()).to.have.lengthOf(0)
+
+      const deniedTokens = await paraswapSwapper.getTokensAcceptanceList()
+      expect(deniedTokens).to.have.lengthOf(2)
+      expect(deniedTokens).to.include(USDC)
+      expect(deniedTokens).to.include(NATIVE_TOKEN_ADDRESS)
+
       expect(await paraswapSwapper.getTokensIndexSources()).to.be.have.lengthOf(0)
     })
 
@@ -368,8 +378,12 @@ export default function itUpdatesBalancerFeeCollectorL2Correctly(): void {
     })
 
     it('sets the expected token index config', async () => {
-      expect(await hopBridger.getTokensAcceptanceType()).to.be.equal(0)
-      expect(await hopBridger.getTokensAcceptanceList()).to.have.lengthOf(0)
+      expect(await hopBridger.getTokensAcceptanceType()).to.be.equal(1)
+
+      const tokens = await hopBridger.getTokensAcceptanceList()
+      expect(tokens).to.have.lengthOf(1)
+      expect(tokens).to.include(USDC)
+
       expect(await hopBridger.getTokensIndexSources()).to.be.have.lengthOf(0)
     })
 

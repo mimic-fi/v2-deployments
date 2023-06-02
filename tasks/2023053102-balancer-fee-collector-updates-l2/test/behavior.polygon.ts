@@ -1,4 +1,4 @@
-import { DAY, fp, HOUR, toUSDC, ZERO_ADDRESS } from '@mimic-fi/v2-helpers'
+import { DAY, fp, HOUR, NATIVE_TOKEN_ADDRESS, toUSDC, ZERO_ADDRESS } from '@mimic-fi/v2-helpers'
 import { expect } from 'chai'
 import { Contract } from 'ethers'
 
@@ -10,7 +10,7 @@ import { BalancerFeeCollectorUpdatesL2 } from '../input'
 const BALANCER_VAULT = '0xBA12222222228d8Ba445958a75a0704d566BF2C8'
 const PROTOCOL_FEE_WITHDRAWER = '0xEF44D6786b2b4d544b7850Fe67CE6381626Bf2D6'
 
-const USDC = '0x2791bca1f2de4661ed88a30c99a7a9449aa84174'
+const USDC = '0x2791Bca1f2de4661ED88A30C99A7a9449Aa84174'
 const HOP_USDC_AMM = '0x76b22b8C1079A44F1211D867D68b1eda76a635A7'
 
 export default function itUpdatesBalancerFeeCollectorL2Correctly(): void {
@@ -235,7 +235,12 @@ export default function itUpdatesBalancerFeeCollectorL2Correctly(): void {
 
     it('sets the expected token index config', async () => {
       expect(await oneInchSwapper.getTokensAcceptanceType()).to.be.equal(0)
-      expect(await oneInchSwapper.getTokensAcceptanceList()).to.have.lengthOf(0)
+
+      const deniedTokens = await oneInchSwapper.getTokensAcceptanceList()
+      expect(deniedTokens).to.have.lengthOf(2)
+      expect(deniedTokens).to.include(USDC)
+      expect(deniedTokens).to.include(NATIVE_TOKEN_ADDRESS)
+
       expect(await oneInchSwapper.getTokensIndexSources()).to.be.have.lengthOf(0)
     })
 
@@ -299,7 +304,12 @@ export default function itUpdatesBalancerFeeCollectorL2Correctly(): void {
 
     it('sets the expected token index config', async () => {
       expect(await paraswapSwapper.getTokensAcceptanceType()).to.be.equal(0)
-      expect(await paraswapSwapper.getTokensAcceptanceList()).to.have.lengthOf(0)
+
+      const deniedTokens = await paraswapSwapper.getTokensAcceptanceList()
+      expect(deniedTokens).to.have.lengthOf(2)
+      expect(deniedTokens).to.include(USDC)
+      expect(deniedTokens).to.include(NATIVE_TOKEN_ADDRESS)
+
       expect(await paraswapSwapper.getTokensIndexSources()).to.be.have.lengthOf(0)
     })
 
@@ -368,8 +378,12 @@ export default function itUpdatesBalancerFeeCollectorL2Correctly(): void {
     })
 
     it('sets the expected token index config', async () => {
-      expect(await hopBridger.getTokensAcceptanceType()).to.be.equal(0)
-      expect(await hopBridger.getTokensAcceptanceList()).to.have.lengthOf(0)
+      expect(await hopBridger.getTokensAcceptanceType()).to.be.equal(1)
+
+      const tokens = await hopBridger.getTokensAcceptanceList()
+      expect(tokens).to.have.lengthOf(1)
+      expect(tokens).to.include(USDC)
+
       expect(await hopBridger.getTokensIndexSources()).to.be.have.lengthOf(0)
     })
 

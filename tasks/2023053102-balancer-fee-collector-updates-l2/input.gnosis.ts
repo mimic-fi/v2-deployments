@@ -1,4 +1,4 @@
-import { DAY, fp, HOUR, toUSDC, ZERO_ADDRESS } from '@mimic-fi/v2-helpers'
+import { DAY, fp, HOUR, NATIVE_TOKEN_ADDRESS, toUSDC, ZERO_ADDRESS } from '@mimic-fi/v2-helpers'
 
 import * as hop from '../../constants/hop/gnosis'
 import { BOT } from '../../constants/mimic'
@@ -10,7 +10,7 @@ const PermissionsManager = new Task('2023050301-balancer-fee-collector-l2-v2')
 
 /* eslint-disable no-secrets/no-secrets */
 
-const OWNER = '0x09Df1626110803C7b3b07085Ef1E053494155089'
+const OWNER = '0x14969B55a675d13a1700F71A37511bc22D90155a'
 const BALANCER_VAULT = '0xBA12222222228d8Ba445958a75a0704d566BF2C8'
 const PROTOCOL_FEE_WITHDRAWER = '0xdAE7e32ADc5d490a43cCba1f0c736033F2b4eFca'
 const PARASWAP_QUOTE_SIGNER = '0x6278c27CF5534F07fA8f1Ab6188a155cb8750FFA'
@@ -96,7 +96,11 @@ export default {
       relayConfig: defaultRelayConfig,
       oracleConfig: defaultOracleConfig,
       timeLockConfig: defaultTimeLockConfig,
-      tokenIndexConfig: defaultTokenIndexConfig,
+      tokenIndexConfig: {
+        tokens: [NATIVE_TOKEN_ADDRESS, tokens.USDC],
+        sources: [], // smart vault
+        acceptanceType: 0, // deny list
+      },
       tokenThresholdConfig: defaultTokenThresholdConfig,
     },
   },
@@ -116,7 +120,11 @@ export default {
         relayConfig: defaultRelayConfig,
         oracleConfig: defaultOracleConfig,
         timeLockConfig: defaultTimeLockConfig,
-        tokenIndexConfig: defaultTokenIndexConfig,
+        tokenIndexConfig: {
+          tokens: [NATIVE_TOKEN_ADDRESS, tokens.USDC],
+          sources: [], // smart vault
+          acceptanceType: 0, // deny list
+        },
         tokenThresholdConfig: defaultTokenThresholdConfig,
       },
     },
@@ -147,7 +155,11 @@ export default {
           delay: 14 * DAY,
           nextExecutionTimestamp: 1686276000,
         },
-        tokenIndexConfig: defaultTokenIndexConfig,
+        tokenIndexConfig: {
+          tokens: [tokens.USDC],
+          sources: [], // smart vault
+          acceptanceType: 1, // allow list
+        },
         tokenThresholdConfig: defaultTokenThresholdConfig,
       },
     },

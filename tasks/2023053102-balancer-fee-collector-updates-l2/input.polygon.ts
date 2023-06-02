@@ -1,4 +1,4 @@
-import { DAY, fp, HOUR, toUSDC, ZERO_ADDRESS } from '@mimic-fi/v2-helpers'
+import { DAY, fp, HOUR, NATIVE_TOKEN_ADDRESS, toUSDC, ZERO_ADDRESS } from '@mimic-fi/v2-helpers'
 
 import * as hop from '../../constants/hop/polygon'
 import { BOT } from '../../constants/mimic'
@@ -96,7 +96,11 @@ export default {
       relayConfig: defaultRelayConfig,
       oracleConfig: defaultOracleConfig,
       timeLockConfig: defaultTimeLockConfig,
-      tokenIndexConfig: defaultTokenIndexConfig,
+      tokenIndexConfig: {
+        tokens: [NATIVE_TOKEN_ADDRESS, tokens.USDC],
+        sources: [], // smart vault
+        acceptanceType: 0, // deny list
+      },
       tokenThresholdConfig: defaultTokenThresholdConfig,
     },
   },
@@ -116,7 +120,11 @@ export default {
         relayConfig: defaultRelayConfig,
         oracleConfig: defaultOracleConfig,
         timeLockConfig: defaultTimeLockConfig,
-        tokenIndexConfig: defaultTokenIndexConfig,
+        tokenIndexConfig: {
+          tokens: [NATIVE_TOKEN_ADDRESS, tokens.USDC],
+          sources: [], // smart vault
+          acceptanceType: 0, // deny list
+        },
         tokenThresholdConfig: defaultTokenThresholdConfig,
       },
     },
@@ -147,7 +155,11 @@ export default {
           delay: 14 * DAY,
           nextExecutionTimestamp: 1686276000,
         },
-        tokenIndexConfig: defaultTokenIndexConfig,
+        tokenIndexConfig: {
+          tokens: [tokens.USDC],
+          sources: [], // smart vault
+          acceptanceType: 1, // allow list
+        },
         tokenThresholdConfig: defaultTokenThresholdConfig,
       },
     },
