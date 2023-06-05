@@ -15,6 +15,7 @@ const PermissionsManager = new Task('2023032102-balancer-fee-collector-l2')
 const OWNER = '0x09Df1626110803C7b3b07085Ef1E053494155089'
 const RECIPIENT = '0x2a185C8A3C63d7bFe63aD5d950244FFe9d0a4b60'
 const BALANCER_VAULT = '0xBA12222222228d8Ba445958a75a0704d566BF2C8'
+const PROTOCOL_FEE_COLLECTOR = '0xce88686553686DA562CE7Cea497CE749DA109f9F'
 const PROTOCOL_FEE_WITHDRAWER = '0xc128a9954e6c874ea3d62ce62b468ba073093f25'
 const PARASWAP_QUOTE_SIGNER = '0x6278c27CF5534F07fA8f1Ab6188a155cb8750FFA'
 
@@ -79,7 +80,7 @@ export default {
       timeLockConfig: defaultTimeLockConfig,
       tokenIndexConfig: {
         tokens: [],
-        sources: [PROTOCOL_FEE_WITHDRAWER],
+        sources: [PROTOCOL_FEE_COLLECTOR],
         acceptanceType: 0,
       },
       tokenThresholdConfig: defaultTokenThresholdConfig,

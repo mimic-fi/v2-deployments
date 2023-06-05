@@ -9,6 +9,7 @@ import { BalancerFeeCollectorUpdatesMainnet } from '../input'
 
 const RECIPIENT = '0x7c68c42De679ffB0f16216154C996C354cF1161B'
 const BALANCER_VAULT = '0xBA12222222228d8Ba445958a75a0704d566BF2C8'
+const PROTOCOL_FEE_COLLECTOR = '0xce88686553686DA562CE7Cea497CE749DA109f9F'
 const PROTOCOL_FEE_WITHDRAWER = '0x5ef4c5352882b10893b70DbcaA0C000965bd23c5'
 
 const BAL = '0xba100000625a3754423978a60c9317c58a424e3D'
@@ -81,7 +82,7 @@ export default function itUpdatesBalancerFeeCollectorMainnetCorrectly(): void {
     })
 
     it('sets the expected protocol fee withdrawer', async () => {
-      expect(await claimer.protocolFeeWithdrawer()).to.be.equal('0x5ef4c5352882b10893b70DbcaA0C000965bd23c5')
+      expect(await claimer.protocolFeeWithdrawer()).to.be.equal(PROTOCOL_FEE_WITHDRAWER)
     })
 
     it('has the expected basic config', async () => {
@@ -121,7 +122,7 @@ export default function itUpdatesBalancerFeeCollectorMainnetCorrectly(): void {
 
       const sources = await claimer.getTokensIndexSources()
       expect(sources).to.be.have.lengthOf(1)
-      expect(sources[0]).to.be.equal(PROTOCOL_FEE_WITHDRAWER)
+      expect(sources[0]).to.be.equal(PROTOCOL_FEE_COLLECTOR)
     })
 
     it('sets the expected token threshold params', async () => {

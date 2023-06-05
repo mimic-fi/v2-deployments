@@ -9,6 +9,7 @@ import { BalancerFeeCollectorUpdatesOptimism } from '../input'
 
 const RECIPIENT = '0x2a185C8A3C63d7bFe63aD5d950244FFe9d0a4b60'
 const BALANCER_VAULT = '0xBA12222222228d8Ba445958a75a0704d566BF2C8'
+const PROTOCOL_FEE_COLLECTOR = '0xce88686553686DA562CE7Cea497CE749DA109f9F'
 const PROTOCOL_FEE_WITHDRAWER = '0xC128a9954e6c874eA3d62ce62B468bA073093F25'
 
 const BAL = '0xFE8B128bA8C78aabC59d4c64cEE7fF28e9379921'
@@ -120,7 +121,7 @@ export default function itUpdatesBalancerFeeCollectorOptimismCorrectly(): void {
 
       const sources = await claimer.getTokensIndexSources()
       expect(sources).to.be.have.lengthOf(1)
-      expect(sources[0]).to.be.equal(PROTOCOL_FEE_WITHDRAWER)
+      expect(sources[0]).to.be.equal(PROTOCOL_FEE_COLLECTOR)
     })
 
     it('sets the expected token threshold params', async () => {

@@ -10,9 +10,12 @@ const Create3Factory = new Task('2023010600-create3-factory-v2')
 const SmartVault = new Task('2023032101-balancer-fee-collector-l1')
 const PermissionsManager = new Task('2023032101-balancer-fee-collector-l1')
 
+/* eslint-disable no-secrets/no-secrets */
+
 const OWNER = '0xc38c5f97B34E175FFd35407fc91a937300E33860'
 const RECIPIENT = '0x7c68c42De679ffB0f16216154C996C354cF1161B'
 const BALANCER_VAULT = '0xBA12222222228d8Ba445958a75a0704d566BF2C8'
+const PROTOCOL_FEE_COLLECTOR = '0xce88686553686DA562CE7Cea497CE749DA109f9F'
 const PROTOCOL_FEE_WITHDRAWER = '0x5ef4c5352882b10893b70DbcaA0C000965bd23c5'
 const PARASWAP_QUOTE_SIGNER = '0x6278c27CF5534F07fA8f1Ab6188a155cb8750FFA'
 
@@ -77,7 +80,7 @@ export default {
       timeLockConfig: defaultTimeLockConfig,
       tokenIndexConfig: {
         tokens: [],
-        sources: [PROTOCOL_FEE_WITHDRAWER],
+        sources: [PROTOCOL_FEE_COLLECTOR],
         acceptanceType: 0,
       },
       tokenThresholdConfig: defaultTokenThresholdConfig,

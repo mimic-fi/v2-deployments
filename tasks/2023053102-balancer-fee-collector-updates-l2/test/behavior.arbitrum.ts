@@ -8,6 +8,7 @@ import { BalancerFeeCollectorUpdatesL2 } from '../input'
 /* eslint-disable no-secrets/no-secrets */
 
 const BALANCER_VAULT = '0xBA12222222228d8Ba445958a75a0704d566BF2C8'
+const PROTOCOL_FEE_COLLECTOR = '0xce88686553686DA562CE7Cea497CE749DA109f9F'
 const PROTOCOL_FEE_WITHDRAWER = '0x70Bbd023481788e443472e123AB963e5EBF58D06'
 
 const USDC = '0xFF970A61A04b1cA14834A43f5dE4533eBDDB5CC8'
@@ -119,7 +120,7 @@ export default function itUpdatesBalancerFeeCollectorL2Correctly(): void {
 
       const sources = await claimer.getTokensIndexSources()
       expect(sources).to.be.have.lengthOf(1)
-      expect(sources[0]).to.be.equal(PROTOCOL_FEE_WITHDRAWER)
+      expect(sources[0]).to.be.equal(PROTOCOL_FEE_COLLECTOR)
     })
 
     it('sets the expected token threshold params', async () => {
