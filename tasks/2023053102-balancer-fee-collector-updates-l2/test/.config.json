@@ -1,0 +1,12 @@
+{
+  "fork": {
+    "arbitrum": 98733586,
+    "gnosis": 28335850,
+    "polygon": 43638293
+  },
+  "deployed": {
+    "arbitrum": 98733946,
+    "gnosis": 28335874,
+    "polygon": 43638323
+  }
+}
