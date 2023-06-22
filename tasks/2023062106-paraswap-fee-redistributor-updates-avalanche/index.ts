@@ -109,10 +109,13 @@ export default async (task: Task, { force, from }: TaskRunOptions = {}): Promise
       {
         target: withdrawer,
         changes: [
+          { grant: false, permission: { who: owner, what: 'call' } },
           { grant: false, permission: { who: owner, what: 'authorize' } },
           { grant: false, permission: { who: owner, what: 'unauthorize' } },
+          { grant: false, permission: { who: mimic, what: 'call' } },
           { grant: false, permission: { who: mimic, what: 'authorize' } },
           { grant: false, permission: { who: mimic, what: 'unauthorize' } },
+          { grant: false, permission: { who: relayer, what: 'call' } },
         ],
       },
       {
@@ -126,6 +129,7 @@ export default async (task: Task, { force, from }: TaskRunOptions = {}): Promise
           { grant: false, permission: { who: erc20ClaimerV1, what: 'call' } },
           { grant: false, permission: { who: erc20ClaimerV1, what: 'swap' } },
           { grant: false, permission: { who: erc20ClaimerV1, what: 'withdraw' } },
+          { grant: false, permission: { who: withdrawer, what: 'withdraw' } },
           { grant: false, permission: { who: owner, what: 'authorize' } },
           { grant: false, permission: { who: owner, what: 'unauthorize' } },
           { grant: false, permission: { who: mimic, what: 'authorize' } },

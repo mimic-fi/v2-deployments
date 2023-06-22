@@ -46,7 +46,7 @@ export default function itUpdatesParaswapFeeDistributorCorrectly(): void {
     it('updates its permissions correctly', async function () {
       await assertPermissions(smartVault, [
         { name: 'manager', account: manager, roles: ['authorize', 'unauthorize'] },
-        { name: 'withdrawer', account: withdrawer, roles: ['withdraw'] },
+        { name: 'withdrawer', account: withdrawer, roles: [] },
         { name: 'native claimer', account: nativeClaimer, roles: ['call', 'wrap', 'withdraw'] },
         { name: 'old erc20 claimer', account: oldERC20Claimer, roles: [] },
         { name: 'new erc20 claimer', account: newERC20Claimer, roles: ['call', 'swap', 'withdraw'] },
@@ -70,7 +70,7 @@ export default function itUpdatesParaswapFeeDistributorCorrectly(): void {
           account: input.mimic,
           roles: ['setLimits', 'setThreshold', 'setTimeLock'],
         },
-        { name: 'relayer', account: input.relayer, roles: ['call'] },
+        { name: 'relayer', account: input.relayer, roles: [] },
       ])
     })
   })
