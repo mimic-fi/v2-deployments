@@ -23,6 +23,7 @@ export default {
   SmartVault: ParaswapFeeRedistributor,
   NativeClaimer: ParaswapFeeRedistributor,
   ERC20Claimer: ParaswapFeeRedistributor,
+  SwapFeeSetter: ParaswapFeeRedistributor,
   Withdrawer: ParaswapFeeRedistributorWithdrawer,
   erc20Claimer: {
     tokenOut: tokens.WETH,
@@ -57,6 +58,7 @@ export type ParaswapFeeRedistributorUpdatesBSC = {
   SmartVault: string
   NativeClaimer: string
   ERC20Claimer: string
+  SwapFeeSetter: string
   Withdrawer: string
   erc20Claimer: {
     tokenOut: string

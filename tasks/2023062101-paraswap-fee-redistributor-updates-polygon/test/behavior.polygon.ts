@@ -9,7 +9,7 @@ import { ParaswapFeeRedistributorUpdatesPolygon } from '../input'
 export default function itUpdatesParaswapFeeDistributorCorrectly(): void {
   let input: ParaswapFeeRedistributorUpdatesPolygon
   let smartVault: Contract, manager: Contract
-  let nativeClaimer: Contract, oldERC20Claimer: Contract, withdrawer: Contract
+  let nativeClaimer: Contract, oldERC20Claimer: Contract, withdrawer: Contract, swapFeeSetter: Contract
   let newERC20Claimer: Contract, metamaskClaimer: Contract, connextBridger: Contract
 
   before('load accounts', async function () {
@@ -20,6 +20,7 @@ export default function itUpdatesParaswapFeeDistributorCorrectly(): void {
     manager = await this.task.deployedInstance('PermissionsManager')
     smartVault = await this.task.inputDeployedInstance('SmartVault')
     withdrawer = await this.task.inputDeployedInstance('Withdrawer')
+    swapFeeSetter = await this.task.inputDeployedInstance('SwapFeeSetter')
     nativeClaimer = await this.task.inputDeployedInstance('NativeClaimer')
     oldERC20Claimer = await this.task.inputDeployedInstance('ERC20Claimer')
     newERC20Claimer = await this.task.deployedInstance('ERC20Claimer2')
@@ -47,6 +48,7 @@ export default function itUpdatesParaswapFeeDistributorCorrectly(): void {
       await assertPermissions(smartVault, [
         { name: 'manager', account: manager, roles: ['authorize', 'unauthorize'] },
         { name: 'withdrawer', account: withdrawer, roles: [] },
+        { name: 'swap fee setter', account: swapFeeSetter, roles: [] },
         { name: 'native claimer', account: nativeClaimer, roles: ['call', 'wrap', 'withdraw'] },
         { name: 'old erc20 claimer', account: oldERC20Claimer, roles: [] },
         { name: 'new erc20 claimer', account: newERC20Claimer, roles: ['call', 'swap', 'withdraw'] },
@@ -70,6 +72,17 @@ export default function itUpdatesParaswapFeeDistributorCorrectly(): void {
           account: input.mimic,
           roles: ['setLimits', 'setThreshold', 'setTimeLock'],
         },
+        { name: 'relayer', account: input.relayer, roles: [] },
+      ])
+    })
+  })
+
+  describe('swap fee setter', () => {
+    it('updates its permissions correctly', async () => {
+      await assertPermissions(swapFeeSetter, [
+        { name: 'manager', account: manager, roles: ['authorize', 'unauthorize'] },
+        { name: 'owner', account: input.owner, roles: ['setSmartVault', 'setTimeLock'] },
+        { name: 'mimic', account: input.mimic, roles: [] },
         { name: 'relayer', account: input.relayer, roles: [] },
       ])
     })
