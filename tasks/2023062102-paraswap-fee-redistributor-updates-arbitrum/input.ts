@@ -29,8 +29,8 @@ export default {
     tokenOut: tokens.WETH,
   },
   metamaskClaimer: {
-    safe: '0x64EF2966f3eF51fb94472bed2f59a2706d5b755C',
-    distributor: '0x0000000000000000000000000000000000000001', // TODO: waiting for deploy
+    safe: '0x0000000000000000000000000000000000000000', // TODO: waiting for deploy
+    distributor: '0x0000000000000000000000000000000000000000', // TODO: waiting for deploy
     thresholdToken: tokens.USDC,
     thresholdAmount: toUSDC(500),
     gasToken: tokens.WETH,
