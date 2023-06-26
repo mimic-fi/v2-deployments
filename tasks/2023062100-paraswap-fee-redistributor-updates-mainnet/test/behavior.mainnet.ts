@@ -1,3 +1,4 @@
+import { ZERO_ADDRESS } from '@mimic-fi/v2-helpers'
 import { expect } from 'chai'
 import { Contract } from 'ethers'
 
@@ -28,7 +29,7 @@ export default function itUpdatesParaswapFeeDistributorCorrectly(): void {
   })
 
   describe('permissions manager', () => {
-    it('has the expected address', async function () {
+    it('has the expected address', async () => {
       expect(manager.address).to.be.equal('0x71007481Ba4d4C34eEB9F1288E591bE61A9c607F')
     })
 
@@ -43,7 +44,7 @@ export default function itUpdatesParaswapFeeDistributorCorrectly(): void {
   })
 
   describe('smart vault', () => {
-    it('updates its permissions correctly', async function () {
+    it('updates its permissions correctly', async () => {
       await assertPermissions(smartVault, [
         { name: 'manager', account: manager, roles: ['authorize', 'unauthorize'] },
         { name: 'withdrawer', account: withdrawer, roles: ['withdraw'] },
@@ -53,6 +54,24 @@ export default function itUpdatesParaswapFeeDistributorCorrectly(): void {
         { name: 'new erc20 claimer', account: newERC20Claimer, roles: ['call', 'swap', 'withdraw'] },
         { name: 'metamask claimer', account: metamaskClaimer, roles: ['call', 'withdraw'] },
       ])
+    })
+
+    it('resets the swap fee', async () => {
+      const swapFee = await smartVault.swapFee()
+
+      expect(swapFee.pct).to.be.equal(0)
+      expect(swapFee.cap).to.be.equal(0)
+      expect(swapFee.token).to.be.equal(ZERO_ADDRESS)
+      expect(swapFee.period).to.be.equal(0)
+    })
+
+    it('sets the withdraw fee', async () => {
+      const withdrawFee = await smartVault.withdrawFee()
+
+      expect(withdrawFee.pct).to.be.equal(input.withdrawFee.pct)
+      expect(withdrawFee.cap).to.be.equal(input.withdrawFee.cap)
+      expect(withdrawFee.token).to.be.equal(input.withdrawFee.token)
+      expect(withdrawFee.period).to.be.equal(input.withdrawFee.period)
     })
   })
 

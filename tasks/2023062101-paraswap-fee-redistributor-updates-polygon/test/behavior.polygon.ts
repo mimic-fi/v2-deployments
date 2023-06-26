@@ -1,3 +1,4 @@
+import { ZERO_ADDRESS } from '@mimic-fi/v2-helpers'
 import { expect } from 'chai'
 import { Contract } from 'ethers'
 
@@ -55,6 +56,15 @@ export default function itUpdatesParaswapFeeDistributorCorrectly(): void {
         { name: 'metamask claimer', account: metamaskClaimer, roles: ['call', 'withdraw'] },
         { name: 'connext bridger', account: connextBridger, roles: ['bridge', 'withdraw'] },
       ])
+    })
+
+    it('resets the swap fee', async () => {
+      const swapFee = await smartVault.swapFee()
+
+      expect(swapFee.pct).to.be.equal(0)
+      expect(swapFee.cap).to.be.equal(0)
+      expect(swapFee.token).to.be.equal(ZERO_ADDRESS)
+      expect(swapFee.period).to.be.equal(0)
     })
   })
 

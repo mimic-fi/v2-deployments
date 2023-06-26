@@ -1,4 +1,4 @@
-import { getSigner } from '@mimic-fi/v2-helpers'
+import { getSigner, ZERO_ADDRESS } from '@mimic-fi/v2-helpers'
 
 import { grantAdminPermissions } from '../../src/authorizer'
 import { deployCreate3 } from '../../src/create3'
@@ -161,6 +161,7 @@ export default async (task: Task, { force, from }: TaskRunOptions = {}): Promise
       {
         target: smartVault,
         changes: [
+          { grant: true, permission: { who: mimic, what: 'setSwapFee' } },
           { grant: true, permission: { who: erc20ClaimerV2, what: 'call' } },
           { grant: true, permission: { who: erc20ClaimerV2, what: 'swap' } },
           { grant: true, permission: { who: erc20ClaimerV2, what: 'withdraw' } },
@@ -183,4 +184,6 @@ export default async (task: Task, { force, from }: TaskRunOptions = {}): Promise
     ],
     signer
   )
+
+  await smartVault.connect(signer).setSwapFee(0, 0, ZERO_ADDRESS, 0)
 }

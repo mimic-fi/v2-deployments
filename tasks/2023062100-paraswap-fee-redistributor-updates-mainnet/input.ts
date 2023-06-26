@@ -1,4 +1,4 @@
-import { BigNumberish, toUSDC } from '@mimic-fi/v2-helpers'
+import { BigNumberish, fp, MONTH, toUSDC } from '@mimic-fi/v2-helpers'
 
 import { BOT, DEPLOYER_2, TESTING_EOA } from '../../constants/mimic'
 import * as tokens from '../../constants/tokens/mainnet'
@@ -25,6 +25,12 @@ export default {
   ERC20Claimer: ParaswapFeeRedistributor,
   SwapFeeSetter: ParaswapFeeRedistributor,
   Withdrawer: ParaswapFeeRedistributorWithdrawer,
+  withdrawFee: {
+    pct: fp(0.02),
+    cap: toUSDC(5000),
+    token: tokens.USDC,
+    period: MONTH,
+  },
   erc20Claimer: {
     tokenOut: tokens.WETH,
   },
@@ -52,6 +58,12 @@ export type ParaswapFeeRedistributorUpdatesMainnet = {
   ERC20Claimer: string
   SwapFeeSetter: string
   Withdrawer: string
+  withdrawFee: {
+    pct: BigNumberish
+    cap: BigNumberish
+    token: string
+    period: BigNumberish
+  }
   erc20Claimer: {
     tokenOut: string
   }

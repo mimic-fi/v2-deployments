@@ -31,7 +31,7 @@ export default {
   wormholeBridger: {
     destinationChainId: 1,
     allowedTokens: [tokens.WETH],
-    maxRelayerFeePct: fp(0.05), // 5%
+    maxRelayerFeePct: fp(0.07), // 7%
     thresholdToken: tokens.USDC,
     thresholdAmount: toUSDC(500),
     gasPriceLimit: 50e9,
