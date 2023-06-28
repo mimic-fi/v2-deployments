@@ -26,11 +26,11 @@ export default {
   SwapFeeSetter: ParaswapFeeRedistributor,
   Withdrawer: ParaswapFeeRedistributorWithdrawer,
   erc20Claimer: {
-    tokenOut: tokens.WETH,
+    tokenOut: tokens.USDC,
   },
   wormholeBridger: {
     destinationChainId: 1,
-    allowedTokens: [tokens.WETH],
+    allowedTokens: [tokens.USDC],
     maxRelayerFeePct: fp(0.07), // 7%
     thresholdToken: tokens.USDC,
     thresholdAmount: toUSDC(500),
