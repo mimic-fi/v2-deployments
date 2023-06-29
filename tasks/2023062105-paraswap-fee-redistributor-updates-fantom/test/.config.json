@@ -1,5 +1,8 @@
 {
   "fork": {
     "fantom": 64488340
+  },
+  "deployed": {
+    "fantom": 64856938
   }
 }
