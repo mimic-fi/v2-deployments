@@ -1,0 +1,10 @@
+{
+  "fork": {
+    "mainnet": 17620735,
+    "avalanche": 32167392
+  },
+  "deployed": {
+    "mainnet": 17620749,
+    "avalanche": 32167454
+  }
+}
