@@ -17,7 +17,7 @@ export default {
   Registry,
   SmartVault: ParaswapFeeRedistributor,
   mainnet: {
-    owner: '0xAFFdeC0FE0B5BBfd725642D87D14c465d25F8dE8',
+    owner: '0x619bbf92fd6ba59893327676b2685a3762a49a33',
     MetamaskClaimer: new Task('2023062100-paraswap-fee-redistributor-updates-mainnet'),
     PermissionsManager: new Task('2023062100-paraswap-fee-redistributor-updates-mainnet'),
   },
