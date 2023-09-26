@@ -1,10 +1,14 @@
 {
   "fork": {
     "mainnet": 17620644,
-    "avalanche": 32167325
+    "avalanche": 32167325,
+    "bsc": 32080182,
+    "fantom": 68631946
   },
   "deployed": {
     "mainnet": 17620735,
-    "avalanche": 32167392
+    "avalanche": 32167392,
+    "bsc": 32080200,
+    "fantom": 68632000
   }
 }

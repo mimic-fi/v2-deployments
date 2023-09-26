@@ -40,11 +40,12 @@ export default function itDeploysBridgeConnectorCorrectly(): void {
     expect(data.namespace).to.be.equal(await bridgeConnector.NAMESPACE())
   })
 
-  it('deprecates the previous bridge connector', async function () {
-    const registry = await this.task.inputDeployedInstance('Registry')
-
-    const { BridgeConnectorV6 } = this.task.input() as BridgeConnectorDeployment
-    const data = await registry.implementationData(BridgeConnectorV6)
-    expect(data.deprecated).to.be.true
+  it('deprecates the previous bridge connector if given', async function () {
+    const input = this.task.input() as BridgeConnectorDeployment
+    if (input.previousBridgeConnector) {
+      const registry = await this.task.inputDeployedInstance('Registry')
+      const data = await registry.implementationData(input.previousBridgeConnector)
+      expect(data.deprecated).to.be.true
+    }
   })
 }
