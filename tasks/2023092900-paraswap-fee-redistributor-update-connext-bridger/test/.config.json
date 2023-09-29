@@ -4,5 +4,11 @@
     "arbitrum": 135837738,
     "optimism": 110204206,
     "bsc": 32171226
+  },
+  "deployed": {
+    "polygon": 48133029,
+    "arbitrum": 135857293,
+    "optimism": 110206739,
+    "bsc": 32172881
   }
 }
