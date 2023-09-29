@@ -51,6 +51,10 @@ export default function itInstallsPublicSwapperFeeCollectorBridgerBnbCorrectly()
       expect(await connextBridger.getAllowedTokens()).to.have.members(input.connextBridger.allowedTokens)
     })
 
+    it('sets the proper max slippage', async () => {
+      expect(await connextBridger.maxSlippage()).to.be.equal(input.connextBridger.maxSlippage)
+    })
+
     it('sets the proper max relayer fee pct', async () => {
       expect(await connextBridger.maxRelayerFeePct()).to.be.equal(input.connextBridger.maxRelayerFeePct)
     })

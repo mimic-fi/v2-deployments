@@ -25,6 +25,7 @@ export default {
   connextBridger: {
     destinationChainId: 1,
     allowedTokens: [tokens.USDC],
+    maxSlippage: fp(0.02), // 2%
     maxRelayerFeePct: fp(0.05), // 5%
     thresholdToken: tokens.USDC,
     thresholdAmount: toUSDC(1000),

@@ -24,6 +24,7 @@ export default async (task: Task, { force, from }: TaskRunOptions = {}): Promise
         registry: Registry,
         smartVault: smartVault.address,
         destinationChainId: input.connextBridger.destinationChainId,
+        maxSlippage: input.connextBridger.maxSlippage,
         maxRelayerFeePct: input.connextBridger.maxRelayerFeePct,
         allowedTokens: input.connextBridger.allowedTokens,
         thresholdToken: input.connextBridger.thresholdToken,
